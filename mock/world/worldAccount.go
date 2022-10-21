@@ -5,9 +5,9 @@ import (
 	"errors"
 	"math/big"
 
-	"github.com/ElrondNetwork/wasm-vm-v1_4/crypto/hashing"
 	logger "github.com/ElrondNetwork/elrond-go-logger"
 	"github.com/ElrondNetwork/elrond-vm-common"
+	"github.com/ElrondNetwork/wasm-vm-v1_4/crypto/hashing"
 )
 
 // ErrOperationNotPermitted indicates an operation rejected due to insufficient
@@ -119,7 +119,6 @@ func (a *Account) GetOwnerAddress() []byte {
 func (a *Account) GetUserName() []byte {
 	return a.Username
 }
-
 
 // IsInterfaceNil -
 func (a *Account) IsInterfaceNil() bool {

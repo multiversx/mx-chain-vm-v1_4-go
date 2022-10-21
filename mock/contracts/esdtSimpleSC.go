@@ -4,11 +4,11 @@ import (
 	"fmt"
 	"math/big"
 
+	vmcommon "github.com/ElrondNetwork/elrond-vm-common"
+	"github.com/ElrondNetwork/elrond-vm-common/txDataBuilder"
 	"github.com/ElrondNetwork/wasm-vm-v1_4/arwen/elrondapi"
 	mock "github.com/ElrondNetwork/wasm-vm-v1_4/mock/context"
 	test "github.com/ElrondNetwork/wasm-vm-v1_4/testcommon"
-	vmcommon "github.com/ElrondNetwork/elrond-vm-common"
-	"github.com/ElrondNetwork/elrond-vm-common/txDataBuilder"
 )
 
 // ExecESDTTransferAndCallChild is an exposed mock contract method

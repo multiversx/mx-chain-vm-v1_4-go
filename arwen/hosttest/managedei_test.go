@@ -9,6 +9,8 @@ import (
 	"strings"
 	"testing"
 
+	"github.com/ElrondNetwork/elrond-go-core/core"
+	"github.com/ElrondNetwork/elrond-go-core/data/esdt"
 	"github.com/ElrondNetwork/wasm-vm-v1_4/arwen"
 	"github.com/ElrondNetwork/wasm-vm-v1_4/arwen/cryptoapi"
 	"github.com/ElrondNetwork/wasm-vm-v1_4/arwen/elrondapi"
@@ -19,8 +21,6 @@ import (
 	"github.com/ElrondNetwork/wasm-vm-v1_4/mock/contracts"
 	worldmock "github.com/ElrondNetwork/wasm-vm-v1_4/mock/world"
 	test "github.com/ElrondNetwork/wasm-vm-v1_4/testcommon"
-	"github.com/ElrondNetwork/elrond-go-core/core"
-	"github.com/ElrondNetwork/elrond-go-core/data/esdt"
 	"github.com/stretchr/testify/require"
 )
 
