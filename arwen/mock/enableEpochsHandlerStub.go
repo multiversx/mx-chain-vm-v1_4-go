@@ -30,6 +30,8 @@ type EnableEpochsHandlerStub struct {
 	IsESDTNFTImprovementV1FlagEnabledField               bool
 	IsFixOldTokenLiquidityEnabledField                   bool
 	IsRuntimeMemStoreLimitEnabledField                   bool
+	IsFreezeAccountEnabledField                          bool
+	IsSetGuardianEnabledField                            bool
 	MultiESDTTransferAsyncCallBackEnableEpochField       uint32
 	FixOOGReturnCodeEnableEpochField                     uint32
 	RemoveNonUpdatedStorageEnableEpochField              uint32
@@ -40,6 +42,14 @@ type EnableEpochsHandlerStub struct {
 	RefactorContextEnableEpochField                      uint32
 	CheckExecuteReadOnlyEnableEpochField                 uint32
 	StorageAPICostOptimizationEnableEpochField           uint32
+}
+
+func (stub *EnableEpochsHandlerStub) IsFreezeAccountEnabled() bool {
+	return stub.IsFreezeAccountEnabledField
+}
+
+func (stub *EnableEpochsHandlerStub) IsSetGuardianEnabled() bool {
+	return stub.IsSetGuardianEnabledField
 }
 
 // IsFixOldTokenLiquidityEnabled -
