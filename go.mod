@@ -5,7 +5,7 @@ go 1.17
 require (
 	github.com/ElrondNetwork/big-int-util v0.1.0
 	github.com/ElrondNetwork/elrond-go-core v1.1.27-0.20221207113027-6add1889c6e8
-	github.com/ElrondNetwork/elrond-go-crypto v1.2.2
+	github.com/ElrondNetwork/elrond-go-crypto v1.2.4-0.20221212134904-9faa0161e5dc
 	github.com/ElrondNetwork/elrond-go-logger v1.0.10
 	github.com/ElrondNetwork/elrond-vm-common v1.3.29-0.20221207113405-6973ba06dc58
 	github.com/btcsuite/btcd/btcec/v2 v2.2.0
@@ -13,7 +13,7 @@ require (
 	github.com/gin-gonic/gin v1.8.1
 	github.com/mitchellh/mapstructure v1.4.1
 	github.com/pelletier/go-toml v1.9.3
-	github.com/stretchr/testify v1.7.1
+	github.com/stretchr/testify v1.8.0
 	github.com/urfave/cli v1.22.5
 	golang.org/x/crypto v0.3.0
 )
@@ -48,5 +48,5 @@ require (
 	golang.org/x/text v0.4.0 // indirect
 	google.golang.org/protobuf v1.28.0 // indirect
 	gopkg.in/yaml.v2 v2.4.0 // indirect
-	gopkg.in/yaml.v3 v3.0.0-20210107192922-496545a6307b // indirect
+	gopkg.in/yaml.v3 v3.0.1 // indirect
 )
