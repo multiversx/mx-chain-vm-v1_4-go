@@ -16,7 +16,7 @@ func (mah *MockGuardedAccountHandler) GetActiveGuardian(_ vmcommon.UserAccountHa
 }
 
 // SetGuardian -
-func (mah *MockGuardedAccountHandler) SetGuardian(_ vmcommon.UserAccountHandler, _ []byte, _ []byte) error {
+func (mah *MockGuardedAccountHandler) SetGuardian(_ vmcommon.UserAccountHandler, _ []byte, _ []byte, _ []byte) error {
 	return nil
 }
 

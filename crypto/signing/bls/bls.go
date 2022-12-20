@@ -2,7 +2,6 @@ package bls
 
 import (
 	"github.com/ElrondNetwork/elrond-go-crypto"
-	"github.com/ElrondNetwork/elrond-go-crypto/signing"
 	"github.com/ElrondNetwork/elrond-go-crypto/signing/mcl"
 	"github.com/ElrondNetwork/elrond-go-crypto/signing/mcl/singlesig"
 )
@@ -15,7 +14,7 @@ type bls struct {
 func NewBLS() *bls {
 	b := &bls{}
 	suite := mcl.NewSuiteBLS12()
-	b.keyGenerator = signing.NewKeyGenerator(suite)
+	b.keyGenerator = crypto.NewKeyGenerator(suite)
 	b.signer = singlesig.NewBlsSigner()
 
 	return b
