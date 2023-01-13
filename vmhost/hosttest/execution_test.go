@@ -1188,7 +1188,7 @@ func TestExecution_ExecuteOnSameContext_Wrong(t *testing.T) {
 			WithGasProvided(test.GasProvided).
 			Build()).
 		AndAssertResults(func(host arwen.VMHost, stubBlockchainHook *contextmock.BlockchainHookStub, verify *test.VMOutputVerifier) {
-			if !host.Runtime().ElrondSyncExecAPIErrorShouldFailExecution() {
+			if !host.Runtime().SyncExecAPIErrorShouldFailExecution() {
 				verify.Ok().
 					GasUsed(test.ParentAddress, 3405).
 					Balance(test.ParentAddress, 1000).
@@ -1255,7 +1255,7 @@ func TestExecution_ExecuteOnSameContext_OutOfGas(t *testing.T) {
 			WithGasProvided(test.GasProvided).
 			Build()).
 		AndAssertResults(func(host arwen.VMHost, stubBlockchainHook *contextmock.BlockchainHookStub, verify *test.VMOutputVerifier) {
-			if !host.Runtime().ElrondSyncExecAPIErrorShouldFailExecution() {
+			if !host.Runtime().SyncExecAPIErrorShouldFailExecution() {
 				verify.Ok().
 					Balance(test.ParentAddress, 1000).
 					BalanceDelta(test.ParentAddress, 0).
@@ -1467,7 +1467,7 @@ func TestExecution_ExecuteOnSameContext_Recursive_Direct_ErrMaxInstances(t *test
 			WithArguments([]byte{recursiveCalls}).
 			Build()).
 		AndAssertResults(func(host arwen.VMHost, stubBlockchainHook *contextmock.BlockchainHookStub, verify *test.VMOutputVerifier) {
-			if host.Runtime().ElrondSyncExecAPIErrorShouldFailExecution() == false {
+			if host.Runtime().SyncExecAPIErrorShouldFailExecution() == false {
 				verify.Ok().
 					Balance(test.ParentAddress, 1000).
 					BalanceDelta(test.ParentAddress, 0).
@@ -1665,7 +1665,7 @@ func TestExecution_ExecuteOnSameContext_Recursive_Mutual_SCs_OutOfGas(t *testing
 			WithArguments([]byte{recursiveCalls}).
 			Build()).
 		AndAssertResults(func(host arwen.VMHost, stubBlockchainHook *contextmock.BlockchainHookStub, verify *test.VMOutputVerifier) {
-			if host.Runtime().ElrondSyncExecAPIErrorShouldFailExecution() == false {
+			if host.Runtime().SyncExecAPIErrorShouldFailExecution() == false {
 				verify.OutOfGas().
 					ReturnMessage(arwen.ErrNotEnoughGas.Error()).
 					GasRemaining(0)
@@ -1737,7 +1737,7 @@ func TestExecution_ExecuteOnDestContext_Wrong(t *testing.T) {
 			WithGasProvided(test.GasProvided).
 			Build()).
 		AndAssertResults(func(host arwen.VMHost, stubBlockchainHook *contextmock.BlockchainHookStub, verify *test.VMOutputVerifier) {
-			if host.Runtime().ElrondSyncExecAPIErrorShouldFailExecution() == false {
+			if host.Runtime().SyncExecAPIErrorShouldFailExecution() == false {
 				verify.Ok().
 					Balance(test.ParentAddress, 1000).
 					BalanceDelta(test.ParentAddress, -42).
@@ -1809,7 +1809,7 @@ func TestExecution_ExecuteOnDestContext_OutOfGas(t *testing.T) {
 			WithGasProvided(test.GasProvided).
 			Build()).
 		AndAssertResults(func(host arwen.VMHost, stubBlockchainHook *contextmock.BlockchainHookStub, verify *test.VMOutputVerifier) {
-			if host.Runtime().ElrondSyncExecAPIErrorShouldFailExecution() == false {
+			if host.Runtime().SyncExecAPIErrorShouldFailExecution() == false {
 				verify.Ok().
 					Balance(test.ParentAddress, 1000).
 					GasRemaining(test.GasProvided-
@@ -2274,7 +2274,7 @@ func TestExecution_ExecuteOnDestContext_Recursive_Mutual_SCs_OutOfGas(t *testing
 			WithArguments([]byte{recursiveCalls}).
 			Build()).
 		AndAssertResults(func(host arwen.VMHost, stubBlockchainHook *contextmock.BlockchainHookStub, verify *test.VMOutputVerifier) {
-			if host.Runtime().ElrondSyncExecAPIErrorShouldFailExecution() == false {
+			if host.Runtime().SyncExecAPIErrorShouldFailExecution() == false {
 				verify.OutOfGas().
 					ReturnMessage(arwen.ErrNotEnoughGas.Error())
 			} else {

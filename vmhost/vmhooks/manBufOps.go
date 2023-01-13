@@ -710,7 +710,7 @@ func v1_4_mBufferStorageLoadFromAddress(context unsafe.Pointer, addressHandle, k
 
 	address, err := managedType.GetBytes(addressHandle)
 	if err != nil {
-		_ = arwen.WithFault(arwen.ErrArgOutOfRange, context, runtime.ElrondAPIErrorShouldFailExecution())
+		_ = arwen.WithFault(arwen.ErrArgOutOfRange, context, runtime.BaseOpsErrorShouldFailExecution())
 		return
 	}
 
@@ -733,7 +733,7 @@ func v1_4_mBufferGetArgument(context unsafe.Pointer, id int32, destinationHandle
 
 	args := runtime.Arguments()
 	if int32(len(args)) <= id || id < 0 {
-		arwen.WithFaultAndHostIfFailAlwaysActive(arwen.ErrArgOutOfRange, arwen.GetVMHost(context), runtime.ElrondAPIErrorShouldFailExecution())
+		arwen.WithFaultAndHostIfFailAlwaysActive(arwen.ErrArgOutOfRange, arwen.GetVMHost(context), runtime.BaseOpsErrorShouldFailExecution())
 		return 1
 	}
 	managedType.SetBytes(destinationHandle, args[id])
