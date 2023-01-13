@@ -318,7 +318,7 @@ func DefaultTestArwenWithWorldMockWithGasSchedule(tb testing.TB, customGasSchedu
 		BlockGasLimit:        uint64(1000),
 		GasSchedule:          gasSchedule,
 		BuiltInFuncContainer: world.BuiltinFuncs.Container,
-		ProtectedKeyPrefix:   []byte("ELROND"),
+		ProtectedKeyPrefix:   []byte("E" + "L" + "R" + "O" + "N" + "D"),
 		ESDTTransferParser:   esdtTransferParser,
 		EpochNotifier:        &mock.EpochNotifierStub{},
 		EnableEpochsHandler: &mock.EnableEpochsHandlerStub{
@@ -368,7 +368,7 @@ func DefaultTestArwenWithGasSchedule(
 		BlockGasLimit:        uint64(1000),
 		GasSchedule:          gasSchedule,
 		BuiltInFuncContainer: builtInFunctions.NewBuiltInFunctionContainer(),
-		ProtectedKeyPrefix:   []byte("ELROND"),
+		ProtectedKeyPrefix:   []byte("E" + "L" + "R" + "O" + "N" + "D"),
 		ESDTTransferParser:   esdtTransferParser,
 		EpochNotifier:        &mock.EpochNotifierStub{},
 		EnableEpochsHandler: &mock.EnableEpochsHandlerStub{

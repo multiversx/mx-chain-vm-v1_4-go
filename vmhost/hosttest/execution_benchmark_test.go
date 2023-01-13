@@ -247,7 +247,7 @@ func prepare(tb testing.TB) (*worldmock.MockWorld, *worldmock.Account, arwen.VMH
 		BlockGasLimit:            uint64(1000),
 		GasSchedule:              gasMap,
 		BuiltInFuncContainer:     builtInFunctions.NewBuiltInFunctionContainer(),
-		ProtectedKeyPrefix:       []byte("ELROND"),
+		ProtectedKeyPrefix:       []byte("E" + "L" + "R" + "O" + "N" + "D"),
 		ESDTTransferParser:       esdtTransferParser,
 		EpochNotifier:            &mock.EpochNotifierStub{},
 		EnableEpochsHandler:      &mock.EnableEpochsHandlerStub{},

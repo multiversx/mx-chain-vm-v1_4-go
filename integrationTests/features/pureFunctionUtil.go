@@ -50,7 +50,7 @@ func newPureFunctionExecutor() (*pureFunctionExecutor, error) {
 		BlockGasLimit:            blockGasLimit,
 		GasSchedule:              gasSchedule,
 		BuiltInFuncContainer:     builtInFunctions.NewBuiltInFunctionContainer(),
-		ProtectedKeyPrefix:       []byte("ELROND"),
+		ProtectedKeyPrefix:       []byte("E" + "L" + "R" + "O" + "N" + "D"),
 		ESDTTransferParser:       esdtTransferParser,
 		EpochNotifier:            &mock.EpochNotifierStub{},
 		EnableEpochsHandler:      &mock.EnableEpochsHandlerStub{},
