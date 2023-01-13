@@ -6,16 +6,16 @@ import (
 	logger "github.com/multiversx/mx-chain-logger-go"
 	vmi "github.com/multiversx/mx-chain-vm-common-go"
 	"github.com/multiversx/mx-chain-vm-common-go/parsers"
-	"github.com/multiversx/mx-chain-vm-v1_4-go/vmhost"
-	arwenHost "github.com/multiversx/mx-chain-vm-v1_4-go/vmhost/host"
-	"github.com/multiversx/mx-chain-vm-v1_4-go/vmhost/mock"
-	gasSchedules "github.com/multiversx/mx-chain-vm-v1_4-go/scenarioexec/gasSchedules"
 	"github.com/multiversx/mx-chain-vm-v1_4-go/config"
+	worldhook "github.com/multiversx/mx-chain-vm-v1_4-go/mock/world"
+	gasSchedules "github.com/multiversx/mx-chain-vm-v1_4-go/scenarioexec/gasSchedules"
 	mc "github.com/multiversx/mx-chain-vm-v1_4-go/scenarios/controller"
 	er "github.com/multiversx/mx-chain-vm-v1_4-go/scenarios/expression/reconstructor"
 	fr "github.com/multiversx/mx-chain-vm-v1_4-go/scenarios/fileresolver"
 	mj "github.com/multiversx/mx-chain-vm-v1_4-go/scenarios/model"
-	worldhook "github.com/multiversx/mx-chain-vm-v1_4-go/mock/world"
+	"github.com/multiversx/mx-chain-vm-v1_4-go/vmhost"
+	arwenHost "github.com/multiversx/mx-chain-vm-v1_4-go/vmhost/host"
+	"github.com/multiversx/mx-chain-vm-v1_4-go/vmhost/mock"
 )
 
 var log = logger.GetOrCreate("arwen/scenarios")

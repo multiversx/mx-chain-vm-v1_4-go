@@ -12,13 +12,13 @@ import (
 	"testing"
 
 	vmi "github.com/multiversx/mx-chain-vm-common-go"
-	"github.com/multiversx/mx-chain-vm-v1_4-go/vmhost"
+	worldhook "github.com/multiversx/mx-chain-vm-v1_4-go/mock/world"
 	am "github.com/multiversx/mx-chain-vm-v1_4-go/scenarioexec"
 	fr "github.com/multiversx/mx-chain-vm-v1_4-go/scenarios/fileresolver"
 	mjparse "github.com/multiversx/mx-chain-vm-v1_4-go/scenarios/json/parse"
 	mjwrite "github.com/multiversx/mx-chain-vm-v1_4-go/scenarios/json/write"
 	mj "github.com/multiversx/mx-chain-vm-v1_4-go/scenarios/model"
-	worldhook "github.com/multiversx/mx-chain-vm-v1_4-go/mock/world"
+	"github.com/multiversx/mx-chain-vm-v1_4-go/vmhost"
 	"github.com/stretchr/testify/require"
 )
 
@@ -43,11 +43,11 @@ type fuzzDelegationExecutorInitArgs struct {
 }
 
 type fuzzDelegationExecutor struct {
-	arwenTestExecutor *am.ArwenTestExecutor
-	world             *worldhook.MockWorld
-	vm                vmi.VMExecutionHandler
-	mandosParser      mjparse.Parser
-	txIndex           int
+	vmTestExecutor *am.ArwenTestExecutor
+	world          *worldhook.MockWorld
+	vm             vmi.VMExecutionHandler
+	mandosParser   mjparse.Parser
+	txIndex        int
 
 	serviceFee                  int
 	numBlocksBeforeForceUnstake int
@@ -68,13 +68,13 @@ type fuzzDelegationExecutor struct {
 }
 
 func newFuzzDelegationExecutor(fileResolver fr.FileResolver) (*fuzzDelegationExecutor, error) {
-	arwenTestExecutor, err := am.NewArwenTestExecutor()
+	vmTestExecutor, err := am.NewArwenTestExecutor()
 	if err != nil {
 		return nil, err
 	}
 
 	mandosGasSchedule := mj.GasScheduleV3
-	err = arwenTestExecutor.InitVM(mandosGasSchedule)
+	err = vmTestExecutor.InitVM(mandosGasSchedule)
 	if err != nil {
 		return nil, err
 	}
@@ -82,9 +82,9 @@ func newFuzzDelegationExecutor(fileResolver fr.FileResolver) (*fuzzDelegationExe
 	parser := mjparse.NewParser(fileResolver)
 
 	return &fuzzDelegationExecutor{
-		arwenTestExecutor:   arwenTestExecutor,
-		world:               arwenTestExecutor.World,
-		vm:                  arwenTestExecutor.GetVM(),
+		vmTestExecutor:      vmTestExecutor,
+		world:               vmTestExecutor.World,
+		vm:                  vmTestExecutor.GetVM(),
 		mandosParser:        parser,
 		txIndex:             0,
 		numNodes:            0,
@@ -105,7 +105,7 @@ func (pfe *fuzzDelegationExecutor) executeStep(stepSnippet string) error {
 	}
 
 	pfe.addStep(step)
-	return pfe.arwenTestExecutor.ExecuteStep(step)
+	return pfe.vmTestExecutor.ExecuteStep(step)
 }
 
 func (pfe *fuzzDelegationExecutor) addStep(step mj.Step) {
@@ -136,7 +136,7 @@ func (pfe *fuzzDelegationExecutor) executeTxStep(stepSnippet string) (*vmi.VMOut
 
 	pfe.addStep(step)
 
-	return pfe.arwenTestExecutor.ExecuteTxStep(txStep)
+	return pfe.vmTestExecutor.ExecuteTxStep(txStep)
 }
 
 func (pfe *fuzzDelegationExecutor) log(info string, args ...interface{}) {

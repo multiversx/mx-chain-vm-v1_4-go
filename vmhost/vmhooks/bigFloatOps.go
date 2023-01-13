@@ -39,9 +39,9 @@ import (
 	"math/big"
 	"unsafe"
 
+	arwenMath "github.com/multiversx/mx-chain-vm-v1_4-go/math"
 	"github.com/multiversx/mx-chain-vm-v1_4-go/vmhost"
 	"github.com/multiversx/mx-chain-vm-v1_4-go/vmhost/vmhooksmeta"
-	arwenMath "github.com/multiversx/mx-chain-vm-v1_4-go/math"
 )
 
 const (

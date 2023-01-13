@@ -6,8 +6,8 @@ import (
 
 	mge "github.com/multiversx/mx-chain-vm-v1_4-go/scenarios/scenario-exporter"
 
-	"github.com/multiversx/mx-chain-vm-v1_4-go/vmhost"
 	mj "github.com/multiversx/mx-chain-vm-v1_4-go/scenarios/model"
+	"github.com/multiversx/mx-chain-vm-v1_4-go/vmhost"
 	"github.com/stretchr/testify/require"
 )
 

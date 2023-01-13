@@ -10,12 +10,12 @@ import (
 	vmi "github.com/multiversx/mx-chain-vm-common-go"
 	"github.com/multiversx/mx-chain-vm-common-go/builtInFunctions"
 	"github.com/multiversx/mx-chain-vm-common-go/parsers"
+	"github.com/multiversx/mx-chain-vm-v1_4-go/config"
+	worldhook "github.com/multiversx/mx-chain-vm-v1_4-go/mock/world"
+	er "github.com/multiversx/mx-chain-vm-v1_4-go/scenarios/expression/reconstructor"
 	"github.com/multiversx/mx-chain-vm-v1_4-go/vmhost"
 	arwenHost "github.com/multiversx/mx-chain-vm-v1_4-go/vmhost/host"
 	"github.com/multiversx/mx-chain-vm-v1_4-go/vmhost/mock"
-	"github.com/multiversx/mx-chain-vm-v1_4-go/config"
-	er "github.com/multiversx/mx-chain-vm-v1_4-go/scenarios/expression/reconstructor"
-	worldhook "github.com/multiversx/mx-chain-vm-v1_4-go/mock/world"
 	"github.com/stretchr/testify/require"
 )
 
