@@ -11,7 +11,6 @@ var _ vmcommon.BlockchainHook = (*BlockchainHookStub)(nil)
 
 // BlockchainHookStub is used in tests to check that interface methods were called
 type BlockchainHookStub struct {
-	NewAddressCalled              func(creatorAddress []byte, creatorNonce uint64, vmType []byte) ([]byte, error)
 	GetStorageDataCalled          func(accountsAddress []byte, index []byte) ([]byte, uint32, error)
 	GetBlockHashCalled            func(nonce uint64) ([]byte, error)
 	LastNonceCalled               func() uint64
@@ -38,14 +37,6 @@ type BlockchainHookStub struct {
 	GetESDTTokenCalled            func(address []byte, tokenID []byte, nonce uint64) (*esdt.ESDigitalToken, error)
 	GetSnapshotCalled             func() int
 	RevertToSnapshotCalled        func(snapshot int) error
-}
-
-// NewAddress mocked method
-func (b *BlockchainHookStub) NewAddress(creatorAddress []byte, creatorNonce uint64, vmType []byte) ([]byte, error) {
-	if b.NewAddressCalled != nil {
-		return b.NewAddressCalled(creatorAddress, creatorNonce, vmType)
-	}
-	return []byte("newAddress"), nil
 }
 
 // GetStorageData mocked method

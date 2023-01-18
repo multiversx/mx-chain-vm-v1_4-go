@@ -1,10 +1,11 @@
 package worldmock
 
 import (
+	"bytes"
 	"fmt"
 
-	"github.com/ElrondNetwork/wasm-vm-v1_4/config"
 	vmcommon "github.com/ElrondNetwork/elrond-vm-common"
+	"github.com/ElrondNetwork/wasm-vm-v1_4/config"
 )
 
 // NewAddressMock allows tests to specify what new addresses to generate
@@ -145,4 +146,27 @@ func (b *MockWorld) GetSnapshot() int {
 // RevertToSnapshot -
 func (b *MockWorld) RevertToSnapshot(snapshot int) error {
 	return b.AccountsAdapter.RevertToSnapshot(snapshot)
+}
+
+// CreateMockWorldNewAddress creates a new address, simulating the protocol's address generation.
+func (b *MockWorld) CreateMockWorldNewAddress(address []byte, nonce uint64, _ []byte) ([]byte, error) {
+	// custom error
+	if b.Err != nil {
+		return nil, b.Err
+	}
+
+	// explicit new address mocks
+	// matched by creator address and nonce
+	for _, newAddressMock := range b.NewAddressMocks {
+		if bytes.Equal(address, newAddressMock.CreatorAddress) && nonce == newAddressMock.CreatorNonce {
+			b.LastCreatedContractAddress = newAddressMock.NewAddress
+			return newAddressMock.NewAddress, nil
+		}
+	}
+
+	// If a mock address wasn't registered for the specified creatorAddress, generate one automatically.
+	// This is not the real algorithm but it's simple and close enough.
+	result := GenerateMockAddress(address, nonce)
+	b.LastCreatedContractAddress = result
+	return result, nil
 }

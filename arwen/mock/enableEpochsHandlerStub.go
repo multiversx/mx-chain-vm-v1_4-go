@@ -30,6 +30,7 @@ type EnableEpochsHandlerStub struct {
 	IsESDTNFTImprovementV1FlagEnabledField               bool
 	IsFixOldTokenLiquidityEnabledField                   bool
 	IsRuntimeMemStoreLimitEnabledField                   bool
+	IsWipeSingleNFTLiquidityDecreaseEnabledField         bool
 	IsGuardAccountEnabledField                           bool
 	IsSetGuardianEnabledField                            bool
 	MultiESDTTransferAsyncCallBackEnableEpochField       uint32
@@ -42,6 +43,10 @@ type EnableEpochsHandlerStub struct {
 	RefactorContextEnableEpochField                      uint32
 	CheckExecuteReadOnlyEnableEpochField                 uint32
 	StorageAPICostOptimizationEnableEpochField           uint32
+}
+
+func (stub *EnableEpochsHandlerStub) IsWipeSingleNFTLiquidityDecreaseEnabled() bool {
+	return stub.IsWipeSingleNFTLiquidityDecreaseEnabledField
 }
 
 func (stub *EnableEpochsHandlerStub) IsGuardAccountEnabled() bool {

@@ -6,10 +6,11 @@ import (
 	"math/big"
 	"testing"
 
+	"github.com/ElrondNetwork/elrond-go-core/core/check"
 	"github.com/ElrondNetwork/wasm-vm-v1_4/arwen"
 	"github.com/ElrondNetwork/wasm-vm-v1_4/arwen/mock"
 	contextmock "github.com/ElrondNetwork/wasm-vm-v1_4/mock/context"
-	"github.com/ElrondNetwork/elrond-go-core/core/check"
+	worldmock "github.com/ElrondNetwork/wasm-vm-v1_4/mock/world"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 )
@@ -50,7 +51,11 @@ func TestManagedTypesContext_Randomness(t *testing.T) {
 			return []byte{0xf, 0xf, 0xf, 0xf, 0xa, 0xb}
 		},
 	}
-	blockchainContext, _ := NewBlockchainContext(host, mockBlockchain)
+	addressGenerator := &worldmock.AddressGeneratorStub{}
+	addressGenerator.NewAddressCalled = func(creatorAddress []byte, nonce uint64, vmType []byte) ([]byte, error) {
+		return []byte("newAddress"), nil
+	}
+	blockchainContext, _ := NewBlockchainContext(host, mockBlockchain, addressGenerator)
 	host.BlockchainContext = blockchainContext
 	copyHost := host
 

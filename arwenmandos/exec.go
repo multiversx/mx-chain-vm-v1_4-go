@@ -26,6 +26,7 @@ var TestVMType = []byte{0, 0}
 // ArwenTestExecutor parses, interprets and executes both .test.json tests and .scen.json scenarios with Arwen.
 type ArwenTestExecutor struct {
 	World             *worldhook.MockWorld
+	AddressGenerator  arwen.AddressGenerator
 	vm                vmi.VMExecutionHandler
 	vmHost            arwen.VMHost
 	checkGas          bool
@@ -41,8 +42,12 @@ var _ mc.ScenarioExecutor = (*ArwenTestExecutor)(nil)
 func NewArwenTestExecutor() (*ArwenTestExecutor, error) {
 	world := worldhook.NewMockWorld()
 
+	addressGenerator := &worldhook.AddressGeneratorStub{
+		NewAddressCalled: world.CreateMockWorldNewAddress,
+	}
 	return &ArwenTestExecutor{
 		World:             world,
+		AddressGenerator:  addressGenerator,
 		vm:                nil,
 		checkGas:          true,
 		scenarioTraceGas:  make([]bool, 0),
@@ -70,7 +75,7 @@ func (ae *ArwenTestExecutor) InitVM(mandosGasSchedule mj.GasSchedule) error {
 
 	blockGasLimit := uint64(10000000)
 	esdtTransferParser, _ := parsers.NewESDTTransferParser(worldhook.WorldMarshalizer)
-	vm, err := arwenHost.NewArwenVM(ae.World, &arwen.VMHostParameters{
+	vm, err := arwenHost.NewArwenVM(ae.World, ae.AddressGenerator, &arwen.VMHostParameters{
 		VMType:                   TestVMType,
 		BlockGasLimit:            blockGasLimit,
 		GasSchedule:              gasSchedule,

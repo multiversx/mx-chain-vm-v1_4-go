@@ -330,3 +330,9 @@ type GasTracing interface {
 	GetGasTrace() map[string]map[string][]uint64
 	IsInterfaceNil() bool
 }
+
+// AddressGenerator is able to generate addresses`
+type AddressGenerator interface {
+	NewAddress(creatorAddress []byte, creatorNonce uint64, vmType []byte) ([]byte, error)
+	IsInterfaceNil() bool
+}

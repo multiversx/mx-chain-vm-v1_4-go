@@ -235,7 +235,10 @@ func prepare(tb testing.TB) (*worldmock.MockWorld, *worldmock.Account, arwen.VMH
 	require.Nil(tb, err)
 
 	esdtTransferParser, _ := parsers.NewESDTTransferParser(worldmock.WorldMarshalizer)
-	host, err := arwenHost.NewArwenVM(mockWorld, &arwen.VMHostParameters{
+	addressGenerator := &worldmock.AddressGeneratorStub{
+		NewAddressCalled: mockWorld.CreateMockWorldNewAddress,
+	}
+	host, err := arwenHost.NewArwenVM(mockWorld, addressGenerator, &arwen.VMHostParameters{
 		VMType:                   testcommon.DefaultVMType,
 		BlockGasLimit:            uint64(1000),
 		GasSchedule:              gasMap,

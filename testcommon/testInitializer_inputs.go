@@ -118,19 +118,20 @@ func BuildSCModule(scName string, prefixToTestSCs string) {
 }
 
 // DefaultTestArwenForDeployment creates an Arwen vmHost configured for testing deployments
-func DefaultTestArwenForDeployment(t *testing.T, _ uint64, newAddress []byte) (arwen.VMHost, *contextmock.BlockchainHookStub) {
+func DefaultTestArwenForDeployment(t *testing.T, _ uint64, newAddress []byte) (arwen.VMHost, *contextmock.BlockchainHookStub, *worldmock.AddressGeneratorStub) {
 	stubBlockchainHook := &contextmock.BlockchainHookStub{}
 	stubBlockchainHook.GetUserAccountCalled = func(address []byte) (vmcommon.UserAccountHandler, error) {
 		return &contextmock.StubAccount{
 			Nonce: 24,
 		}, nil
 	}
-	stubBlockchainHook.NewAddressCalled = func(creatorAddress []byte, nonce uint64, vmType []byte) ([]byte, error) {
+	stubAddressGenerator := &worldmock.AddressGeneratorStub{}
+	stubAddressGenerator.NewAddressCalled = func(creatorAddress []byte, nonce uint64, vmType []byte) ([]byte, error) {
 		return newAddress, nil
 	}
 
 	host := DefaultTestArwen(t, stubBlockchainHook)
-	return host, stubBlockchainHook
+	return host, stubBlockchainHook, stubAddressGenerator
 }
 
 // DefaultTestArwenForCall creates a BlockchainHookStub
@@ -330,7 +331,8 @@ func DefaultTestArwenWithWorldMockWithGasSchedule(tb testing.TB, customGasSchedu
 	require.Nil(tb, err)
 
 	esdtTransferParser, _ := parsers.NewESDTTransferParser(worldmock.WorldMarshalizer)
-	host, err := arwenHost.NewArwenVM(world, &arwen.VMHostParameters{
+	addressGenerator := &worldmock.AddressGeneratorStub{}
+	host, err := arwenHost.NewArwenVM(world, addressGenerator, &arwen.VMHostParameters{
 		VMType:                   DefaultVMType,
 		BlockGasLimit:            uint64(1000),
 		GasSchedule:              gasSchedule,
@@ -377,8 +379,9 @@ func DefaultTestArwenWithGasSchedule(
 		gasSchedule = config.MakeGasMapForTests()
 	}
 
+	addressGenerator := &worldmock.AddressGeneratorStub{}
 	esdtTransferParser, _ := parsers.NewESDTTransferParser(worldmock.WorldMarshalizer)
-	host, err := arwenHost.NewArwenVM(blockchain, &arwen.VMHostParameters{
+	host, err := arwenHost.NewArwenVM(blockchain, addressGenerator, &arwen.VMHostParameters{
 		VMType:                   DefaultVMType,
 		BlockGasLimit:            uint64(1000),
 		GasSchedule:              gasSchedule,

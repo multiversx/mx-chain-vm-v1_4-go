@@ -3,14 +3,15 @@ github.com/BurntSushi/toml v0.3.1/go.mod h1:xHWCNGjB5oqiDr8zfno3MHue2Ht5sIBksp03
 github.com/ElrondNetwork/big-int-util v0.1.0 h1:vTMoJ5azhVmr7jhpSD3JUjQdkdyXoEPVkOvhdw1RjV4=
 github.com/ElrondNetwork/big-int-util v0.1.0/go.mod h1:96viBvoTXLjZOhEvE0D+QnAwg1IJLPAK6GVHMbC7Aw4=
 github.com/ElrondNetwork/elrond-go-core v1.1.26/go.mod h1:N/RI++YU2M6OlnD1GSZepc1wPhI84ykRDQ1IyD3B0wk=
-github.com/ElrondNetwork/elrond-go-core v1.1.27-0.20221219143439-1bc10dae0ea9 h1:bqVom8Mvfmep6YYW8JjAfrZ+L0I139Llm68hgNc1tP4=
 github.com/ElrondNetwork/elrond-go-core v1.1.27-0.20221219143439-1bc10dae0ea9/go.mod h1:N/RI++YU2M6OlnD1GSZepc1wPhI84ykRDQ1IyD3B0wk=
+github.com/ElrondNetwork/elrond-go-core v1.1.29-0.20230113122432-2075fd801974 h1:fkPRJnONw1Gq9Q81NCjZGscA1wElvAMtN+hLpMRqcuQ=
+github.com/ElrondNetwork/elrond-go-core v1.1.29-0.20230113122432-2075fd801974/go.mod h1:bCWd3hV2IeJjYpKpJw47xwk48G2zNHmOkdDC14Dyq7o=
 github.com/ElrondNetwork/elrond-go-crypto v1.2.4-0.20221213102512-0180dd3e00ce h1:zRLWpUnawPkbJ0b3lDkVWJwhNHwlaPN5POcXz+ToqqE=
 github.com/ElrondNetwork/elrond-go-crypto v1.2.4-0.20221213102512-0180dd3e00ce/go.mod h1:niLdPSYjcIzucSj2yMy+yq3KEW0jjFCfvTBOMQphmXk=
 github.com/ElrondNetwork/elrond-go-logger v1.0.10 h1:2xQOWZErcHW5sl9qSRO+7mGNw+QhFhqiUlLLtOgvuuk=
 github.com/ElrondNetwork/elrond-go-logger v1.0.10/go.mod h1:+rMODFw4yQptTi5WuLUBzvl/AE26V+2YJtc52wX30Eg=
-github.com/ElrondNetwork/elrond-vm-common v1.3.29-0.20221219143644-8d3505605a6d h1:pm2jV0AzYtkW4J0phwIuQwEQDVk0For8qC8rZZvFWHM=
-github.com/ElrondNetwork/elrond-vm-common v1.3.29-0.20221219143644-8d3505605a6d/go.mod h1:7aTygO6Kr+Bj8T7nQVFhSqLOji32E7FMHjzNhEkrL7M=
+github.com/ElrondNetwork/elrond-vm-common v1.3.32-0.20230113130745-0eba35a784b1 h1:ZCZOUEZIp26Cu8Gs1Vcoz7o43uMuvYCsneW+6qXsE0U=
+github.com/ElrondNetwork/elrond-vm-common v1.3.32-0.20230113130745-0eba35a784b1/go.mod h1:7aTygO6Kr+Bj8T7nQVFhSqLOji32E7FMHjzNhEkrL7M=
 github.com/aead/siphash v1.0.1/go.mod h1:Nywa3cDsYNNK3gaciGTWPwHt0wlpNV15vwmswBAUSII=
 github.com/btcsuite/btcd v0.20.1-beta/go.mod h1:wVuoA8VJLEcwgqHBwHmzLRazpKxTv13Px/pDuV7OomQ=
 github.com/btcsuite/btcd v0.22.0-beta.0.20220111032746-97732e52810c/go.mod h1:tjmYdS6MLJ5/s0Fj4DbLgSbDHbEqLJrtnHecBFkdz5M=
@@ -86,6 +87,7 @@ github.com/google/go-cmp v0.5.5/go.mod h1:v8dTdLbMG2kIc/vJvl+f65V22dbkXbowE6jgT/
 github.com/google/gofuzz v1.0.0/go.mod h1:dBl0BpW6vV/+mYPU4Po3pmUjxk6FQPldtuIdl/M65Eg=
 github.com/gorilla/mux v1.8.0/go.mod h1:DVbg23sWSpFRCP0SfiEN6jmj59UnW/n46BH5rLB71So=
 github.com/gorilla/websocket v1.4.2/go.mod h1:YR8l580nyteQvAITg2hZ9XVh4b55+EU/adAjf1fMHhE=
+github.com/gorilla/websocket v1.5.0/go.mod h1:YR8l580nyteQvAITg2hZ9XVh4b55+EU/adAjf1fMHhE=
 github.com/hashicorp/golang-lru v0.5.4 h1:YDjusn29QI/Das2iO9M0BHnIbxPeyuCHsjMW+lJfyTc=
 github.com/hashicorp/golang-lru v0.5.4/go.mod h1:iADmTwqILo4mZ8BN3D2Q6+9jd8WM5uGBxy+E8yxSoD4=
 github.com/herumi/bls-go-binary v1.0.0 h1:PRPF6vPd35zyDy+tp86HwNnGdufCH2lZL0wZGxYvkRs=
@@ -245,8 +247,9 @@ google.golang.org/protobuf v1.21.0/go.mod h1:47Nbq4nVaFHyn7ilMalzfO3qCViNmqZ2kzi
 google.golang.org/protobuf v1.23.0/go.mod h1:EGpADcykh3NcUnDUJcl1+ZksZNG86OlYog2l/sGQquU=
 google.golang.org/protobuf v1.26.0-rc.1/go.mod h1:jlhhOSvTdKEhbULTjvd4ARK9grFBp09yW+WbY/TyQbw=
 google.golang.org/protobuf v1.26.0/go.mod h1:9q0QmTI4eRPtz6boOQmLYwt+qCgq0jsYwAQnmE0givc=
-google.golang.org/protobuf v1.28.0 h1:w43yiav+6bVFTBQFZX0r7ipe9JQ1QsbMgHwbBziscLw=
 google.golang.org/protobuf v1.28.0/go.mod h1:HV8QOd/L58Z+nl8r43ehVNZIU/HEI6OcFqwMG9pJV4I=
+google.golang.org/protobuf v1.28.1 h1:d0NfwRgPtno5B1Wa6L2DAG+KivqkdutMf1UhdNx175w=
+google.golang.org/protobuf v1.28.1/go.mod h1:HV8QOd/L58Z+nl8r43ehVNZIU/HEI6OcFqwMG9pJV4I=
 gopkg.in/check.v1 v0.0.0-20161208181325-20d25e280405/go.mod h1:Co6ibVJAznAaIkqp8huTwlJQCZ016jof/cbN4VW5Yz0=
 gopkg.in/check.v1 v1.0.0-20180628173108-788fd7840127/go.mod h1:Co6ibVJAznAaIkqp8huTwlJQCZ016jof/cbN4VW5Yz0=
 gopkg.in/check.v1 v1.0.0-20201130134442-10cb98267c6c h1:Hei/4ADfdWqJk1ZMxUNpqntNwaWcugrBjAiHlqqRiVk=
