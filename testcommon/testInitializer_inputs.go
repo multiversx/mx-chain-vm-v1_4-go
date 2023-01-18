@@ -332,6 +332,7 @@ func DefaultTestArwenWithWorldMockWithGasSchedule(tb testing.TB, customGasSchedu
 
 	esdtTransferParser, _ := parsers.NewESDTTransferParser(worldmock.WorldMarshalizer)
 	addressGenerator := &worldmock.AddressGeneratorStub{}
+	addressGenerator.NewAddressCalled = world.NewAddress
 	host, err := arwenHost.NewArwenVM(world, addressGenerator, &arwen.VMHostParameters{
 		VMType:                   DefaultVMType,
 		BlockGasLimit:            uint64(1000),
