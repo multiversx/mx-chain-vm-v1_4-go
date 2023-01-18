@@ -2288,7 +2288,10 @@ func TestExecution_ExecuteOnDestContext_Recursive_Mutual_SCs_OutOfGas(t *testing
 
 func TestExecution_ExecuteOnSameContext_MultipleChildren(t *testing.T) {
 	world := worldmock.NewMockWorld()
-	host := test.DefaultTestArwen(t, world)
+	stubAddressGenerator := &worldmock.AddressGeneratorStub{
+		NewAddressCalled: world.CreateMockWorldNewAddress,
+	}
+	host := test.DefaultTestArwen(t, world, stubAddressGenerator)
 	defer func() {
 		host.Reset()
 	}()
@@ -2330,7 +2333,10 @@ func TestExecution_ExecuteOnSameContext_MultipleChildren(t *testing.T) {
 
 func TestExecution_ExecuteOnDestContext_MultipleChildren(t *testing.T) {
 	world := worldmock.NewMockWorld()
-	host := test.DefaultTestArwen(t, world)
+	stubAddressGenerator := &worldmock.AddressGeneratorStub{
+		NewAddressCalled: world.CreateMockWorldNewAddress,
+	}
+	host := test.DefaultTestArwen(t, world, stubAddressGenerator)
 	defer func() {
 		host.Reset()
 	}()

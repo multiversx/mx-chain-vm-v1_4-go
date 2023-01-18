@@ -130,7 +130,7 @@ func DefaultTestArwenForDeployment(t *testing.T, _ uint64, newAddress []byte) (a
 		return newAddress, nil
 	}
 
-	host := DefaultTestArwen(t, stubBlockchainHook)
+	host := DefaultTestArwen(t, stubBlockchainHook, stubAddressGenerator)
 	return host, stubBlockchainHook, stubAddressGenerator
 }
 
@@ -148,8 +148,9 @@ func DefaultTestArwenForCall(tb testing.TB, code []byte, balance *big.Int) (arwe
 	stubBlockchainHook.GetCodeCalled = func(account vmcommon.UserAccountHandler) []byte {
 		return code
 	}
+	stubAddressGenerator := &worldmock.AddressGeneratorStub{}
 
-	host := DefaultTestArwen(tb, stubBlockchainHook)
+	host := DefaultTestArwen(tb, stubBlockchainHook, stubAddressGenerator)
 	return host, stubBlockchainHook
 }
 
@@ -167,9 +168,10 @@ func DefaultTestArwenForCallSigSegv(tb testing.TB, code []byte, balance *big.Int
 	stubBlockchainHook.GetCodeCalled = func(account vmcommon.UserAccountHandler) []byte {
 		return code
 	}
+	stubAddressGenerator := &worldmock.AddressGeneratorStub{}
 
 	customGasSchedule := config.GasScheduleMap(nil)
-	host := DefaultTestArwenWithGasSchedule(tb, stubBlockchainHook, customGasSchedule, true)
+	host := DefaultTestArwenWithGasSchedule(tb, stubBlockchainHook, stubAddressGenerator, customGasSchedule, true)
 	return host, stubBlockchainHook
 }
 
@@ -187,7 +189,8 @@ func DefaultTestArwenForCallWithInstanceRecorderMock(tb testing.TB, code []byte,
 // DefaultTestArwenForCallWithInstanceMocks creates an InstanceBuilderMock
 func DefaultTestArwenForCallWithInstanceMocks(tb testing.TB) (arwen.VMHost, *worldmock.MockWorld, *contextmock.InstanceBuilderMock) {
 	world := worldmock.NewMockWorld()
-	host := DefaultTestArwen(tb, world)
+	stubAddressGenerator := &worldmock.AddressGeneratorStub{}
+	host := DefaultTestArwen(tb, world, stubAddressGenerator)
 
 	instanceBuilderMock := contextmock.NewInstanceBuilderMock(world)
 	host.Runtime().ReplaceInstanceBuilder(instanceBuilderMock)
@@ -198,7 +201,8 @@ func DefaultTestArwenForCallWithInstanceMocks(tb testing.TB) (arwen.VMHost, *wor
 // DefaultTestArwenForCallWithWorldMock creates a MockWorld
 func DefaultTestArwenForCallWithWorldMock(tb testing.TB, code []byte, balance *big.Int) (arwen.VMHost, *worldmock.MockWorld) {
 	world := worldmock.NewMockWorld()
-	host := DefaultTestArwen(tb, world)
+	stubAddressGenerator := &worldmock.AddressGeneratorStub{}
+	host := DefaultTestArwen(tb, world, stubAddressGenerator)
 
 	err := world.InitBuiltinFunctions(host.GetGasScheduleMap())
 	require.Nil(tb, err)
@@ -254,8 +258,9 @@ func DefaultTestArwenForTwoSCs(
 		}
 		return nil
 	}
+	stubAddressGenerator := &worldmock.AddressGeneratorStub{}
 
-	host := DefaultTestArwen(t, stubBlockchainHook)
+	host := DefaultTestArwen(t, stubBlockchainHook, stubAddressGenerator)
 	return host, stubBlockchainHook
 }
 
@@ -309,8 +314,9 @@ func defaultTestArwenForContracts(
 		}
 		return false, nil
 	}
+	stubAddressGenerator := &worldmock.AddressGeneratorStub{}
 
-	host := DefaultTestArwenWithGasSchedule(tb, stubBlockchainHook, gasSchedule, wasmerSIGSEGVPassthrough)
+	host := DefaultTestArwenWithGasSchedule(tb, stubBlockchainHook, stubAddressGenerator, gasSchedule, wasmerSIGSEGVPassthrough)
 	return host, stubBlockchainHook
 }
 
@@ -364,14 +370,15 @@ func DefaultTestArwenWithWorldMockWithGasSchedule(tb testing.TB, customGasSchedu
 }
 
 // DefaultTestArwen creates a host configured with a configured blockchain hook
-func DefaultTestArwen(tb testing.TB, blockchain vmcommon.BlockchainHook) arwen.VMHost {
+func DefaultTestArwen(tb testing.TB, blockchain vmcommon.BlockchainHook, addressGenerator arwen.AddressGenerator) arwen.VMHost {
 	customGasSchedule := config.GasScheduleMap(nil)
-	return DefaultTestArwenWithGasSchedule(tb, blockchain, customGasSchedule, false)
+	return DefaultTestArwenWithGasSchedule(tb, blockchain, addressGenerator, customGasSchedule, false)
 }
 
 func DefaultTestArwenWithGasSchedule(
 	tb testing.TB,
 	blockchain vmcommon.BlockchainHook,
+	addressGenerator arwen.AddressGenerator,
 	customGasSchedule config.GasScheduleMap,
 	wasmerSIGSEGVPassthrough bool,
 ) arwen.VMHost {
@@ -380,7 +387,6 @@ func DefaultTestArwenWithGasSchedule(
 		gasSchedule = config.MakeGasMapForTests()
 	}
 
-	addressGenerator := &worldmock.AddressGeneratorStub{}
 	esdtTransferParser, _ := parsers.NewESDTTransferParser(worldmock.WorldMarshalizer)
 	host, err := arwenHost.NewArwenVM(blockchain, addressGenerator, &arwen.VMHostParameters{
 		VMType:                   DefaultVMType,
