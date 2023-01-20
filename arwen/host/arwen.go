@@ -56,7 +56,6 @@ type vmHost struct {
 // NewArwenVM creates a new Arwen vmHost
 func NewArwenVM(
 	blockChainHook vmcommon.BlockchainHook,
-	addressGenerator arwen.AddressGenerator,
 	hostParameters *arwen.VMHostParameters,
 ) (arwen.VMHost, error) {
 
@@ -116,7 +115,7 @@ func NewArwenVM(
 
 	host.scAPIMethods = wasmerImports
 
-	host.blockchainContext, err = contexts.NewBlockchainContext(host, blockChainHook, addressGenerator)
+	host.blockchainContext, err = contexts.NewBlockchainContext(host, blockChainHook, hostParameters.AddressGenerator)
 	if err != nil {
 		return nil, err
 	}

@@ -339,7 +339,7 @@ func DefaultTestArwenWithWorldMockWithGasSchedule(tb testing.TB, customGasSchedu
 	esdtTransferParser, _ := parsers.NewESDTTransferParser(worldmock.WorldMarshalizer)
 	addressGenerator := &worldmock.AddressGeneratorStub{}
 	addressGenerator.NewAddressCalled = world.NewAddress
-	host, err := arwenHost.NewArwenVM(world, addressGenerator, &arwen.VMHostParameters{
+	host, err := arwenHost.NewArwenVM(world, &arwen.VMHostParameters{
 		VMType:                   DefaultVMType,
 		BlockGasLimit:            uint64(1000),
 		GasSchedule:              gasSchedule,
@@ -362,6 +362,7 @@ func DefaultTestArwenWithWorldMockWithGasSchedule(tb testing.TB, customGasSchedu
 			IsCheckExecuteOnReadOnlyFlagEnabledField:         true,
 		},
 		WasmerSIGSEGVPassthrough: false,
+		AddressGenerator:         addressGenerator,
 	})
 	require.Nil(tb, err)
 	require.NotNil(tb, host)
@@ -388,7 +389,7 @@ func DefaultTestArwenWithGasSchedule(
 	}
 
 	esdtTransferParser, _ := parsers.NewESDTTransferParser(worldmock.WorldMarshalizer)
-	host, err := arwenHost.NewArwenVM(blockchain, addressGenerator, &arwen.VMHostParameters{
+	host, err := arwenHost.NewArwenVM(blockchain, &arwen.VMHostParameters{
 		VMType:                   DefaultVMType,
 		BlockGasLimit:            uint64(1000),
 		GasSchedule:              gasSchedule,
@@ -414,6 +415,7 @@ func DefaultTestArwenWithGasSchedule(
 			IsCheckExecuteOnReadOnlyFlagEnabledField:             true,
 		},
 		WasmerSIGSEGVPassthrough: wasmerSIGSEGVPassthrough,
+		AddressGenerator:         addressGenerator,
 	})
 	require.Nil(tb, err)
 	require.NotNil(tb, host)

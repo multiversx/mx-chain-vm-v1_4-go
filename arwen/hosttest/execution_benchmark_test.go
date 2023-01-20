@@ -238,7 +238,7 @@ func prepare(tb testing.TB) (*worldmock.MockWorld, *worldmock.Account, arwen.VMH
 	addressGenerator := &worldmock.AddressGeneratorStub{
 		NewAddressCalled: mockWorld.CreateMockWorldNewAddress,
 	}
-	host, err := arwenHost.NewArwenVM(mockWorld, addressGenerator, &arwen.VMHostParameters{
+	host, err := arwenHost.NewArwenVM(mockWorld, &arwen.VMHostParameters{
 		VMType:                   testcommon.DefaultVMType,
 		BlockGasLimit:            uint64(1000),
 		GasSchedule:              gasMap,
@@ -248,6 +248,7 @@ func prepare(tb testing.TB) (*worldmock.MockWorld, *worldmock.Account, arwen.VMH
 		EpochNotifier:            &mock.EpochNotifierStub{},
 		EnableEpochsHandler:      &mock.EnableEpochsHandlerStub{},
 		WasmerSIGSEGVPassthrough: false,
+		AddressGenerator:         addressGenerator,
 	})
 	require.Nil(tb, err)
 	return mockWorld, ownerAccount, host, err

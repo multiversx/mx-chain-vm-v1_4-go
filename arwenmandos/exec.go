@@ -75,7 +75,7 @@ func (ae *ArwenTestExecutor) InitVM(mandosGasSchedule mj.GasSchedule) error {
 
 	blockGasLimit := uint64(10000000)
 	esdtTransferParser, _ := parsers.NewESDTTransferParser(worldhook.WorldMarshalizer)
-	vm, err := arwenHost.NewArwenVM(ae.World, ae.AddressGenerator, &arwen.VMHostParameters{
+	vm, err := arwenHost.NewArwenVM(ae.World, &arwen.VMHostParameters{
 		VMType:                   TestVMType,
 		BlockGasLimit:            blockGasLimit,
 		GasSchedule:              gasSchedule,
@@ -109,6 +109,7 @@ func (ae *ArwenTestExecutor) InitVM(mandosGasSchedule mj.GasSchedule) error {
 			IsCheckExecuteOnReadOnlyFlagEnabledField:             true,
 		},
 		WasmerSIGSEGVPassthrough: false,
+		AddressGenerator:         ae.AddressGenerator,
 	})
 	if err != nil {
 		return err

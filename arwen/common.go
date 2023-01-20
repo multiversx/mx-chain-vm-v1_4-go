@@ -132,6 +132,7 @@ type VMHostParameters struct {
 	EpochNotifier                       vmcommon.EpochNotifier
 	EnableEpochsHandler                 vmcommon.EnableEpochsHandler
 	TimeOutForSCExecutionInMilliseconds uint32
+	AddressGenerator                    AddressGenerator
 }
 
 // AsyncCallInfo contains the information required to handle the asynchronous call of another SmartContract

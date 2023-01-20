@@ -46,7 +46,7 @@ func newPureFunctionExecutor() (*pureFunctionExecutor, error) {
 	gasSchedule := config.MakeGasMapForTests()
 	addressGenerator := &worldhook.AddressGeneratorStub{}
 	esdtTransferParser, _ := parsers.NewESDTTransferParser(worldhook.WorldMarshalizer)
-	vm, err := arwenHost.NewArwenVM(world, addressGenerator, &arwen.VMHostParameters{
+	vm, err := arwenHost.NewArwenVM(world, &arwen.VMHostParameters{
 		VMType:                   testVMType,
 		BlockGasLimit:            blockGasLimit,
 		GasSchedule:              gasSchedule,
@@ -56,6 +56,7 @@ func newPureFunctionExecutor() (*pureFunctionExecutor, error) {
 		EpochNotifier:            &mock.EpochNotifierStub{},
 		EnableEpochsHandler:      &mock.EnableEpochsHandlerStub{},
 		WasmerSIGSEGVPassthrough: false,
+		AddressGenerator:         addressGenerator,
 	})
 	if err != nil {
 		return nil, err
