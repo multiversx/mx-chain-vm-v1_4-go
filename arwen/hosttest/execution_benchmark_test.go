@@ -235,6 +235,9 @@ func prepare(tb testing.TB) (*worldmock.MockWorld, *worldmock.Account, arwen.VMH
 	require.Nil(tb, err)
 
 	esdtTransferParser, _ := parsers.NewESDTTransferParser(worldmock.WorldMarshalizer)
+	addressGenerator := &worldmock.AddressGeneratorStub{
+		NewAddressCalled: mockWorld.CreateMockWorldNewAddress,
+	}
 	host, err := arwenHost.NewArwenVM(mockWorld, &arwen.VMHostParameters{
 		VMType:                   testcommon.DefaultVMType,
 		BlockGasLimit:            uint64(1000),
@@ -245,6 +248,7 @@ func prepare(tb testing.TB) (*worldmock.MockWorld, *worldmock.Account, arwen.VMH
 		EpochNotifier:            &mock.EpochNotifierStub{},
 		EnableEpochsHandler:      &mock.EnableEpochsHandlerStub{},
 		WasmerSIGSEGVPassthrough: false,
+		AddressGenerator:         addressGenerator,
 	})
 	require.Nil(tb, err)
 	return mockWorld, ownerAccount, host, err

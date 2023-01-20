@@ -53,7 +53,8 @@ func InitializeArwenAndWasmer() *contextmock.VMHostMock {
 	mockMetering := &contextmock.MeteringContextMock{}
 	mockMetering.SetGasSchedule(gasSchedule)
 	host.MeteringContext = mockMetering
-	host.BlockchainContext, _ = NewBlockchainContext(host, worldmock.NewMockWorld())
+	addressGenerator := &worldmock.AddressGeneratorStub{}
+	host.BlockchainContext, _ = NewBlockchainContext(host, worldmock.NewMockWorld(), addressGenerator)
 	host.OutputContext, _ = NewOutputContext(host)
 	host.CryptoHook = factory.NewVMCrypto()
 	return host

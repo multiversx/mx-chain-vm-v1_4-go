@@ -6,24 +6,26 @@ import (
 	"github.com/ElrondNetwork/elrond-vm-common"
 	"github.com/ElrondNetwork/wasm-vm-v1_4/arwen"
 	contextmock "github.com/ElrondNetwork/wasm-vm-v1_4/mock/context"
+	worldmock "github.com/ElrondNetwork/wasm-vm-v1_4/mock/world"
 )
 
 // TestCreateTemplateConfig holds the data to build a contract creation test
 type TestCreateTemplateConfig struct {
-	t                  *testing.T
-	address            []byte
-	input              *vmcommon.ContractCreateInput
-	setup              func(arwen.VMHost, *contextmock.BlockchainHookStub)
-	assertResults      func(*contextmock.BlockchainHookStub, *VMOutputVerifier)
-	host               arwen.VMHost
-	blockchainHookStub *contextmock.BlockchainHookStub
+	t                    *testing.T
+	address              []byte
+	input                *vmcommon.ContractCreateInput
+	setup                func(arwen.VMHost, *contextmock.BlockchainHookStub, *worldmock.AddressGeneratorStub)
+	assertResults        func(*contextmock.BlockchainHookStub, *VMOutputVerifier)
+	host                 arwen.VMHost
+	blockchainHookStub   *contextmock.BlockchainHookStub
+	addressGeneratorStub *worldmock.AddressGeneratorStub
 }
 
 // BuildInstanceCreatorTest starts the building process for a contract creation test
 func BuildInstanceCreatorTest(t *testing.T) *TestCreateTemplateConfig {
 	return &TestCreateTemplateConfig{
 		t:     t,
-		setup: func(arwen.VMHost, *contextmock.BlockchainHookStub) {},
+		setup: func(arwen.VMHost, *contextmock.BlockchainHookStub, *worldmock.AddressGeneratorStub) {},
 	}
 }
 
@@ -40,7 +42,7 @@ func (callerTest *TestCreateTemplateConfig) WithAddress(address []byte) *TestCre
 }
 
 // WithSetup provides the setup function for a TestCreateTemplateConfig
-func (callerTest *TestCreateTemplateConfig) WithSetup(setup func(arwen.VMHost, *contextmock.BlockchainHookStub)) *TestCreateTemplateConfig {
+func (callerTest *TestCreateTemplateConfig) WithSetup(setup func(arwen.VMHost, *contextmock.BlockchainHookStub, *worldmock.AddressGeneratorStub)) *TestCreateTemplateConfig {
 	callerTest.setup = setup
 	return callerTest
 }
@@ -59,8 +61,8 @@ func (callerTest *TestCreateTemplateConfig) AndAssertResultsWithoutReset(assertR
 
 func (callerTest *TestCreateTemplateConfig) runTest(reset bool) {
 	if callerTest.host == nil {
-		callerTest.host, callerTest.blockchainHookStub = DefaultTestArwenForDeployment(callerTest.t, 24, callerTest.address)
-		callerTest.setup(callerTest.host, callerTest.blockchainHookStub)
+		callerTest.host, callerTest.blockchainHookStub, callerTest.addressGeneratorStub = DefaultTestArwenForDeployment(callerTest.t, 24, callerTest.address)
+		callerTest.setup(callerTest.host, callerTest.blockchainHookStub, callerTest.addressGeneratorStub)
 	}
 	defer func() {
 		if reset {

@@ -115,7 +115,7 @@ func NewArwenVM(
 
 	host.scAPIMethods = wasmerImports
 
-	host.blockchainContext, err = contexts.NewBlockchainContext(host, blockChainHook)
+	host.blockchainContext, err = contexts.NewBlockchainContext(host, blockChainHook, hostParameters.AddressGenerator)
 	if err != nil {
 		return nil, err
 	}
