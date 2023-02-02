@@ -3,9 +3,9 @@ package contracts
 import (
 	"math/big"
 
-	mock "github.com/ElrondNetwork/wasm-vm-v1_4/mock/context"
-	test "github.com/ElrondNetwork/wasm-vm-v1_4/testcommon"
-	"github.com/ElrondNetwork/elrond-vm-common/txDataBuilder"
+	"github.com/multiversx/mx-chain-vm-common-go/txDataBuilder"
+	mock "github.com/multiversx/mx-chain-vm-v1_4-go/mock/context"
+	test "github.com/multiversx/mx-chain-vm-v1_4-go/testcommon"
 	"github.com/stretchr/testify/require"
 )
 
@@ -27,7 +27,7 @@ func RecursiveAsyncCallRecursiveChildMock(instanceMock *mock.InstanceMock, confi
 		}
 
 		destination := host.Runtime().GetContextAddress()
-		function := string("recursiveAsyncCall")
+		function := "recursiveAsyncCall"
 		value := big.NewInt(testConfig.TransferFromParentToChild).Bytes()
 
 		callData := txDataBuilder.NewBuilder()

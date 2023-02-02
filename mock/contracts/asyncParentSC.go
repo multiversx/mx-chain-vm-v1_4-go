@@ -2,15 +2,14 @@ package contracts
 
 import (
 	"bytes"
-	"encoding/hex"
 	"errors"
 	"math/big"
 
-	"github.com/ElrondNetwork/wasm-vm-v1_4/arwen"
-	"github.com/ElrondNetwork/wasm-vm-v1_4/arwen/elrondapi"
-	mock "github.com/ElrondNetwork/wasm-vm-v1_4/mock/context"
-	test "github.com/ElrondNetwork/wasm-vm-v1_4/testcommon"
-	"github.com/ElrondNetwork/elrond-vm-common/txDataBuilder"
+	"github.com/multiversx/mx-chain-vm-common-go/txDataBuilder"
+	mock "github.com/multiversx/mx-chain-vm-v1_4-go/mock/context"
+	test "github.com/multiversx/mx-chain-vm-v1_4-go/testcommon"
+	"github.com/multiversx/mx-chain-vm-v1_4-go/vmhost"
+	"github.com/multiversx/mx-chain-vm-v1_4-go/vmhost/vmhooks"
 	"github.com/stretchr/testify/require"
 )
 
@@ -26,8 +25,8 @@ func PerformAsyncCallParentMock(instanceMock *mock.InstanceMock, config interfac
 		t := instance.T
 		host.Metering().UseGas(testConfig.GasUsedByParent)
 
-		host.Storage().SetStorage(test.ParentKeyA, test.ParentDataA)
-		host.Storage().SetStorage(test.ParentKeyB, test.ParentDataB)
+		_, _ = host.Storage().SetStorage(test.ParentKeyA, test.ParentDataA)
+		_, _ = host.Storage().SetStorage(test.ParentKeyB, test.ParentDataB)
 		host.Output().Finish(test.ParentFinishA)
 		host.Output().Finish(test.ParentFinishB)
 
@@ -46,7 +45,7 @@ func PerformAsyncCallParentMock(instanceMock *mock.InstanceMock, config interfac
 		// data for child -> third party tx
 		callData.Str(AsyncChildData)
 		// behavior param for child
-		callData.Bytes(append(arguments[0]))
+		callData.Bytes(arguments[0])
 
 		// amount to transfer from parent to child
 		value := big.NewInt(testConfig.TransferFromParentToChild).Bytes()
@@ -94,7 +93,11 @@ func CallBackParentMock(instanceMock *mock.InstanceMock, config interface{}) {
 			return instance
 		}
 
-		loadedData, _ := host.Storage().GetStorage(test.ParentKeyB)
+		loadedData, _, err := host.Storage().GetStorage(test.ParentKeyB)
+		if err != nil {
+			host.Runtime().FailExecution(err)
+			return instance
+		}
 
 		status := bytes.Compare(loadedData, test.ParentDataB)
 		if status != 0 {
@@ -107,7 +110,7 @@ func CallBackParentMock(instanceMock *mock.InstanceMock, config interface{}) {
 				return instance
 			}
 		}
-		err := handleTransferToVault(host, arguments)
+		err = handleTransferToVault(host, arguments)
 		require.Nil(t, err)
 
 		finishResult(host, status)
@@ -117,11 +120,11 @@ func CallBackParentMock(instanceMock *mock.InstanceMock, config interface{}) {
 }
 
 // CallbackWithOnSameContext is an exposed mock contract method
-func CallbackWithOnSameContext(instanceMock *mock.InstanceMock, config interface{}) {
+func CallbackWithOnSameContext(instanceMock *mock.InstanceMock, _ interface{}) {
 	instanceMock.AddMockMethod("callBack", func() *mock.InstanceMock {
 		host := instanceMock.Host
 		instance := mock.GetMockInstance(host)
-		retVal := elrondapi.ExecuteOnSameContextWithTypedArgs(
+		retVal := vmhooks.ExecuteOnSameContextWithTypedArgs(
 			host,
 			int64(host.Metering().GasLeft()),
 			big.NewInt(0),
@@ -139,7 +142,7 @@ func CallbackWithOnSameContext(instanceMock *mock.InstanceMock, config interface
 	})
 }
 
-func handleParentBehaviorArgument(host arwen.VMHost, behavior *big.Int) error {
+func handleParentBehaviorArgument(host vmhost.VMHost, behavior *big.Int) error {
 	if behavior.Cmp(big.NewInt(3)) == 0 {
 		host.Runtime().SignalUserError("callBack error")
 		return errors.New("behavior / parent error")
@@ -177,7 +180,7 @@ func mustTransferToVault(arguments [][]byte) bool {
 	return true
 }
 
-func handleTransferToVault(host arwen.VMHost, arguments [][]byte) error {
+func handleTransferToVault(host vmhost.VMHost, arguments [][]byte) error {
 	err := error(nil)
 	if mustTransferToVault(arguments) {
 		valueToTransfer := big.NewInt(4)
@@ -187,7 +190,7 @@ func handleTransferToVault(host arwen.VMHost, arguments [][]byte) error {
 	return err
 }
 
-func finishResult(host arwen.VMHost, result int) {
+func finishResult(host vmhost.VMHost, result int) {
 	outputContext := host.Output()
 	if result == 0 {
 		outputContext.Finish([]byte("succ"))
@@ -198,14 +201,4 @@ func finishResult(host arwen.VMHost, result int) {
 	if result != 0 && result != 1 {
 		outputContext.Finish([]byte("unkn"))
 	}
-}
-
-func argumentsToHexString(functionName string, args ...[]byte) []byte {
-	separator := byte('@')
-	output := append([]byte(functionName))
-	for _, arg := range args {
-		output = append(output, separator)
-		output = append(output, hex.EncodeToString(arg)...)
-	}
-	return output
 }

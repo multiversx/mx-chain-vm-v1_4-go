@@ -30,7 +30,7 @@ func TestDecode(t *testing.T) {
 	fmt.Printf("%+v\n", op)
 }
 
-func TestDecode_ArwenGas(t *testing.T) {
+func TestDecode_VMGas(t *testing.T) {
 	gasMap := make(map[string]uint64)
 	gasMap["StorePerByte"] = 4
 	gasMap["GetSCAddress"] = 4
@@ -49,7 +49,7 @@ func TestDecode_ArwenGas(t *testing.T) {
 
 	fmt.Printf("%+v\n", bigFloatOp)
 
-	erdOp := &ElrondAPICost{}
+	erdOp := &BaseOpsAPICost{}
 	err = mapstructure.Decode(gasMap, erdOp)
 	assert.Nil(t, err)
 
@@ -63,7 +63,7 @@ func TestDecode_ArwenGas(t *testing.T) {
 }
 
 func TestDecode_ZeroGasCostError(t *testing.T) {
-	gasMap := FillGasMap_WASMOpcodeValues(1)
+	gasMap := FillGasMapWASMOpcodeValues(1)
 
 	wasmCosts := &WASMOpcodeCost{}
 	err := mapstructure.Decode(gasMap, wasmCosts)

@@ -3,10 +3,10 @@ package testcommon
 import (
 	"testing"
 
-	"github.com/ElrondNetwork/wasm-vm-v1_4/arwen"
-	mock "github.com/ElrondNetwork/wasm-vm-v1_4/mock/context"
-	worldmock "github.com/ElrondNetwork/wasm-vm-v1_4/mock/world"
-	vmcommon "github.com/ElrondNetwork/elrond-vm-common"
+	vmcommon "github.com/multiversx/mx-chain-vm-common-go"
+	mock "github.com/multiversx/mx-chain-vm-v1_4-go/mock/context"
+	worldmock "github.com/multiversx/mx-chain-vm-v1_4-go/mock/world"
+	"github.com/multiversx/mx-chain-vm-v1_4-go/vmhost"
 )
 
 type testTemplateConfig struct {
@@ -20,7 +20,7 @@ type testTemplateConfig struct {
 type MockInstancesTestTemplate struct {
 	testTemplateConfig
 	contracts     *[]MockTestSmartContract
-	setup         func(arwen.VMHost, *worldmock.MockWorld)
+	setup         func(vmhost.VMHost, *worldmock.MockWorld)
 	assertResults func(*worldmock.MockWorld, *VMOutputVerifier)
 }
 
@@ -32,7 +32,7 @@ func BuildMockInstanceCallTest(tb testing.TB) *MockInstancesTestTemplate {
 			useMocks:                 true,
 			wasmerSIGSEGVPassthrough: false,
 		},
-		setup: func(arwen.VMHost, *worldmock.MockWorld) {},
+		setup: func(vmhost.VMHost, *worldmock.MockWorld) {},
 	}
 }
 
@@ -49,7 +49,7 @@ func (callerTest *MockInstancesTestTemplate) WithInput(input *vmcommon.ContractC
 }
 
 // WithSetup provides the setup function to be used by the mock contract call test
-func (callerTest *MockInstancesTestTemplate) WithSetup(setup func(arwen.VMHost, *worldmock.MockWorld)) *MockInstancesTestTemplate {
+func (callerTest *MockInstancesTestTemplate) WithSetup(setup func(vmhost.VMHost, *worldmock.MockWorld)) *MockInstancesTestTemplate {
 	callerTest.setup = setup
 	return callerTest
 }
@@ -67,7 +67,7 @@ func (callerTest *MockInstancesTestTemplate) AndAssertResults(assertResults func
 }
 
 func (callerTest *MockInstancesTestTemplate) runTest() {
-	host, world, imb := DefaultTestArwenForCallWithInstanceMocks(callerTest.tb)
+	host, world, imb := DefaultTestVMForCallWithInstanceMocks(callerTest.tb)
 	defer func() {
 		host.Reset()
 	}()
@@ -92,15 +92,6 @@ func SimpleWasteGasMockMethod(instanceMock *mock.InstanceMock, gas uint64) func(
 	return func() *mock.InstanceMock {
 		host := instanceMock.Host
 		host.Metering().UseGas(gas)
-		instance := mock.GetMockInstance(host)
-		return instance
-	}
-}
-
-// Empty
-func EmptyMockMethod(instanceMock *mock.InstanceMock) func() *mock.InstanceMock {
-	return func() *mock.InstanceMock {
-		host := instanceMock.Host
 		instance := mock.GetMockInstance(host)
 		return instance
 	}

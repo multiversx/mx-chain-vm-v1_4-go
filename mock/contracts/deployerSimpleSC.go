@@ -3,13 +3,14 @@ package contracts
 import (
 	"math/big"
 
-	"github.com/ElrondNetwork/wasm-vm-v1_4/arwen/elrondapi"
-	mock "github.com/ElrondNetwork/wasm-vm-v1_4/mock/context"
-	"github.com/ElrondNetwork/wasm-vm-v1_4/testcommon"
+	mock "github.com/multiversx/mx-chain-vm-v1_4-go/mock/context"
+	"github.com/multiversx/mx-chain-vm-v1_4-go/testcommon"
+	"github.com/multiversx/mx-chain-vm-v1_4-go/vmhost/vmhooks"
 	"github.com/stretchr/testify/require"
 )
 
-func DeployContractFromSourceMock(instanceMock *mock.InstanceMock, config interface{}) {
+// DeployContractFromSourceMock creates a mock method which deploys a cotract from source
+func DeployContractFromSourceMock(instanceMock *mock.InstanceMock, _ interface{}) {
 	instanceMock.AddMockMethod("deployContractFromSource", func() *mock.InstanceMock {
 		host := instanceMock.Host
 		instance := mock.GetMockInstance(host)
@@ -28,7 +29,7 @@ func DeployContractFromSourceMock(instanceMock *mock.InstanceMock, config interf
 		gasForInit := big.NewInt(0).SetBytes(arguments[2])
 
 		newAddress, err :=
-			elrondapi.DeployFromSourceContractWithTypedArgs(
+			vmhooks.DeployFromSourceContractWithTypedArgs(
 				host,
 				sourceContractAddress,
 				codeMetadata,
@@ -50,17 +51,18 @@ func DeployContractFromSourceMock(instanceMock *mock.InstanceMock, config interf
 	})
 }
 
-// InitMockMethod
+// InitMockMethod -
 func InitMockMethod(instanceMock *mock.InstanceMock, config interface{}) {
 	testConfig := config.(GasTestConfig)
 	instanceMock.AddMockMethod("init", testcommon.SimpleWasteGasMockMethod(instanceMock, testConfig.GetGasUsedByChild()))
 }
 
+// CallbackTestConfig -
 type CallbackTestConfig interface {
 	CallbackFails() bool
 }
 
-// CallbackMockMethodThatCouldFail
+// CallbackMockMethodThatCouldFail -
 func CallbackMockMethodThatCouldFail(instanceMock *mock.InstanceMock, config interface{}) {
 	testConfig := config.(CallbackTestConfig)
 	instanceMock.AddMockMethod("callBack", func() *mock.InstanceMock {
@@ -74,7 +76,8 @@ func CallbackMockMethodThatCouldFail(instanceMock *mock.InstanceMock, config int
 	})
 }
 
-func UpdateContractFromSourceMock(instanceMock *mock.InstanceMock, config interface{}) {
+// UpdateContractFromSourceMock -
+func UpdateContractFromSourceMock(instanceMock *mock.InstanceMock, _ interface{}) {
 	instanceMock.AddMockMethod("updateContractFromSource", func() *mock.InstanceMock {
 		host := instanceMock.Host
 		instance := mock.GetMockInstance(host)
@@ -91,7 +94,7 @@ func UpdateContractFromSourceMock(instanceMock *mock.InstanceMock, config interf
 		codeMetadata := arguments[2]
 		gasForInit := big.NewInt(0).SetBytes(arguments[3])
 
-		elrondapi.UpgradeFromSourceContractWithTypedArgs(
+		vmhooks.UpgradeFromSourceContractWithTypedArgs(
 			host,
 			sourceContractAddress,
 			destinationContractAddress,
