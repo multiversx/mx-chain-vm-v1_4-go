@@ -1,10 +1,11 @@
+//nolint:all
 package delegation
 
 import (
 	"fmt"
 	"math/big"
 
-	vmi "github.com/ElrondNetwork/elrond-vm-common"
+	vmi "github.com/multiversx/mx-chain-vm-common-go"
 )
 
 func (pfe *fuzzDelegationExecutor) stake(delegIndex int, amount *big.Int) error {
@@ -327,7 +328,7 @@ func (pfe *fuzzDelegationExecutor) purchaseStake(sellerIndex, buyerIndex int, am
 		pfe.log("purchaseStake, seller: %d, buyer: %d, amount: %d", sellerIndex, buyerIndex, amount)
 
 		// forward received sum
-		_, err := pfe.executeTxStep(fmt.Sprintf(`
+		_, err = pfe.executeTxStep(fmt.Sprintf(`
 		{
 			"step": "transfer",
 			"txId": "%d",
@@ -349,7 +350,7 @@ func (pfe *fuzzDelegationExecutor) purchaseStake(sellerIndex, buyerIndex int, am
 		pfe.log("purchaseStake, seller: %d, buyer: %d, amount: %d, fail, %s", sellerIndex, buyerIndex, amount, output.ReturnMessage)
 
 		// return the value
-		_, err := pfe.executeTxStep(fmt.Sprintf(`
+		_, err = pfe.executeTxStep(fmt.Sprintf(`
 		{
 			"step": "transfer",
 			"txId": "%d",

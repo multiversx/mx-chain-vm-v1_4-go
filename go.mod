@@ -1,20 +1,20 @@
-module github.com/ElrondNetwork/wasm-vm-v1_4
+module github.com/multiversx/mx-chain-vm-v1_4-go
 
 go 1.17
 
 require (
-	github.com/ElrondNetwork/big-int-util v0.1.0
-	github.com/ElrondNetwork/elrond-go-core v1.1.27-0.20221219143439-1bc10dae0ea9
-	github.com/ElrondNetwork/elrond-go-crypto v1.2.4-0.20221213102512-0180dd3e00ce
-	github.com/ElrondNetwork/elrond-go-logger v1.0.10
-	github.com/ElrondNetwork/elrond-vm-common v1.3.29-0.20221219143644-8d3505605a6d
-	github.com/btcsuite/btcd/btcec/v2 v2.2.0
+	github.com/btcsuite/btcd/btcec/v2 v2.3.2
 	github.com/btcsuite/btcd/chaincfg/chainhash v1.0.1
 	github.com/gin-gonic/gin v1.8.1
-	github.com/mitchellh/mapstructure v1.4.1
+	github.com/mitchellh/mapstructure v1.5.0
+	github.com/multiversx/mx-chain-core-go v1.1.33-0.20230202120347-d6f693e74417
+	github.com/multiversx/mx-chain-crypto-go v1.2.6-0.20230202152403-757f8ca0be13
+	github.com/multiversx/mx-chain-logger-go v1.0.11
+	github.com/multiversx/mx-chain-vm-common-go v1.3.37-0.20230202165947-64f070d656e3
+	github.com/multiversx/mx-components-big-int v0.1.1
 	github.com/pelletier/go-toml v1.9.3
-	github.com/stretchr/testify v1.8.0
-	github.com/urfave/cli v1.22.5
+	github.com/stretchr/testify v1.8.1
+	github.com/urfave/cli v1.22.10
 	golang.org/x/crypto v0.3.0
 )
 
