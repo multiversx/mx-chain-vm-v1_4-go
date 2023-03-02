@@ -7,10 +7,10 @@ require (
 	github.com/btcsuite/btcd/chaincfg/chainhash v1.0.1
 	github.com/gin-gonic/gin v1.8.1
 	github.com/mitchellh/mapstructure v1.5.0
-	github.com/multiversx/mx-chain-core-go v1.1.31-0.20230201095335-e38593a5c058
+	github.com/multiversx/mx-chain-core-go v1.1.33-0.20230302081652-216a1def2baf
 	github.com/multiversx/mx-chain-crypto-go v1.2.5
 	github.com/multiversx/mx-chain-logger-go v1.0.11
-	github.com/multiversx/mx-chain-vm-common-go v1.3.37-0.20230201122738-f39b966bf2fa
+	github.com/multiversx/mx-chain-vm-common-go v1.3.38-0.20230302094932-0baf7f88b42b
 	github.com/multiversx/mx-components-big-int v0.1.1
 	github.com/pelletier/go-toml v1.9.3
 	github.com/stretchr/testify v1.8.1

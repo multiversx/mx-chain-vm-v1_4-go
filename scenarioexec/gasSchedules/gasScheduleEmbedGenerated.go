@@ -1,4 +1,4 @@
-package gasschedules
+package gasschedules 
 
 // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 // !!!!!!!!!!!!!!!!!!!!!! AUTO-GENERATED FILE !!!!!!!!!!!!!!!!!!!!!!
@@ -25,8 +25,8 @@ const (
     ESDTNFTAddUri            = 500000
     ESDTNFTUpdateAttributes  = 500000
     ESDTNFTMultiTransfer     = 1000000
-    TrieLoad                 = 20000
-    TrieStore                = 50000
+    TrieLoadPerNode          = 20000
+    TrieStorePerNode         = 50000
 
 [MetaChainSystemSCsCost]
     Stake               = 5000000
@@ -714,8 +714,8 @@ const (
     ESDTNFTAddUri            = 50000
     ESDTNFTUpdateAttributes  = 50000
     ESDTNFTMultiTransfer     = 200000
-    TrieLoad                 = 20000
-    TrieStore                = 50000
+    TrieLoadPerNode          = 20000
+    TrieStorePerNode         = 50000
 
 [MetaChainSystemSCsCost]
     Stake                 = 5000000
