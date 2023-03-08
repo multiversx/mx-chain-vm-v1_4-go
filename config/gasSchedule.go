@@ -14,11 +14,12 @@ const isNegativeNumber = 1
 
 var AsyncCallbackGasLockForTests = uint64(100_000)
 
-var log = logger.GetOrCreate("arwen/config")
+var log = logger.GetOrCreate("vm/config")
 
 // GasScheduleMap (alias) is the map for gas schedule
 type GasScheduleMap = map[string]map[string]uint64
 
+// CreateGasConfig creates a new GasCost instance based on the provided gas schedule map
 func CreateGasConfig(gasMap GasScheduleMap) (*GasCost, error) {
 	baseOps := &BaseOperationCost{}
 	err := mapstructure.Decode(gasMap["BaseOperationCost"], baseOps)
@@ -195,12 +196,14 @@ func checkForZeroUint64Fields(arg interface{}) error {
 	return nil
 }
 
+// MakeGasMap creates a gas map with the provided value
 func MakeGasMap(value, asyncCallbackGasLock uint64) GasScheduleMap {
 	gasMap := make(GasScheduleMap)
 	gasMap = FillGasMap(gasMap, value, asyncCallbackGasLock)
 	return gasMap
 }
 
+// FillGasMap fills the gas map with the provided value
 func FillGasMap(gasMap GasScheduleMap, value, asyncCallbackGasLock uint64) GasScheduleMap {
 	gasMap["BuiltInCost"] = FillGasMapBuiltInCosts(value)
 	gasMap["BaseOperationCost"] = FillGasMapBaseOperationCosts(value)
@@ -216,6 +219,7 @@ func FillGasMap(gasMap GasScheduleMap, value, asyncCallbackGasLock uint64) GasSc
 	return gasMap
 }
 
+// FillGasMapBuiltInCosts will fill the gas map with the built in costs
 func FillGasMapBuiltInCosts(value uint64) map[string]uint64 {
 	gasMap := make(map[string]uint64)
 	gasMap["ChangeOwnerAddress"] = value
@@ -238,6 +242,7 @@ func FillGasMapBuiltInCosts(value uint64) map[string]uint64 {
 	return gasMap
 }
 
+// FillGasMapBaseOperationCosts will fill the gas map with the base operation costs
 func FillGasMapBaseOperationCosts(value uint64) map[string]uint64 {
 	gasMap := make(map[string]uint64)
 	gasMap["StorePerByte"] = value
@@ -251,6 +256,7 @@ func FillGasMapBaseOperationCosts(value uint64) map[string]uint64 {
 	return gasMap
 }
 
+// FillGasMapBaseOpsAPICosts will fill the gas map with the base operations API costs
 func FillGasMapBaseOpsAPICosts(value, asyncCallbackGasLock uint64) map[string]uint64 {
 	gasMap := make(map[string]uint64)
 	gasMap["GetSCAddress"] = value
@@ -299,6 +305,7 @@ func FillGasMapBaseOpsAPICosts(value, asyncCallbackGasLock uint64) map[string]ui
 	return gasMap
 }
 
+// FillGasMapEthereumAPICosts will fill the gas map with the ethereum API costs
 func FillGasMapEthereumAPICosts(value uint64) map[string]uint64 {
 	gasMap := make(map[string]uint64)
 	gasMap["UseGas"] = value
@@ -338,6 +345,7 @@ func FillGasMapEthereumAPICosts(value uint64) map[string]uint64 {
 	return gasMap
 }
 
+// FillGasMapBigIntAPICosts will fill the gas map with the provided value for all the BigInt API methods
 func FillGasMapBigIntAPICosts(value uint64) map[string]uint64 {
 	gasMap := make(map[string]uint64)
 	gasMap["BigIntNew"] = value
@@ -383,6 +391,7 @@ func FillGasMapBigIntAPICosts(value uint64) map[string]uint64 {
 	return gasMap
 }
 
+// FillGasMapBigFloatAPICosts will fill the gas map with the costs for the big float API
 func FillGasMapBigFloatAPICosts(value uint64) map[string]uint64 {
 	gasMap := make(map[string]uint64)
 	gasMap["BigFloatNewFromParts"] = value
@@ -407,6 +416,7 @@ func FillGasMapBigFloatAPICosts(value uint64) map[string]uint64 {
 	return gasMap
 }
 
+// FillGasMapCryptoAPICosts will fill the gas map with the costs for the crypto API
 func FillGasMapCryptoAPICosts(value uint64) map[string]uint64 {
 	gasMap := make(map[string]uint64)
 	gasMap["SHA256"] = value
@@ -430,6 +440,7 @@ func FillGasMapCryptoAPICosts(value uint64) map[string]uint64 {
 	return gasMap
 }
 
+// FillGasMapManagedBufferAPICosts will fill the gas map with the provided value for all managed buffer API functions
 func FillGasMapManagedBufferAPICosts(value uint64) map[string]uint64 {
 	gasMap := make(map[string]uint64)
 	gasMap["MBufferNew"] = value
@@ -456,6 +467,7 @@ func FillGasMapManagedBufferAPICosts(value uint64) map[string]uint64 {
 	return gasMap
 }
 
+// FillGasMapWASMOpcodeValues fills the gas map with the given value for all WASM opcodes
 func FillGasMapWASMOpcodeValues(value uint64) map[string]uint64 {
 	gasMap := make(map[string]uint64)
 	gasMap["Unreachable"] = value
@@ -927,6 +939,7 @@ func FillGasMapDynamicStorageLoad() map[string]uint64 {
 	return gasMap
 }
 
+// MakeGasMapForTests creates a gas map with the values needed for tests
 func MakeGasMapForTests() GasScheduleMap {
 	return MakeGasMap(GasValueForTests, AsyncCallbackGasLockForTests)
 }

@@ -2096,7 +2096,7 @@ func StorageLoadWithWithTypedArgs(host vmhost.VMHost, key []byte) ([]byte, error
 
 	err = storage.UseGasForStorageLoad(storageLoadName, int64(trieDepth), metering.GasSchedule().BaseOpsAPICost.StorageLoad, usedCache)
 	if err != nil {
-		return []byte{}, err
+		return nil, err
 	}
 
 	return data, nil

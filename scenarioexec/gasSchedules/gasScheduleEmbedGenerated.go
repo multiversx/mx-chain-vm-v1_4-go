@@ -695,6 +695,10 @@ const (
     MaxMemoryGrow = 8
     MaxMemoryGrowDelta = 10
 
+# Quadratic, Linear and Constant are the coefficients for a quadratic func. Separate variables are used for the
+# sign of each coefficient, 0 meaning + and 1 meaning -
+# The current values for the coefficients were computed based on benchmarking.
+# For the given coefficients, the minimum of the function must not be lower than MinimumGasCost
 [DynamicStorageLoad]
     QuadraticCoefficient = 688
     SignOfQuadratic = 0
@@ -1394,6 +1398,10 @@ const (
     MaxMemoryGrowDelta = 1
     MaxMemoryGrow = 100
 
+# Quadratic, Linear and Constant are the coefficients for a quadratic func. Separate variables are used for the
+# sign of each coefficient, 0 meaning + and 1 meaning -
+# The current values for the coefficients were computed based on benchmarking.
+# For the given coefficients, the minimum of the function must not be lower than MinimumGasCost
 [DynamicStorageLoad]
     QuadraticCoefficient = 688
     SignOfQuadratic = 0

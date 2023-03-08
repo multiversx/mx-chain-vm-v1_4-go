@@ -440,7 +440,8 @@ func (context *storageContext) IsInterfaceNil() bool {
 // GetStorageLoadCost returns the gas cost for the storage load operation
 func (context *storageContext) GetStorageLoadCost(trieDepth int64, staticGasCost uint64) (uint64, error) {
 	if context.host.EnableEpochsHandler().IsDynamicGasCostForDataTrieStorageLoadEnabled() {
-		return computeGasForStorageLoadBasedOnTrieDepth(trieDepth, context.host.Metering().GasSchedule().DynamicStorageLoad, staticGasCost)
+		dynamicStorageLoadCost := context.host.Metering().GasSchedule().DynamicStorageLoad
+		return computeGasForStorageLoadBasedOnTrieDepth(trieDepth, dynamicStorageLoadCost, staticGasCost)
 	}
 
 	return staticGasCost, nil
