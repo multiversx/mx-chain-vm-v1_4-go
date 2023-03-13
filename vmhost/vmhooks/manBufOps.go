@@ -688,7 +688,7 @@ func v1_4_mBufferStorageLoad(context unsafe.Pointer, keyHandle int32, destinatio
 
 	storageBytes, trieDepth, usedCache, err := storage.GetStorage(key)
 	if vmhost.WithFault(err, context, runtime.ManagedBufferAPIErrorShouldFailExecution()) {
-		return 0
+		return 1
 	}
 
 	err = storage.UseGasForStorageLoad(mBufferStorageLoadName, int64(trieDepth), metering.GasSchedule().ManagedBufferAPICost.MBufferStorageLoad, usedCache)
