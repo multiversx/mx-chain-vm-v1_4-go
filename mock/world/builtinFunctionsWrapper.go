@@ -38,7 +38,7 @@ func NewBuiltinFunctionsWrapper(
 		MapDNSAddresses:                  dnsMap,
 		Marshalizer:                      WorldMarshalizer,
 		Accounts:                         world.AccountsAdapter,
-    GuardedAccountHandler:            world.GuardedAccountHandler,
+		GuardedAccountHandler:            world.GuardedAccountHandler,
 		ShardCoordinator:                 world,
 		MaxNumOfAddressesForTransferRole: 100,
 		EnableEpochsHandler: &mock.EnableEpochsHandlerStub{
