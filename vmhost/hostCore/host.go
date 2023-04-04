@@ -175,6 +175,8 @@ func NewVMHost(
 		wasmer.SetSIGSEGVPassthrough()
 	}
 
+	wasmer.ForceInstallSighandlers()
+
 	host.initContexts()
 	hostParameters.EpochNotifier.RegisterNotifyHandler(host)
 
