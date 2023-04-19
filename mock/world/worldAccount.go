@@ -5,7 +5,6 @@ import (
 	"errors"
 	"math/big"
 
-	"github.com/multiversx/mx-chain-core-go/core"
 	vmcommon "github.com/multiversx/mx-chain-vm-common-go"
 )
 
@@ -279,6 +278,6 @@ func cloneBytes(b []byte) []byte {
 }
 
 // MigrateDataTrieLeaves -
-func (a *Account) MigrateDataTrieLeaves(_ core.TrieNodeVersion, _ core.TrieNodeVersion, _ vmcommon.DataTrieMigrator) error {
+func (a *Account) MigrateDataTrieLeaves(_ vmcommon.ArgsMigrateDataTrieLeaves) error {
 	return nil
 }
