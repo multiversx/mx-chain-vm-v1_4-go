@@ -1,6 +1,7 @@
 package mock
 
 import (
+	"errors"
 	"math/big"
 
 	"github.com/multiversx/mx-chain-core-go/data/esdt"
@@ -38,6 +39,11 @@ type BlockchainHookStub struct {
 	GetESDTTokenCalled            func(address []byte, tokenID []byte, nonce uint64) (*esdt.ESDigitalToken, error)
 	GetSnapshotCalled             func() int
 	RevertToSnapshotCalled        func(snapshot int) error
+}
+
+// ExecuteSmartContractCallOnOtherVM -
+func (b *BlockchainHookStub) ExecuteSmartContractCallOnOtherVM(_ *vmcommon.ContractCallInput) (*vmcommon.VMOutput, error) {
+	return nil, errors.New("not implemented")
 }
 
 // NewAddress mocked method
