@@ -550,7 +550,7 @@ func TestOutputContext_WriteLog(t *testing.T) {
 	outputContext.WriteLog(address, topics, data)
 	require.Equal(t, len(outputContext.outputState.Logs), 1)
 	require.Equal(t, outputContext.outputState.Logs[0].Address, address)
-	require.Equal(t, outputContext.outputState.Logs[0].Data, data)
+	require.Equal(t, outputContext.outputState.Logs[0].Data, [][]byte{data})
 	require.Equal(t, outputContext.outputState.Logs[0].Identifier, []byte("function"))
 	require.Empty(t, outputContext.outputState.Logs[0].Topics)
 
