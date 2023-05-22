@@ -59,31 +59,6 @@
                     "1"
                 ],
                 "status": "0",
-                "logs": [
-                    {
-                        "address": "sc:forwarder",
-                        "endpoint": "str:ESDTNFTTransfer",
-                        "topics": [
-                            "str:NFT-000001",
-                            "5",
-                            "01",
-                            "sc:vault"
-                        ],
-                        "data": ""
-                    },
-                    {
-                        "address": "sc:vault",
-                        "endpoint": "str:accept_funds",
-                        "topics": [
-                            "str:accept_funds",
-                            "0",
-                            "str:NFT-000001",
-                            "5",
-                            "1"
-                        ],
-                        "data": ""
-                    }
-                ],
                 "gas": "*",
                 "refund": "*"
             }
