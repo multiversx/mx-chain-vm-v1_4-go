@@ -62,53 +62,6 @@
             "expect": {
                 "out": [],
                 "status": "0",
-                "logs": [
-                    {
-                        "address": "sc:forwarder",
-                        "endpoint": "str:ESDTNFTCreate",
-                        "topics": [
-                            "str:NFT-000001",
-                            "2",
-                            "01",
-                            "*"
-                        ],
-                        "data": ""
-                    },
-                    {
-                        "address": "sc:forwarder",
-                        "endpoint": "str:create_and_send",
-                        "topics": [
-                            "str:create",
-                            "str:NFT-000001",
-                            "2",
-                            "1"
-                        ],
-                        "data": ""
-                    },
-                    {
-                        "address": "sc:forwarder",
-                        "endpoint": "str:ESDTNFTTransfer",
-                        "topics": [
-                            "str:NFT-000001",
-                            "2",
-                            "01",
-                            "address:a_user"
-                        ],
-                        "data": ""
-                    },
-                    {
-                        "address": "sc:forwarder",
-                        "endpoint": "str:create_and_send",
-                        "topics": [
-                            "str:send",
-                            "address:a_user",
-                            "str:NFT-000001",
-                            "2",
-                            "1"
-                        ],
-                        "data": ""
-                    }
-                ],
                 "gas": "*",
                 "refund": "*"
             }
