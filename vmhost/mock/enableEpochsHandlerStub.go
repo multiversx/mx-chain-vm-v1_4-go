@@ -41,6 +41,7 @@ type EnableEpochsHandlerStub struct {
 	IsGuardAccountEnabledField                           bool
 	IsSetGuardianEnabledField                            bool
 	IsChangeUsernameEnabledField                         bool
+	IsConsistentTokensValuesLengthCheckEnabledField      bool
 	IsAutoBalanceDataTriesEnabledField                   bool
 	MultiESDTTransferAsyncCallBackEnableEpochField       uint32
 	FixOOGReturnCodeEnableEpochField                     uint32
@@ -227,6 +228,11 @@ func (stub *EnableEpochsHandlerStub) IsAlwaysSaveTokenMetaDataEnabled() bool {
 // IsChangeUsernameEnabled -
 func (stub *EnableEpochsHandlerStub) IsChangeUsernameEnabled() bool {
 	return stub.IsChangeUsernameEnabledField
+}
+
+// IsConsistentTokensValuesLengthCheckEnabled -
+func (stub *EnableEpochsHandlerStub) IsConsistentTokensValuesLengthCheckEnabled() bool {
+	return stub.IsConsistentTokensValuesLengthCheckEnabledField
 }
 
 // IsAutoBalanceDataTriesEnabled -
