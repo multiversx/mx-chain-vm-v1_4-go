@@ -1,4 +1,4 @@
-package gasschedules
+package gasschedules 
 
 // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 // !!!!!!!!!!!!!!!!!!!!!! AUTO-GENERATED FILE !!!!!!!!!!!!!!!!!!!!!!
@@ -25,6 +25,9 @@ const (
     ESDTNFTAddUri            = 500000
     ESDTNFTUpdateAttributes  = 500000
     ESDTNFTMultiTransfer     = 1000000
+    SetGuardian              = 250000
+    GuardAccount             = 250000
+    UnGuardAccount           = 250000
 
 [MetaChainSystemSCsCost]
     Stake               = 5000000
@@ -712,6 +715,9 @@ const (
     ESDTNFTAddUri            = 50000
     ESDTNFTUpdateAttributes  = 50000
     ESDTNFTMultiTransfer     = 200000
+    SetGuardian              = 250000
+    GuardAccount             = 250000
+    UnGuardAccount           = 250000
 
 [MetaChainSystemSCsCost]
     Stake                 = 5000000
