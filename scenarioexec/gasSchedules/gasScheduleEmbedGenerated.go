@@ -1,4 +1,4 @@
-package gasschedules 
+package gasschedules
 
 // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 // !!!!!!!!!!!!!!!!!!!!!! AUTO-GENERATED FILE !!!!!!!!!!!!!!!!!!!!!!
@@ -28,6 +28,8 @@ const (
     SetGuardian              = 250000
     GuardAccount             = 250000
     UnGuardAccount           = 250000
+    TrieLoadPerNode          = 20000
+    TrieStorePerNode         = 50000
 
 [MetaChainSystemSCsCost]
     Stake               = 5000000
@@ -718,6 +720,8 @@ const (
     SetGuardian              = 250000
     GuardAccount             = 250000
     UnGuardAccount           = 250000
+    TrieLoadPerNode          = 20000
+    TrieStorePerNode         = 50000
 
 [MetaChainSystemSCsCost]
     Stake                 = 5000000
