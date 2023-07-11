@@ -113,7 +113,8 @@ func (context *storageContext) GetStorage(key []byte) ([]byte, bool, error) {
 func (context *storageContext) useGasForValueIfNeeded(value []byte, usedCache bool) {
 	metering := context.host.Metering()
 	enableEpochsHandler := context.host.EnableEpochsHandler()
-	gasFlagSet := enableEpochsHandler.IsStorageAPICostOptimizationFlagEnabled()
+	currentEpoch := enableEpochsHandler.GetCurrentEpoch()
+	gasFlagSet := enableEpochsHandler.IsStorageAPICostOptimizationFlagEnabledInEpoch(currentEpoch)
 	if !usedCache || !gasFlagSet {
 		costPerByte := metering.GasSchedule().BaseOperationCost.DataCopyPerByte
 		gasToUse := math.MulUint64(costPerByte, uint64(len(value)))
@@ -128,7 +129,8 @@ func (context *storageContext) useExtraGasForKeyIfNeeded(key []byte, usedCache b
 		return
 	}
 	enableEpochsHandler := context.host.EnableEpochsHandler()
-	gasFlagSet := enableEpochsHandler.IsStorageAPICostOptimizationFlagEnabled()
+	currentEpoch := enableEpochsHandler.GetCurrentEpoch()
+	gasFlagSet := enableEpochsHandler.IsStorageAPICostOptimizationFlagEnabledInEpoch(currentEpoch)
 	if !gasFlagSet || !usedCache {
 		gasToUse := math.MulUint64(metering.GasSchedule().BaseOperationCost.DataCopyPerByte, uint64(extraBytes))
 		metering.UseGas(gasToUse)
@@ -170,7 +172,8 @@ func (context *storageContext) getStorageFromAddressUnmetered(address []byte, ke
 	var err error
 
 	enableEpochsHandler := context.host.EnableEpochsHandler()
-	if context.isProtocolProtectedKey(key) && enableEpochsHandler.IsStorageAPICostOptimizationFlagEnabled() {
+	currentEpoch := enableEpochsHandler.GetCurrentEpoch()
+	if context.isProtocolProtectedKey(key) && enableEpochsHandler.IsStorageAPICostOptimizationFlagEnabledInEpoch(currentEpoch) {
 		value, err = context.readFromBlockchain(address, key)
 		return value, false, err
 	}
@@ -363,7 +366,8 @@ func (context *storageContext) computeGasForUnchangedValue(length int, usedCache
 	metering := context.host.Metering()
 	useGas := uint64(0)
 	enableEpochsHandler := context.host.EnableEpochsHandler()
-	if !usedCache || !enableEpochsHandler.IsStorageAPICostOptimizationFlagEnabled() {
+	currentEpoch := enableEpochsHandler.GetCurrentEpoch()
+	if !usedCache || !enableEpochsHandler.IsStorageAPICostOptimizationFlagEnabledInEpoch(currentEpoch) {
 		useGas = math.MulUint64(metering.GasSchedule().BaseOperationCost.DataCopyPerByte, uint64(length))
 	}
 	return useGas
@@ -397,8 +401,9 @@ func (context *storageContext) computeGasForKey(key []byte, usedCache bool) uint
 	extraBytes := len(key) - vmhost.AddressLen
 	extraKeyLenGas := uint64(0)
 	enableEpochsHandler := context.host.EnableEpochsHandler()
+	currentEpoch := enableEpochsHandler.GetCurrentEpoch()
 	if extraBytes > 0 &&
-		(!usedCache || !enableEpochsHandler.IsStorageAPICostOptimizationFlagEnabled()) {
+		(!usedCache || !enableEpochsHandler.IsStorageAPICostOptimizationFlagEnabledInEpoch(currentEpoch)) {
 		extraKeyLenGas = math.MulUint64(metering.GasSchedule().BaseOperationCost.DataCopyPerByte, uint64(extraBytes))
 	}
 	return extraKeyLenGas
@@ -408,7 +413,8 @@ func (context *storageContext) computeGasForKey(key []byte, usedCache bool) uint
 func (context *storageContext) UseGasForStorageLoad(tracedFunctionName string, loadCost uint64, usedCache bool) {
 	metering := context.host.Metering()
 	enableEpochsHandler := context.host.EnableEpochsHandler()
-	if enableEpochsHandler.IsStorageAPICostOptimizationFlagEnabled() && usedCache {
+	currentEpoch := enableEpochsHandler.GetCurrentEpoch()
+	if enableEpochsHandler.IsStorageAPICostOptimizationFlagEnabledInEpoch(currentEpoch) && usedCache {
 		loadCost = metering.GasSchedule().BaseOpsAPICost.CachedStorageLoad
 	}
 
@@ -418,7 +424,8 @@ func (context *storageContext) UseGasForStorageLoad(tracedFunctionName string, l
 // IsUseDifferentGasCostFlagSet - getter for flag
 func (context *storageContext) IsUseDifferentGasCostFlagSet() bool {
 	enableEpochsHandler := context.host.EnableEpochsHandler()
-	return enableEpochsHandler.IsStorageAPICostOptimizationFlagEnabled()
+	currentEpoch := enableEpochsHandler.GetCurrentEpoch()
+	return enableEpochsHandler.IsStorageAPICostOptimizationFlagEnabledInEpoch(currentEpoch)
 }
 
 // IsInterfaceNil returns true if there is no value under the interface

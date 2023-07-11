@@ -1,14 +1,13 @@
 package mock
 
-import vmcommon "github.com/multiversx/mx-chain-vm-common-go"
+import (
+	"github.com/multiversx/mx-chain-vm-v1_4-go/vmhost"
+)
 
-var _ vmcommon.EnableEpochsHandler = (*EnableEpochsHandlerStub)(nil)
+var _ vmhost.EnableEpochsHandler = (*EnableEpochsHandlerStub)(nil)
 
 // EnableEpochsHandlerStub -
 type EnableEpochsHandlerStub struct {
-	IsGlobalMintBurnFlagEnabledField                     bool
-	IsESDTTransferRoleFlagEnabledField                   bool
-	IsBuiltInFunctionsFlagEnabledField                   bool
 	IsCheckCorrectTokenIDForTransferRoleFlagEnabledField bool
 	IsMultiESDTTransferFixOnCallBackFlagEnabledField     bool
 	IsFixOOGReturnCodeFlagEnabledField                   bool
@@ -17,32 +16,13 @@ type EnableEpochsHandlerStub struct {
 	IsStorageAPICostOptimizationFlagEnabledField         bool
 	IsFailExecutionOnEveryAPIErrorFlagEnabledField       bool
 	IsManagedCryptoAPIsFlagEnabledField                  bool
-	IsSCDeployFlagEnabledField                           bool
-	IsAheadOfTimeGasUsageFlagEnabledField                bool
-	IsRepairCallbackFlagEnabledField                     bool
 	IsDisableExecByCallerFlagEnabledField                bool
 	IsRefactorContextFlagEnabledField                    bool
-	IsCheckFunctionArgumentFlagEnabledField              bool
 	IsCheckExecuteOnReadOnlyFlagEnabledField             bool
-	IsFixAsyncCallbackCheckFlagEnabledField              bool
-	IsSaveToSystemAccountFlagEnabledField                bool
-	IsCheckFrozenCollectionFlagEnabledField              bool
-	IsSendAlwaysFlagEnabledField                         bool
-	IsValueLengthCheckFlagEnabledField                   bool
-	IsCheckTransferFlagEnabledField                      bool
-	IsTransferToMetaFlagEnabledField                     bool
-	IsESDTNFTImprovementV1FlagEnabledField               bool
-	IsFixOldTokenLiquidityEnabledField                   bool
 	IsRuntimeMemStoreLimitEnabledField                   bool
 	IsRuntimeCodeSizeFixEnabledField                     bool
-	IsMaxBlockchainHookCountersFlagEnabledField          bool
-	IsWipeSingleNFTLiquidityDecreaseEnabledField         bool
-	IsAlwaysSaveTokenMetaDataEnabledField                bool
-	IsGuardAccountEnabledField                           bool
-	IsSetGuardianEnabledField                            bool
-	IsChangeUsernameEnabledField                         bool
-	IsConsistentTokensValuesLengthCheckEnabledField      bool
 	IsAutoBalanceDataTriesEnabledField                   bool
+	GetCurrentEpochField                                 uint32
 	MultiESDTTransferAsyncCallBackEnableEpochField       uint32
 	FixOOGReturnCodeEnableEpochField                     uint32
 	RemoveNonUpdatedStorageEnableEpochField              uint32
@@ -55,184 +35,69 @@ type EnableEpochsHandlerStub struct {
 	StorageAPICostOptimizationEnableEpochField           uint32
 }
 
-// IsGuardAccountEnabled -
-func (stub *EnableEpochsHandlerStub) IsGuardAccountEnabled() bool {
-	return stub.IsGuardAccountEnabledField
+// GetCurrentEpoch -
+func (stub *EnableEpochsHandlerStub) GetCurrentEpoch() uint32 {
+	return stub.GetCurrentEpochField
 }
 
-// IsSetGuardianEnabled -
-func (stub *EnableEpochsHandlerStub) IsSetGuardianEnabled() bool {
-	return stub.IsSetGuardianEnabledField
-}
-
-// IsFixOldTokenLiquidityEnabled -
-func (stub *EnableEpochsHandlerStub) IsFixOldTokenLiquidityEnabled() bool {
-	return stub.IsFixOldTokenLiquidityEnabledField
-}
-
-// IsGlobalMintBurnFlagEnabled -
-func (stub *EnableEpochsHandlerStub) IsGlobalMintBurnFlagEnabled() bool {
-	return stub.IsGlobalMintBurnFlagEnabledField
-}
-
-// IsESDTTransferRoleFlagEnabled -
-func (stub *EnableEpochsHandlerStub) IsESDTTransferRoleFlagEnabled() bool {
-	return stub.IsESDTTransferRoleFlagEnabledField
-}
-
-// IsBuiltInFunctionsFlagEnabled -
-func (stub *EnableEpochsHandlerStub) IsBuiltInFunctionsFlagEnabled() bool {
-	return stub.IsBuiltInFunctionsFlagEnabledField
-}
-
-// IsCheckCorrectTokenIDForTransferRoleFlagEnabled -
-func (stub *EnableEpochsHandlerStub) IsCheckCorrectTokenIDForTransferRoleFlagEnabled() bool {
-	return stub.IsCheckCorrectTokenIDForTransferRoleFlagEnabledField
-}
-
-// IsMultiESDTTransferFixOnCallBackFlagEnabled -
-func (stub *EnableEpochsHandlerStub) IsMultiESDTTransferFixOnCallBackFlagEnabled() bool {
-	return stub.IsMultiESDTTransferFixOnCallBackFlagEnabledField
-}
-
-// IsFixOOGReturnCodeFlagEnabled -
-func (stub *EnableEpochsHandlerStub) IsFixOOGReturnCodeFlagEnabled() bool {
-	return stub.IsFixOOGReturnCodeFlagEnabledField
-}
-
-// IsRemoveNonUpdatedStorageFlagEnabled -
-func (stub *EnableEpochsHandlerStub) IsRemoveNonUpdatedStorageFlagEnabled() bool {
-	return stub.IsRemoveNonUpdatedStorageFlagEnabledField
-}
-
-// IsCreateNFTThroughExecByCallerFlagEnabled -
-func (stub *EnableEpochsHandlerStub) IsCreateNFTThroughExecByCallerFlagEnabled() bool {
-	return stub.IsCreateNFTThroughExecByCallerFlagEnabledField
-}
-
-// IsStorageAPICostOptimizationFlagEnabled -
-func (stub *EnableEpochsHandlerStub) IsStorageAPICostOptimizationFlagEnabled() bool {
+// IsStorageAPICostOptimizationFlagEnabledInEpoch -
+func (stub *EnableEpochsHandlerStub) IsStorageAPICostOptimizationFlagEnabledInEpoch(_ uint32) bool {
 	return stub.IsStorageAPICostOptimizationFlagEnabledField
 }
 
-// IsFailExecutionOnEveryAPIErrorFlagEnabled -
-func (stub *EnableEpochsHandlerStub) IsFailExecutionOnEveryAPIErrorFlagEnabled() bool {
-	return stub.IsFailExecutionOnEveryAPIErrorFlagEnabledField
-}
-
-// IsManagedCryptoAPIsFlagEnabled -
-func (stub *EnableEpochsHandlerStub) IsManagedCryptoAPIsFlagEnabled() bool {
+// IsManagedCryptoAPIsFlagEnabledInEpoch -
+func (stub *EnableEpochsHandlerStub) IsManagedCryptoAPIsFlagEnabledInEpoch(_ uint32) bool {
 	return stub.IsManagedCryptoAPIsFlagEnabledField
 }
 
-// IsSCDeployFlagEnabled -
-func (stub *EnableEpochsHandlerStub) IsSCDeployFlagEnabled() bool {
-	return stub.IsSCDeployFlagEnabledField
+// IsMultiESDTTransferFixOnCallBackFlagEnabledInEpoch -
+func (stub *EnableEpochsHandlerStub) IsMultiESDTTransferFixOnCallBackFlagEnabledInEpoch(_ uint32) bool {
+	return stub.IsMultiESDTTransferFixOnCallBackFlagEnabledField
 }
 
-// IsAheadOfTimeGasUsageFlagEnabled -
-func (stub *EnableEpochsHandlerStub) IsAheadOfTimeGasUsageFlagEnabled() bool {
-	return stub.IsAheadOfTimeGasUsageFlagEnabledField
+// IsRemoveNonUpdatedStorageFlagEnabledInEpoch -
+func (stub *EnableEpochsHandlerStub) IsRemoveNonUpdatedStorageFlagEnabledInEpoch(_ uint32) bool {
+	return stub.IsRemoveNonUpdatedStorageFlagEnabledField
 }
 
-// IsRepairCallbackFlagEnabled -
-func (stub *EnableEpochsHandlerStub) IsRepairCallbackFlagEnabled() bool {
-	return stub.IsRepairCallbackFlagEnabledField
-}
-
-// IsDisableExecByCallerFlagEnabled -
-func (stub *EnableEpochsHandlerStub) IsDisableExecByCallerFlagEnabled() bool {
-	return stub.IsDisableExecByCallerFlagEnabledField
-}
-
-// IsRefactorContextFlagEnabled -
-func (stub *EnableEpochsHandlerStub) IsRefactorContextFlagEnabled() bool {
+// IsRefactorContextFlagEnabledInEpoch -
+func (stub *EnableEpochsHandlerStub) IsRefactorContextFlagEnabledInEpoch(_ uint32) bool {
 	return stub.IsRefactorContextFlagEnabledField
 }
 
-// IsCheckFunctionArgumentFlagEnabled -
-func (stub *EnableEpochsHandlerStub) IsCheckFunctionArgumentFlagEnabled() bool {
-	return stub.IsCheckFunctionArgumentFlagEnabledField
+// IsFailExecutionOnEveryAPIErrorFlagEnabledInEpoch -
+func (stub *EnableEpochsHandlerStub) IsFailExecutionOnEveryAPIErrorFlagEnabledInEpoch(_ uint32) bool {
+	return stub.IsFailExecutionOnEveryAPIErrorFlagEnabledField
 }
 
-// IsCheckExecuteOnReadOnlyFlagEnabled -
-func (stub *EnableEpochsHandlerStub) IsCheckExecuteOnReadOnlyFlagEnabled() bool {
+// IsFixOOGReturnCodeFlagEnabledInEpoch -
+func (stub *EnableEpochsHandlerStub) IsFixOOGReturnCodeFlagEnabledInEpoch(_ uint32) bool {
+	return stub.IsFixOOGReturnCodeFlagEnabledField
+}
+
+// IsCreateNFTThroughExecByCallerFlagEnabledInEpoch -
+func (stub *EnableEpochsHandlerStub) IsCreateNFTThroughExecByCallerFlagEnabledInEpoch(_ uint32) bool {
+	return stub.IsCreateNFTThroughExecByCallerFlagEnabledField
+}
+
+// IsDisableExecByCallerFlagEnabledInEpoch -
+func (stub *EnableEpochsHandlerStub) IsDisableExecByCallerFlagEnabledInEpoch(_ uint32) bool {
+	return stub.IsDisableExecByCallerFlagEnabledField
+}
+
+// IsCheckExecuteOnReadOnlyFlagEnabledInEpoch -
+func (stub *EnableEpochsHandlerStub) IsCheckExecuteOnReadOnlyFlagEnabledInEpoch(_ uint32) bool {
 	return stub.IsCheckExecuteOnReadOnlyFlagEnabledField
 }
 
-// IsFixAsyncCallbackCheckFlagEnabled -
-func (stub *EnableEpochsHandlerStub) IsFixAsyncCallbackCheckFlagEnabled() bool {
-	return stub.IsFixAsyncCallbackCheckFlagEnabledField
-}
-
-// IsSaveToSystemAccountFlagEnabled -
-func (stub *EnableEpochsHandlerStub) IsSaveToSystemAccountFlagEnabled() bool {
-	return stub.IsSaveToSystemAccountFlagEnabledField
-}
-
-// IsCheckFrozenCollectionFlagEnabled -
-func (stub *EnableEpochsHandlerStub) IsCheckFrozenCollectionFlagEnabled() bool {
-	return stub.IsCheckFrozenCollectionFlagEnabledField
-}
-
-// IsSendAlwaysFlagEnabled -
-func (stub *EnableEpochsHandlerStub) IsSendAlwaysFlagEnabled() bool {
-	return stub.IsSendAlwaysFlagEnabledField
-}
-
-// IsValueLengthCheckFlagEnabled -
-func (stub *EnableEpochsHandlerStub) IsValueLengthCheckFlagEnabled() bool {
-	return stub.IsValueLengthCheckFlagEnabledField
-}
-
-// IsCheckTransferFlagEnabled -
-func (stub *EnableEpochsHandlerStub) IsCheckTransferFlagEnabled() bool {
-	return stub.IsCheckTransferFlagEnabledField
-}
-
-// IsTransferToMetaFlagEnabled -
-func (stub *EnableEpochsHandlerStub) IsTransferToMetaFlagEnabled() bool {
-	return stub.IsTransferToMetaFlagEnabledField
-}
-
-// IsESDTNFTImprovementV1FlagEnabled -
-func (stub *EnableEpochsHandlerStub) IsESDTNFTImprovementV1FlagEnabled() bool {
-	return stub.IsESDTNFTImprovementV1FlagEnabledField
-}
-
-// IsRuntimeMemStoreLimitEnabled -
-func (stub *EnableEpochsHandlerStub) IsRuntimeMemStoreLimitEnabled() bool {
-	return stub.IsRuntimeMemStoreLimitEnabledField
-}
-
-// IsRuntimeCodeSizeFixEnabled -
-func (stub *EnableEpochsHandlerStub) IsRuntimeCodeSizeFixEnabled() bool {
+// IsRuntimeCodeSizeFixEnabledInEpoch -
+func (stub *EnableEpochsHandlerStub) IsRuntimeCodeSizeFixEnabledInEpoch(_ uint32) bool {
 	return stub.IsRuntimeCodeSizeFixEnabledField
 }
 
-// IsMaxBlockchainHookCountersFlagEnabled -
-func (stub *EnableEpochsHandlerStub) IsMaxBlockchainHookCountersFlagEnabled() bool {
-	return stub.IsMaxBlockchainHookCountersFlagEnabledField
-}
-
-// IsWipeSingleNFTLiquidityDecreaseEnabled -
-func (stub *EnableEpochsHandlerStub) IsWipeSingleNFTLiquidityDecreaseEnabled() bool {
-	return stub.IsWipeSingleNFTLiquidityDecreaseEnabledField
-}
-
-// IsAlwaysSaveTokenMetaDataEnabled -
-func (stub *EnableEpochsHandlerStub) IsAlwaysSaveTokenMetaDataEnabled() bool {
-	return stub.IsAlwaysSaveTokenMetaDataEnabledField
-}
-
-// IsChangeUsernameEnabled -
-func (stub *EnableEpochsHandlerStub) IsChangeUsernameEnabled() bool {
-	return stub.IsChangeUsernameEnabledField
-}
-
-// IsConsistentTokensValuesLengthCheckEnabled -
-func (stub *EnableEpochsHandlerStub) IsConsistentTokensValuesLengthCheckEnabled() bool {
-	return stub.IsConsistentTokensValuesLengthCheckEnabledField
+// IsRuntimeMemStoreLimitEnabledInEpoch -
+func (stub *EnableEpochsHandlerStub) IsRuntimeMemStoreLimitEnabledInEpoch(_ uint32) bool {
+	return stub.IsRuntimeMemStoreLimitEnabledField
 }
 
 // IsAutoBalanceDataTriesEnabled -

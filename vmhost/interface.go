@@ -38,7 +38,7 @@ type VMHost interface {
 	Output() OutputContext
 	Metering() MeteringContext
 	Storage() StorageContext
-	EnableEpochsHandler() vmcommon.EnableEpochsHandler
+	EnableEpochsHandler() EnableEpochsHandler
 
 	ExecuteESDTTransfer(destination []byte, sender []byte, esdtTransfers []*vmcommon.ESDTTransfer, callType vm.CallType) (*vmcommon.VMOutput, uint64, error)
 	CreateNewContract(input *vmcommon.ContractCreateInput) ([]byte, error)
@@ -338,5 +338,35 @@ type GasTracing interface {
 type HashComputer interface {
 	Compute(string) []byte
 	Size() int
+	IsInterfaceNil() bool
+}
+
+// EnableEpochsHandler is used to verify which flags are set in a specific epoch based on EnableEpochs config
+type EnableEpochsHandler interface {
+	GetCurrentEpoch() uint32
+	CheckExecuteReadOnlyEnableEpoch() uint32
+	DisableExecByCallerEnableEpoch() uint32
+	RefactorContextEnableEpoch() uint32
+	FixFailExecutionOnErrorEnableEpoch() uint32
+	ManagedCryptoAPIEnableEpoch() uint32
+	CreateNFTThroughExecByCallerEnableEpoch() uint32
+	FixOOGReturnCodeEnableEpoch() uint32
+	MultiESDTTransferAsyncCallBackEnableEpoch() uint32
+	RemoveNonUpdatedStorageEnableEpoch() uint32
+	StorageAPICostOptimizationEnableEpoch() uint32
+
+	IsStorageAPICostOptimizationFlagEnabledInEpoch(epoch uint32) bool
+	IsManagedCryptoAPIsFlagEnabledInEpoch(epoch uint32) bool
+	IsMultiESDTTransferFixOnCallBackFlagEnabledInEpoch(epoch uint32) bool
+	IsRemoveNonUpdatedStorageFlagEnabledInEpoch(epoch uint32) bool
+	IsRefactorContextFlagEnabledInEpoch(epoch uint32) bool
+	IsFailExecutionOnEveryAPIErrorFlagEnabledInEpoch(epoch uint32) bool
+	IsFixOOGReturnCodeFlagEnabledInEpoch(epoch uint32) bool
+	IsCreateNFTThroughExecByCallerFlagEnabledInEpoch(epoch uint32) bool
+	IsDisableExecByCallerFlagEnabledInEpoch(epoch uint32) bool
+	IsCheckExecuteOnReadOnlyFlagEnabledInEpoch(epoch uint32) bool
+	IsRuntimeCodeSizeFixEnabledInEpoch(epoch uint32) bool
+	IsRuntimeMemStoreLimitEnabledInEpoch(epoch uint32) bool
+
 	IsInterfaceNil() bool
 }

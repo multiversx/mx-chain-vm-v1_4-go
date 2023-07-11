@@ -7,8 +7,8 @@ import (
 	"github.com/multiversx/mx-chain-core-go/marshal"
 	vmcommon "github.com/multiversx/mx-chain-vm-common-go"
 	"github.com/multiversx/mx-chain-vm-common-go/builtInFunctions"
+	"github.com/multiversx/mx-chain-vm-common-go/mock"
 	"github.com/multiversx/mx-chain-vm-v1_4-go/config"
-	"github.com/multiversx/mx-chain-vm-v1_4-go/vmhost/mock"
 )
 
 // WorldMarshalizer is the global marshalizer to be used by the components of
@@ -43,16 +43,7 @@ func NewBuiltinFunctionsWrapper(
 		ShardCoordinator:                 world,
 		MaxNumOfAddressesForTransferRole: 100,
 		EnableEpochsHandler: &mock.EnableEpochsHandlerStub{
-			IsStorageAPICostOptimizationFlagEnabledField:         true,
-			IsMultiESDTTransferFixOnCallBackFlagEnabledField:     true,
-			IsFixOOGReturnCodeFlagEnabledField:                   true,
-			IsRemoveNonUpdatedStorageFlagEnabledField:            true,
-			IsCreateNFTThroughExecByCallerFlagEnabledField:       true,
-			IsManagedCryptoAPIsFlagEnabledField:                  true,
-			IsFailExecutionOnEveryAPIErrorFlagEnabledField:       true,
-			IsRefactorContextFlagEnabledField:                    true,
 			IsCheckCorrectTokenIDForTransferRoleFlagEnabledField: true,
-			IsDisableExecByCallerFlagEnabledField:                true,
 			IsESDTTransferRoleFlagEnabledField:                   true,
 			IsGlobalMintBurnFlagEnabledField:                     true,
 			IsTransferToMetaFlagEnabledField:                     true,
@@ -61,13 +52,8 @@ func NewBuiltinFunctionsWrapper(
 			IsESDTNFTImprovementV1FlagEnabledField:               true,
 			IsSaveToSystemAccountFlagEnabledField:                true,
 			IsValueLengthCheckFlagEnabledField:                   true,
-			IsSCDeployFlagEnabledField:                           true,
-			IsRepairCallbackFlagEnabledField:                     true,
-			IsAheadOfTimeGasUsageFlagEnabledField:                true,
 			IsCheckFunctionArgumentFlagEnabledField:              true,
-			IsCheckExecuteOnReadOnlyFlagEnabledField:             true,
 			IsFixOldTokenLiquidityEnabledField:                   true,
-			IsChangeUsernameEnabledField:                         false,
 		},
 	}
 
