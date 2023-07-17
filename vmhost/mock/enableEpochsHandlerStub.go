@@ -38,6 +38,11 @@ type EnableEpochsHandlerStub struct {
 	IsMaxBlockchainHookCountersFlagEnabledField          bool
 	IsWipeSingleNFTLiquidityDecreaseEnabledField         bool
 	IsAlwaysSaveTokenMetaDataEnabledField                bool
+	IsGuardAccountEnabledField                           bool
+	IsSetGuardianEnabledField                            bool
+	IsChangeUsernameEnabledField                         bool
+	IsConsistentTokensValuesLengthCheckEnabledField      bool
+	IsAutoBalanceDataTriesEnabledField                   bool
 	IsDynamicGasCostForDataTrieStorageLoadEnabledField   bool
 	MultiESDTTransferAsyncCallBackEnableEpochField       uint32
 	FixOOGReturnCodeEnableEpochField                     uint32
@@ -49,6 +54,16 @@ type EnableEpochsHandlerStub struct {
 	RefactorContextEnableEpochField                      uint32
 	CheckExecuteReadOnlyEnableEpochField                 uint32
 	StorageAPICostOptimizationEnableEpochField           uint32
+}
+
+// IsGuardAccountEnabled -
+func (stub *EnableEpochsHandlerStub) IsGuardAccountEnabled() bool {
+	return stub.IsGuardAccountEnabledField
+}
+
+// IsSetGuardianEnabled -
+func (stub *EnableEpochsHandlerStub) IsSetGuardianEnabled() bool {
+	return stub.IsSetGuardianEnabledField
 }
 
 // IsFixOldTokenLiquidityEnabled -
@@ -209,6 +224,21 @@ func (stub *EnableEpochsHandlerStub) IsWipeSingleNFTLiquidityDecreaseEnabled() b
 // IsAlwaysSaveTokenMetaDataEnabled -
 func (stub *EnableEpochsHandlerStub) IsAlwaysSaveTokenMetaDataEnabled() bool {
 	return stub.IsAlwaysSaveTokenMetaDataEnabledField
+}
+
+// IsChangeUsernameEnabled -
+func (stub *EnableEpochsHandlerStub) IsChangeUsernameEnabled() bool {
+	return stub.IsChangeUsernameEnabledField
+}
+
+// IsConsistentTokensValuesLengthCheckEnabled -
+func (stub *EnableEpochsHandlerStub) IsConsistentTokensValuesLengthCheckEnabled() bool {
+	return stub.IsConsistentTokensValuesLengthCheckEnabledField
+}
+
+// IsAutoBalanceDataTriesEnabled -
+func (stub *EnableEpochsHandlerStub) IsAutoBalanceDataTriesEnabled() bool {
+	return stub.IsAutoBalanceDataTriesEnabledField
 }
 
 // IsDynamicGasCostForDataTrieStorageLoadEnabled -

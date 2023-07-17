@@ -1,6 +1,7 @@
 package worldmock
 
 import (
+	"errors"
 	"fmt"
 
 	vmcommon "github.com/multiversx/mx-chain-vm-common-go"
@@ -48,23 +49,31 @@ type MockWorld struct {
 	BuiltinFuncs               *BuiltinFunctionsWrapper
 	IsPausedValue              bool
 	IsLimitedTransferValue     bool
+	GuardedAccountHandler      vmcommon.GuardedAccountHandler
+}
+
+// ExecuteSmartContractCallOnOtherVM -
+func (b *MockWorld) ExecuteSmartContractCallOnOtherVM(_ *vmcommon.ContractCallInput) (*vmcommon.VMOutput, error) {
+	return nil, errors.New("not implemented")
 }
 
 // NewMockWorld creates a new MockWorld instance
 func NewMockWorld() *MockWorld {
 	accountMap := NewAccountMap()
 	world := &MockWorld{
-		SelfShardID:       0,
-		AcctMap:           accountMap,
-		AccountsAdapter:   nil,
-		PreviousBlockInfo: nil,
-		CurrentBlockInfo:  nil,
-		Blockhashes:       nil,
-		NewAddressMocks:   nil,
-		CompiledCode:      make(map[string][]byte),
-		BuiltinFuncs:      nil,
+		SelfShardID:           0,
+		AcctMap:               accountMap,
+		AccountsAdapter:       nil,
+		PreviousBlockInfo:     nil,
+		CurrentBlockInfo:      nil,
+		Blockhashes:           nil,
+		NewAddressMocks:       nil,
+		CompiledCode:          make(map[string][]byte),
+		BuiltinFuncs:          nil,
+		GuardedAccountHandler: nil,
 	}
 	world.AccountsAdapter = NewMockAccountsAdapter(world)
+	world.GuardedAccountHandler = NewMockGuardedAccountHandler()
 
 	return world
 }

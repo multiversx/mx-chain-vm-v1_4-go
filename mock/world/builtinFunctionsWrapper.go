@@ -36,8 +36,10 @@ func NewBuiltinFunctionsWrapper(
 	argsBuiltIn := builtInFunctions.ArgsCreateBuiltInFunctionContainer{
 		GasMap:                           gasMap,
 		MapDNSAddresses:                  dnsMap,
+		MapDNSV2Addresses:                makeDNSAddresses(numDNSAddresses),
 		Marshalizer:                      WorldMarshalizer,
 		Accounts:                         world.AccountsAdapter,
+		GuardedAccountHandler:            world.GuardedAccountHandler,
 		ShardCoordinator:                 world,
 		MaxNumOfAddressesForTransferRole: 100,
 		EnableEpochsHandler: &mock.EnableEpochsHandlerStub{
@@ -65,6 +67,7 @@ func NewBuiltinFunctionsWrapper(
 			IsCheckFunctionArgumentFlagEnabledField:              true,
 			IsCheckExecuteOnReadOnlyFlagEnabledField:             true,
 			IsFixOldTokenLiquidityEnabledField:                   true,
+			IsChangeUsernameEnabledField:                         false,
 		},
 	}
 
