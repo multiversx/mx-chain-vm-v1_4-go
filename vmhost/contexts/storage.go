@@ -153,6 +153,11 @@ func (context *storageContext) GetStorageFromAddress(address []byte, key []byte)
 		}
 	}
 
+	return context.GetStorageFromAddressNoChecks(address, key)
+}
+
+// GetStorageFromAddressNoChecks same as GetStorageFromAddress but used internaly by vm, so no permissions checks are necessary
+func (context *storageContext) GetStorageFromAddressNoChecks(address []byte, key []byte) ([]byte, uint32, bool, error) {
 	// If the requested key is protected by the node, the stored value
 	// could have been changed by a built-in function in the meantime, even if
 	// contracts themselves cannot change protected values. Values stored under
@@ -198,9 +203,7 @@ func (context *storageContext) getStorageFromAddressUnmetered(address []byte, ke
 }
 
 func (context *storageContext) readFromBlockchain(address []byte, key []byte) ([]byte, uint32, error) {
-	value, trieDepth, err := context.blockChainHook.GetStorageData(address, key)
-
-	return value, trieDepth, err
+	return context.blockChainHook.GetStorageData(address, key)
 }
 
 // GetStorageUnmetered returns the data under the given key.
@@ -440,26 +443,30 @@ func (context *storageContext) IsInterfaceNil() bool {
 // GetStorageLoadCost returns the gas cost for the storage load operation
 func (context *storageContext) GetStorageLoadCost(trieDepth int64, staticGasCost uint64) (uint64, error) {
 	if context.host.EnableEpochsHandler().IsDynamicGasCostForDataTrieStorageLoadEnabled() {
-		dynamicStorageLoadCost := context.host.Metering().GasSchedule().DynamicStorageLoad
-		return computeGasForStorageLoadBasedOnTrieDepth(trieDepth, dynamicStorageLoadCost, staticGasCost)
+		return computeGasForStorageLoadBasedOnTrieDepth(
+			trieDepth,
+			context.host.Metering().GasSchedule().DynamicStorageLoad,
+			staticGasCost,
+		)
 	}
 
 	return staticGasCost, nil
 }
 
 func computeGasForStorageLoadBasedOnTrieDepth(trieDepth int64, coefficients config.DynamicStorageLoadCostCoefficients, staticGasCost uint64) (uint64, error) {
-	quadraticTerm := math.MulInt64(
-		coefficients.Quadratic,
-		math.MulInt64(trieDepth, trieDepth))
+	overflowHandler := math.NewOverflowHandler()
 
-	linearTerm := math.MulInt64(
-		coefficients.Linear,
-		trieDepth)
+	squaredTrieDepth := overflowHandler.MulInt64(trieDepth, trieDepth)                  // squaredTrieDepth = trieDepth * trieDepth
+	quadraticTerm := overflowHandler.MulInt64(coefficients.Quadratic, squaredTrieDepth) // quadraticTerm = coefficients.Quadratic * trieDepth * trieDepth
 
-	fx := math.AddInt64(
-		math.AddInt64(quadraticTerm, linearTerm),
-		coefficients.Constant)
+	linearTerm := overflowHandler.MulInt64(coefficients.Linear, trieDepth) // linearTerm = coefficients.Linear * trieDepth
 
+	firstSum := overflowHandler.AddInt64(quadraticTerm, linearTerm) // firstSum = coefficients.Quadratic * trieDepth * trieDepth + coefficients.Linear * trieDepth
+	fx := overflowHandler.AddInt64(firstSum, coefficients.Constant) // fx = coefficients.Quadratic * trieDepth * trieDepth + coefficients.Linear * trieDepth + coefficients.Constant
+	err := overflowHandler.Error()
+	if err != nil {
+		return 0, err
+	}
 	if fx < 0 {
 		return 0, fmt.Errorf("invalid value for gas cost, quadratic coefficient = %v, linear coefficient = %v, constant coefficient = %v, trie depth = %v",
 			coefficients.Quadratic, coefficients.Linear, coefficients.Constant, trieDepth)
