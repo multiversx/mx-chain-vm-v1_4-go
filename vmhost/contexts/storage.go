@@ -2,7 +2,6 @@ package contexts
 
 import (
 	"bytes"
-	"encoding/hex"
 	"fmt"
 
 	"github.com/multiversx/mx-chain-core-go/core/check"
@@ -444,29 +443,11 @@ func (context *storageContext) IsInterfaceNil() bool {
 // GetStorageLoadCost returns the gas cost for the storage load operation
 func (context *storageContext) GetStorageLoadCost(trieDepth int64, staticGasCost uint64) (uint64, error) {
 	if context.host.EnableEpochsHandler().IsDynamicGasCostForDataTrieStorageLoadEnabled() {
-		estimatedGasCost, err := computeGasForStorageLoadBasedOnTrieDepth(
+		return computeGasForStorageLoadBasedOnTrieDepth(
 			trieDepth,
 			context.host.Metering().GasSchedule().DynamicStorageLoad,
 			staticGasCost,
 		)
-		if err != nil {
-			logStorage.Error(err.Error())
-		}
-
-		blockHash, err := context.blockChainHook.GetBlockhash(context.blockChainHook.CurrentNonce())
-		if err != nil {
-			logStorage.Error(err.Error())
-		}
-
-		logStorage.Info("GetStorageLoadCost",
-			"estimated gas cost", estimatedGasCost,
-			"static gas cost", staticGasCost,
-			"address", hex.EncodeToString(context.address),
-			"block hash", hex.EncodeToString(blockHash),
-			"trieDepth", trieDepth,
-		)
-
-		return staticGasCost, nil
 	}
 
 	return staticGasCost, nil
