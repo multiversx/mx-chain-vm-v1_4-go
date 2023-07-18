@@ -405,11 +405,15 @@ func v1_4_bigIntStorageLoadUnsigned(context unsafe.Pointer, keyOffset int32, key
 		return -1
 	}
 
-	bytes, usedCache, err := storage.GetStorage(key)
+	bytes, trieDepth, usedCache, err := storage.GetStorage(key)
 	if vmhost.WithFault(err, context, runtime.BigIntAPIErrorShouldFailExecution()) {
 		return -1
 	}
-	storage.UseGasForStorageLoad(bigIntStorageLoadUnsignedName, metering.GasSchedule().BigIntAPICost.BigIntStorageLoadUnsigned, usedCache)
+
+	err = storage.UseGasForStorageLoad(bigIntStorageLoadUnsignedName, int64(trieDepth), metering.GasSchedule().BigIntAPICost.BigIntStorageLoadUnsigned, usedCache)
+	if vmhost.WithFault(err, context, runtime.BigIntAPIErrorShouldFailExecution()) {
+		return -1
+	}
 
 	value := managedType.GetBigIntOrCreate(destinationHandle)
 	value.SetBytes(bytes)

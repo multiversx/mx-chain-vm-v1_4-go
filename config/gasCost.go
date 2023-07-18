@@ -11,6 +11,7 @@ type GasCost struct {
 	ManagedBufferAPICost ManagedBufferAPICost
 	CryptoAPICost        CryptoAPICost
 	WASMOpcodeCost       WASMOpcodeCost
+	DynamicStorageLoad   DynamicStorageLoadCostCoefficients
 }
 
 type BaseOperationCost struct {
@@ -66,6 +67,28 @@ type BaseOpsAPICost struct {
 	GetReturnDataSize    uint64
 	CleanReturnData      uint64
 	DeleteFromReturnData uint64
+}
+
+// DynamicStorageLoadCostCoefficients holds the signed coefficients of the func that will compute the gas cost
+// based on the trie depth.
+type DynamicStorageLoadCostCoefficients struct {
+	Quadratic int64
+	Linear    int64
+	Constant  int64
+
+	MinGasCost uint64
+}
+
+// DynamicStorageLoadUnsigned is used to store the coefficients for the func that will compute the gas cost
+// based on the trie depth. The coefficients are unsigned.
+type DynamicStorageLoadUnsigned struct {
+	QuadraticCoefficient uint64
+	SignOfQuadratic      uint64
+	LinearCoefficient    uint64
+	SignOfLinear         uint64
+	ConstantCoefficient  uint64
+	SignOfConstant       uint64
+	MinimumGasCost       uint64
 }
 
 type EthAPICost struct {

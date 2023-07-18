@@ -68,7 +68,13 @@ func (m *MeteringContextMock) UseGas(gas uint64) {
 func (m *MeteringContextMock) UseAndTraceGas(_ uint64) {
 }
 
+// UseGasAndAddTracedGas -
 func (m *MeteringContextMock) UseGasAndAddTracedGas(_ string, _ uint64) {
+}
+
+// UseGasBoundedAndAddTracedGas -
+func (m *MeteringContextMock) UseGasBoundedAndAddTracedGas(_ string, _ uint64) error {
+	return nil
 }
 
 // FreeGas mocked method
@@ -204,12 +210,15 @@ func (m *MeteringContextMock) DeductInitialGasForIndirectDeployment(_ vmhost.Cod
 	return m.Err
 }
 
+// StartGasTracing -
 func (m *MeteringContextMock) StartGasTracing(_ string) {
 }
 
+// SetGasTracing -
 func (m *MeteringContextMock) SetGasTracing(_ bool) {
 }
 
+// GetGasTrace -
 func (m *MeteringContextMock) GetGasTrace() map[string]map[string][]uint64 {
 	return nil
 }
