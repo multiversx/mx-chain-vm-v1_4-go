@@ -408,7 +408,7 @@ func (host *vmHost) RunSmartContractCall(input *vmcommon.ContractCallInput) (vmO
 	ctx, cancel := context.WithTimeout(context.Background(), host.executionTimeout)
 	defer cancel()
 
-	log.Trace("RunSmartContractCall begin",
+	log.Debug("RunSmartContractCall begin",
 		"function", input.Function,
 		"gasProvided", input.GasProvided,
 		"gasLocked", input.GasLocked)
@@ -440,7 +440,7 @@ func (host *vmHost) RunSmartContractCall(input *vmcommon.ContractCallInput) (vmO
 			vmOutput.Logs = append(vmOutput.Logs, logsFromErrors)
 		}
 
-		log.Trace("RunSmartContractCall end",
+		log.Debug("RunSmartContractCall end",
 			"function", input.Function,
 			"returnCode", vmOutput.ReturnCode,
 			"returnMessage", vmOutput.ReturnMessage,
