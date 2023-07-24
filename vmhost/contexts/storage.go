@@ -416,7 +416,7 @@ func (context *storageContext) UseGasForStorageLoad(tracedFunctionName string, t
 	if err != nil {
 		return err
 	}
-	logStorage.Debug("getBlockchainLoadCost",
+	logStorage.Warn("getBlockchainLoadCost",
 		"estimated gas cost", blockchainEstGasCost,
 		"static gas cost", blockchainLoadCost,
 		"tracedFunctionName", tracedFunctionName,
