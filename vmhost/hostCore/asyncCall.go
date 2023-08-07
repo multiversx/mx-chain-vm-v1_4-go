@@ -720,7 +720,7 @@ func (host *vmHost) processCallbackStack() error {
 	storage := host.Storage()
 
 	storageKey := vmhost.CustomStorageKey(vmhost.AsyncDataPrefix, runtime.GetOriginalTxHash())
-	buff, _, err := storage.GetStorageUnmetered(storageKey)
+	buff, _, _, err := storage.GetStorageUnmetered(storageKey)
 	if err != nil {
 		return err
 	}
@@ -906,7 +906,7 @@ func (host *vmHost) getCurrentAsyncInfo() (*vmhost.AsyncContextInfo, error) {
 
 	asyncInfo := &vmhost.AsyncContextInfo{}
 	storageKey := vmhost.CustomStorageKey(vmhost.AsyncDataPrefix, runtime.GetOriginalTxHash())
-	buff, _, err := storage.GetStorageUnmetered(storageKey)
+	buff, _, _, err := storage.GetStorageUnmetered(storageKey)
 	if err != nil {
 		return nil, err
 	}

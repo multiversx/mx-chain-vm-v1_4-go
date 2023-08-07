@@ -699,6 +699,20 @@ const (
     LocalsUnmetered = 100
     MaxMemoryGrow = 8
     MaxMemoryGrowDelta = 10
+
+# Quadratic, Linear and Constant are the coefficients for a quadratic func. Separate variables are used for the
+# sign of each coefficient, 0 meaning + and 1 meaning -
+# The current values for the coefficients were computed based on benchmarking.
+# For the given coefficients, the minimum of the function must not be lower than MinimumGasCost
+[DynamicStorageLoad]
+    QuadraticCoefficient = 688
+    SignOfQuadratic = 0
+    LinearCoefficient = 31858
+    SignOfLinear = 0
+    ConstantCoefficient = 15287
+    SignOfConstant = 0
+    MinimumGasCost = 10000
+
 `
 	gasScheduleV4 = `[BuiltInCost]
     ChangeOwnerAddress       = 5000000
@@ -1393,5 +1407,18 @@ const (
     LocalsUnmetered = 100
     MaxMemoryGrowDelta = 1
     MaxMemoryGrow = 100
+
+# Quadratic, Linear and Constant are the coefficients for a quadratic func. Separate variables are used for the
+# sign of each coefficient, 0 meaning + and 1 meaning -
+# The current values for the coefficients were computed based on benchmarking.
+# For the given coefficients, the minimum of the function must not be lower than MinimumGasCost
+[DynamicStorageLoad]
+    QuadraticCoefficient = 688
+    SignOfQuadratic = 0
+    LinearCoefficient = 31858
+    SignOfLinear = 0
+    ConstantCoefficient = 15287
+    SignOfConstant = 0
+    MinimumGasCost = 10000
 `
 )

@@ -43,6 +43,7 @@ type EnableEpochsHandlerStub struct {
 	IsChangeUsernameEnabledField                         bool
 	IsConsistentTokensValuesLengthCheckEnabledField      bool
 	IsAutoBalanceDataTriesEnabledField                   bool
+	IsDynamicGasCostForDataTrieStorageLoadEnabledField   bool
 	MultiESDTTransferAsyncCallBackEnableEpochField       uint32
 	FixOOGReturnCodeEnableEpochField                     uint32
 	RemoveNonUpdatedStorageEnableEpochField              uint32
@@ -238,6 +239,11 @@ func (stub *EnableEpochsHandlerStub) IsConsistentTokensValuesLengthCheckEnabled(
 // IsAutoBalanceDataTriesEnabled -
 func (stub *EnableEpochsHandlerStub) IsAutoBalanceDataTriesEnabled() bool {
 	return stub.IsAutoBalanceDataTriesEnabledField
+}
+
+// IsDynamicGasCostForDataTrieStorageLoadEnabled -
+func (stub *EnableEpochsHandlerStub) IsDynamicGasCostForDataTrieStorageLoadEnabled() bool {
+	return stub.IsDynamicGasCostForDataTrieStorageLoadEnabledField
 }
 
 // MultiESDTTransferAsyncCallBackEnableEpoch -

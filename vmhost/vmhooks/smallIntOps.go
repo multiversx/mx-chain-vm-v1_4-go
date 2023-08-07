@@ -244,11 +244,14 @@ func v1_4_smallIntStorageLoadUnsigned(context unsafe.Pointer, keyOffset int32, k
 		return 0
 	}
 
-	data, usedCache, err := storage.GetStorage(key)
+	data, trieDepth, usedCache, err := storage.GetStorage(key)
 	if vmhost.WithFault(err, context, runtime.BaseOpsErrorShouldFailExecution()) {
 		return 0
 	}
-	storage.UseGasForStorageLoad(smallIntStorageLoadUnsignedName, metering.GasSchedule().BaseOpsAPICost.Int64StorageLoad, usedCache)
+	err = storage.UseGasForStorageLoad(smallIntStorageLoadUnsignedName, int64(trieDepth), metering.GasSchedule().BaseOpsAPICost.Int64StorageLoad, usedCache)
+	if vmhost.WithFault(err, context, runtime.BaseOpsErrorShouldFailExecution()) {
+		return -1
+	}
 
 	valueBigInt := big.NewInt(0).SetBytes(data)
 	if !valueBigInt.IsUint64() {
@@ -270,11 +273,14 @@ func v1_4_smallIntStorageLoadSigned(context unsafe.Pointer, keyOffset int32, key
 		return 0
 	}
 
-	data, usedCache, err := storage.GetStorage(key)
+	data, trieDepth, usedCache, err := storage.GetStorage(key)
 	if vmhost.WithFault(err, context, runtime.BaseOpsErrorShouldFailExecution()) {
 		return 0
 	}
-	storage.UseGasForStorageLoad(smallIntStorageLoadSignedName, metering.GasSchedule().BaseOpsAPICost.Int64StorageLoad, usedCache)
+	err = storage.UseGasForStorageLoad(smallIntStorageLoadSignedName, int64(trieDepth), metering.GasSchedule().BaseOpsAPICost.Int64StorageLoad, usedCache)
+	if vmhost.WithFault(err, context, runtime.BaseOpsErrorShouldFailExecution()) {
+		return -1
+	}
 
 	valueBigInt := twos.SetBytes(big.NewInt(0), data)
 	if !valueBigInt.IsInt64() {

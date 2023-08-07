@@ -5,15 +5,21 @@ import (
 	"reflect"
 
 	"github.com/mitchellh/mapstructure"
+	logger "github.com/multiversx/mx-chain-logger-go"
 )
 
 const GasValueForTests = 1
 
+const isNegativeNumber = 1
+
 var AsyncCallbackGasLockForTests = uint64(100_000)
+
+var log = logger.GetOrCreate("vm/config")
 
 // GasScheduleMap (alias) is the map for gas schedule
 type GasScheduleMap = map[string]map[string]uint64
 
+// CreateGasConfig creates a new GasCost instance based on the provided gas schedule map
 func CreateGasConfig(gasMap GasScheduleMap) (*GasCost, error) {
 	baseOps := &BaseOperationCost{}
 	err := mapstructure.Decode(gasMap["BaseOperationCost"], baseOps)
@@ -103,6 +109,20 @@ func CreateGasConfig(gasMap GasScheduleMap) (*GasCost, error) {
 		return nil, err
 	}
 
+	dynamicStorageLoadUnsigned := &DynamicStorageLoadUnsigned{}
+	err = mapstructure.Decode(gasMap["DynamicStorageLoad"], dynamicStorageLoadUnsigned)
+	if err != nil {
+		return nil, err
+	}
+	dynamicStorageLoadParams := convertFromUnsignedToSigned(dynamicStorageLoadUnsigned)
+
+	isCorrectlyDefined := isDynamicGasComputationFuncCorrectlyDefined(dynamicStorageLoadParams)
+	if !isCorrectlyDefined {
+		return nil, fmt.Errorf("dynamic gas computation func incorrectly defined, "+
+			"quadratic parameter = %d, linear parameter = %d, constant parameter = %d",
+			dynamicStorageLoadParams.Quadratic, dynamicStorageLoadParams.Linear, dynamicStorageLoadParams.Constant)
+	}
+
 	gasCost := &GasCost{
 		BaseOperationCost:    *baseOps,
 		BigIntAPICost:        *bigIntOps,
@@ -112,9 +132,52 @@ func CreateGasConfig(gasMap GasScheduleMap) (*GasCost, error) {
 		CryptoAPICost:        *cryptOps,
 		ManagedBufferAPICost: *MBufferOps,
 		WASMOpcodeCost:       *opcodeCosts,
+		DynamicStorageLoad:   *dynamicStorageLoadParams,
 	}
 
 	return gasCost, nil
+}
+
+func isDynamicGasComputationFuncCorrectlyDefined(parameters *DynamicStorageLoadCostCoefficients) bool {
+	if parameters.Quadratic <= 0 {
+		// the "a" from ax^2+bx+c needs to be > 0 in order for the func to be convex
+		log.Error("invalid parameters for dynamic gas computation func, the quadratic parameter is not > 0")
+		return false
+	}
+	inflectionPoint := float64(-1*parameters.Linear) / float64(2*parameters.Quadratic) // -b/2a
+	if inflectionPoint > 0 {
+		// the inflection point should be <= 0 because the func needs to be strictly increasing for x = [0,n)
+		log.Error("invalid parameters for dynamic gas computation func, the x of the inflection point is > 0")
+		return false
+	}
+	if parameters.Constant < 0 {
+		// f(x) = ax^2+bx+c. f(0) >= 0 only if c >= 0
+		log.Error("invalid parameters for dynamic gas computation func, f(x) is not >= 0 for x = [0,n) ")
+		return false
+	}
+
+	return true
+}
+
+func convertFromUnsignedToSigned(dynamicStorageLoadUnsigned *DynamicStorageLoadUnsigned) *DynamicStorageLoadCostCoefficients {
+	quadratic := getSignedCoefficient(dynamicStorageLoadUnsigned.QuadraticCoefficient, dynamicStorageLoadUnsigned.SignOfQuadratic)
+	linear := getSignedCoefficient(dynamicStorageLoadUnsigned.LinearCoefficient, dynamicStorageLoadUnsigned.SignOfLinear)
+	constant := getSignedCoefficient(dynamicStorageLoadUnsigned.ConstantCoefficient, dynamicStorageLoadUnsigned.SignOfConstant)
+
+	return &DynamicStorageLoadCostCoefficients{
+		Quadratic:  quadratic,
+		Linear:     linear,
+		Constant:   constant,
+		MinGasCost: dynamicStorageLoadUnsigned.MinimumGasCost,
+	}
+}
+
+func getSignedCoefficient(coefficient uint64, sign uint64) int64 {
+	if sign == isNegativeNumber {
+		return int64(coefficient) * -1
+	}
+
+	return int64(coefficient)
 }
 
 func checkForZeroUint64Fields(arg interface{}) error {
@@ -133,12 +196,14 @@ func checkForZeroUint64Fields(arg interface{}) error {
 	return nil
 }
 
+// MakeGasMap creates a gas map with the provided value
 func MakeGasMap(value, asyncCallbackGasLock uint64) GasScheduleMap {
 	gasMap := make(GasScheduleMap)
 	gasMap = FillGasMap(gasMap, value, asyncCallbackGasLock)
 	return gasMap
 }
 
+// FillGasMap fills the gas map with the provided value
 func FillGasMap(gasMap GasScheduleMap, value, asyncCallbackGasLock uint64) GasScheduleMap {
 	gasMap["BuiltInCost"] = FillGasMapBuiltInCosts(value)
 	gasMap["BaseOperationCost"] = FillGasMapBaseOperationCosts(value)
@@ -149,10 +214,12 @@ func FillGasMap(gasMap GasScheduleMap, value, asyncCallbackGasLock uint64) GasSc
 	gasMap["CryptoAPICost"] = FillGasMapCryptoAPICosts(value)
 	gasMap["ManagedBufferAPICost"] = FillGasMapManagedBufferAPICosts(value)
 	gasMap["WASMOpcodeCost"] = FillGasMapWASMOpcodeValues(value)
+	gasMap["DynamicStorageLoad"] = FillGasMapDynamicStorageLoad()
 
 	return gasMap
 }
 
+// FillGasMapBuiltInCosts will fill the gas map with the built in costs
 func FillGasMapBuiltInCosts(value uint64) map[string]uint64 {
 	gasMap := make(map[string]uint64)
 	gasMap["ChangeOwnerAddress"] = value
@@ -180,6 +247,7 @@ func FillGasMapBuiltInCosts(value uint64) map[string]uint64 {
 	return gasMap
 }
 
+// FillGasMapBaseOperationCosts will fill the gas map with the base operation costs
 func FillGasMapBaseOperationCosts(value uint64) map[string]uint64 {
 	gasMap := make(map[string]uint64)
 	gasMap["StorePerByte"] = value
@@ -193,6 +261,7 @@ func FillGasMapBaseOperationCosts(value uint64) map[string]uint64 {
 	return gasMap
 }
 
+// FillGasMapBaseOpsAPICosts will fill the gas map with the base operations API costs
 func FillGasMapBaseOpsAPICosts(value, asyncCallbackGasLock uint64) map[string]uint64 {
 	gasMap := make(map[string]uint64)
 	gasMap["GetSCAddress"] = value
@@ -241,6 +310,7 @@ func FillGasMapBaseOpsAPICosts(value, asyncCallbackGasLock uint64) map[string]ui
 	return gasMap
 }
 
+// FillGasMapEthereumAPICosts will fill the gas map with the ethereum API costs
 func FillGasMapEthereumAPICosts(value uint64) map[string]uint64 {
 	gasMap := make(map[string]uint64)
 	gasMap["UseGas"] = value
@@ -280,6 +350,7 @@ func FillGasMapEthereumAPICosts(value uint64) map[string]uint64 {
 	return gasMap
 }
 
+// FillGasMapBigIntAPICosts will fill the gas map with the provided value for all the BigInt API methods
 func FillGasMapBigIntAPICosts(value uint64) map[string]uint64 {
 	gasMap := make(map[string]uint64)
 	gasMap["BigIntNew"] = value
@@ -325,6 +396,7 @@ func FillGasMapBigIntAPICosts(value uint64) map[string]uint64 {
 	return gasMap
 }
 
+// FillGasMapBigFloatAPICosts will fill the gas map with the costs for the big float API
 func FillGasMapBigFloatAPICosts(value uint64) map[string]uint64 {
 	gasMap := make(map[string]uint64)
 	gasMap["BigFloatNewFromParts"] = value
@@ -349,6 +421,7 @@ func FillGasMapBigFloatAPICosts(value uint64) map[string]uint64 {
 	return gasMap
 }
 
+// FillGasMapCryptoAPICosts will fill the gas map with the costs for the crypto API
 func FillGasMapCryptoAPICosts(value uint64) map[string]uint64 {
 	gasMap := make(map[string]uint64)
 	gasMap["SHA256"] = value
@@ -372,6 +445,7 @@ func FillGasMapCryptoAPICosts(value uint64) map[string]uint64 {
 	return gasMap
 }
 
+// FillGasMapManagedBufferAPICosts will fill the gas map with the provided value for all managed buffer API functions
 func FillGasMapManagedBufferAPICosts(value uint64) map[string]uint64 {
 	gasMap := make(map[string]uint64)
 	gasMap["MBufferNew"] = value
@@ -398,6 +472,7 @@ func FillGasMapManagedBufferAPICosts(value uint64) map[string]uint64 {
 	return gasMap
 }
 
+// FillGasMapWASMOpcodeValues fills the gas map with the given value for all WASM opcodes
 func FillGasMapWASMOpcodeValues(value uint64) map[string]uint64 {
 	gasMap := make(map[string]uint64)
 	gasMap["Unreachable"] = value
@@ -855,6 +930,21 @@ func FillGasMapWASMOpcodeValues(value uint64) map[string]uint64 {
 	return gasMap
 }
 
+// FillGasMapDynamicStorageLoad populates the gas map with the coefficients needed for dynamic storage load
+func FillGasMapDynamicStorageLoad() map[string]uint64 {
+	gasMap := make(map[string]uint64)
+
+	gasMap["QuadraticCoefficient"] = 688
+	gasMap["SignOfQuadratic"] = 0
+	gasMap["LinearCoefficient"] = 31858
+	gasMap["SignOfLinear"] = 0
+	gasMap["ConstantCoefficient"] = 15287
+	gasMap["SignOfConstant"] = 0
+
+	return gasMap
+}
+
+// MakeGasMapForTests creates a gas map with the values needed for tests
 func MakeGasMapForTests() GasScheduleMap {
 	return MakeGasMap(GasValueForTests, AsyncCallbackGasLockForTests)
 }
