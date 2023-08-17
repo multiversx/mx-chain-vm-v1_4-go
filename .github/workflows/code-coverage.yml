@@ -5,7 +5,7 @@ on:
     branches:
       - master
   pull_request:
-    branches: [ master, development ]
+    branches: [ master, rc/*, feat/* ]
   workflow_dispatch:
 
 jobs:
@@ -19,7 +19,7 @@ jobs:
       - name: Set up Go 1.x
         uses: actions/setup-go@v2
         with:
-          go-version: ^1.15.2
+          go-version: 1.20.7
         id: go
 
       - name: Check out code into the Go module directory
