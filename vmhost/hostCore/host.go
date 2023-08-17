@@ -78,6 +78,10 @@ func NewVMHost(
 	if check.IfNil(hostParameters.EnableEpochsHandler) {
 		return nil, vmhost.ErrNilEnableEpochsHandler
 	}
+	err := core.CheckHandlerCompatibility(hostParameters.EnableEpochsHandler)
+	if err != nil {
+		return nil, err
+	}
 	if check.IfNil(hostParameters.Hasher) {
 		return nil, vmhost.ErrNilHasher
 	}
@@ -109,7 +113,7 @@ func NewVMHost(
 	}
 
 	imports := vmhooksmeta.NewEIFunctions()
-	err := PopulateAllImports(imports)
+	err = PopulateAllImports(imports)
 	if err != nil {
 		return nil, err
 	}

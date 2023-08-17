@@ -9,6 +9,7 @@ var _ vmhost.EnableEpochsHandler = (*EnableEpochsHandlerStub)(nil)
 
 // EnableEpochsHandlerStub -
 type EnableEpochsHandlerStub struct {
+	IsFlagDefinedCalled                            func(flag core.EnableEpochFlag) bool
 	IsFlagEnabledInCurrentEpochCalled              func(flag core.EnableEpochFlag) bool
 	GetActivationEpochCalled                       func(flag core.EnableEpochFlag) uint32
 	MultiESDTTransferAsyncCallBackEnableEpochField uint32
@@ -21,6 +22,14 @@ type EnableEpochsHandlerStub struct {
 	RefactorContextEnableEpochField                uint32
 	CheckExecuteReadOnlyEnableEpochField           uint32
 	StorageAPICostOptimizationEnableEpochField     uint32
+}
+
+// IsFlagDefined -
+func (stub *EnableEpochsHandlerStub) IsFlagDefined(flag core.EnableEpochFlag) bool {
+	if stub.IsFlagDefinedCalled != nil {
+		return stub.IsFlagDefinedCalled(flag)
+	}
+	return true
 }
 
 // IsFlagEnabledInCurrentEpoch -
