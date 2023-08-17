@@ -120,7 +120,9 @@ func TestNewRuntimeContext(t *testing.T) {
 
 func TestRuntimeContext_InitState(t *testing.T) {
 	host := InitializeVMAndWasmer()
-	host.EpochsStub().IsRuntimeCodeSizeFixEnabledField = true
+	host.EpochsStub().IsFlagEnabledInCurrentEpochCalled = func(flag core.EnableEpochFlag) bool {
+		return flag == core.RuntimeCodeSizeFixFlag
+	}
 
 	runtimeContext := makeDefaultRuntimeContext(t, host)
 	defer runtimeContext.ClearWarmInstanceCache()
@@ -153,11 +155,15 @@ func TestRuntimeContext_CodeSizeFix(t *testing.T) {
 	runtimeContext.codeSize = 1024
 	runtimeContext.iTracker.codeSize = 1024
 
-	epochs.IsRuntimeCodeSizeFixEnabledField = false
+	epochs.IsFlagEnabledInCurrentEpochCalled = func(flag core.EnableEpochFlag) bool {
+		return false
+	}
 	runtimeContext.InitState()
 	require.Equal(t, uint64(1024), runtimeContext.GetSCCodeSize())
 
-	epochs.IsRuntimeCodeSizeFixEnabledField = true
+	epochs.IsFlagEnabledInCurrentEpochCalled = func(flag core.EnableEpochFlag) bool {
+		return flag == core.RuntimeCodeSizeFixFlag
+	}
 	runtimeContext.InitState()
 	require.Equal(t, uint64(0), runtimeContext.GetSCCodeSize())
 }
@@ -187,7 +193,9 @@ func TestRuntimeContext_NewWasmerInstance(t *testing.T) {
 	contractCode := vmhost.GetSCCode(path)
 
 	t.Run("fix code size disabled", func(t *testing.T) {
-		epochs.IsRuntimeCodeSizeFixEnabledField = false
+		epochs.IsFlagEnabledInCurrentEpochCalled = func(flag core.EnableEpochFlag) bool {
+			return false
+		}
 		runtimeContext := makeDefaultRuntimeContext(t, host)
 		runtimeContext.SetMaxInstanceCount(1)
 		defer runtimeContext.ClearWarmInstanceCache()
@@ -197,7 +205,9 @@ func TestRuntimeContext_NewWasmerInstance(t *testing.T) {
 		require.Equal(t, uint64(0), runtimeContext.GetSCCodeSize())
 	})
 	t.Run("fix code size enabled", func(t *testing.T) {
-		epochs.IsRuntimeCodeSizeFixEnabledField = true
+		epochs.IsFlagEnabledInCurrentEpochCalled = func(flag core.EnableEpochFlag) bool {
+			return flag == core.RuntimeCodeSizeFixFlag
+		}
 		runtimeContext := makeDefaultRuntimeContext(t, host)
 		runtimeContext.SetMaxInstanceCount(1)
 		defer runtimeContext.ClearWarmInstanceCache()
@@ -314,7 +324,9 @@ func TestRuntimeContext_PushPopInstance(t *testing.T) {
 	}
 
 	t.Run("fix code size disabled", func(t *testing.T) {
-		epochs.IsRuntimeCodeSizeFixEnabledField = false
+		epochs.IsFlagEnabledInCurrentEpochCalled = func(flag core.EnableEpochFlag) bool {
+			return false
+		}
 		runtimeContext := prepare()
 		defer runtimeContext.ClearWarmInstanceCache()
 		require.Equal(t, uint64(0), runtimeContext.GetSCCodeSize())
@@ -337,7 +349,9 @@ func TestRuntimeContext_PushPopInstance(t *testing.T) {
 		require.Equal(t, 1, len(runtimeContext.iTracker.instanceStack))
 	})
 	t.Run("fix code size enabled", func(t *testing.T) {
-		epochs.IsRuntimeCodeSizeFixEnabledField = true
+		epochs.IsFlagEnabledInCurrentEpochCalled = func(flag core.EnableEpochFlag) bool {
+			return flag == core.RuntimeCodeSizeFixFlag
+		}
 		runtimeContext := prepare()
 		defer runtimeContext.ClearWarmInstanceCache()
 		require.Equal(t, oldCodeSize, runtimeContext.GetSCCodeSize())
@@ -699,7 +713,9 @@ func TestRuntimeContext_MemStoreCases(t *testing.T) {
 
 func TestRuntimeContext_MemStoreForbiddenGrowth(t *testing.T) {
 	host := InitializeVMAndWasmer()
-	host.EpochsStub().IsRuntimeMemStoreLimitEnabledField = true
+	host.EpochsStub().IsFlagEnabledInCurrentEpochCalled = func(flag core.EnableEpochFlag) bool {
+		return flag == core.RuntimeMemStoreLimitFlag
+	}
 
 	runtimeContext := makeDefaultRuntimeContext(t, host)
 	defer runtimeContext.ClearWarmInstanceCache()

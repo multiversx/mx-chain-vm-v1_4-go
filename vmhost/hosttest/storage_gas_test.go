@@ -3,6 +3,7 @@ package hostCoretest
 import (
 	"testing"
 
+	"github.com/multiversx/mx-chain-core-go/core"
 	vmcommon "github.com/multiversx/mx-chain-vm-common-go"
 	"github.com/multiversx/mx-chain-vm-v1_4-go/mock/contracts"
 	worldmock "github.com/multiversx/mx-chain-vm-v1_4-go/mock/world"
@@ -60,7 +61,9 @@ func loadStorage(t *testing.T, key []byte, flagEnabled bool) {
 
 			if !flagEnabled {
 				enableEpochsHandler, _ := host.EnableEpochsHandler().(*vmMock.EnableEpochsHandlerStub)
-				enableEpochsHandler.IsStorageAPICostOptimizationFlagEnabledField = false
+				enableEpochsHandler.IsFlagEnabledInCurrentEpochCalled = func(flag core.EnableEpochFlag) bool {
+					return false
+				}
 			}
 
 			accountHandler, _ := world.GetUserAccount(test.ParentAddress)
@@ -125,7 +128,9 @@ func loadStorageFromAddress(t *testing.T, key []byte, flagEnabled bool) {
 
 			if !flagEnabled {
 				enableEpochsHandler, _ := host.EnableEpochsHandler().(*vmMock.EnableEpochsHandlerStub)
-				enableEpochsHandler.IsStorageAPICostOptimizationFlagEnabledField = false
+				enableEpochsHandler.IsFlagEnabledInCurrentEpochCalled = func(flag core.EnableEpochFlag) bool {
+					return false
+				}
 			}
 		}).
 		AndAssertResults(func(world *worldmock.MockWorld, verify *test.VMOutputVerifier) {
@@ -214,7 +219,9 @@ func setStorage(t *testing.T, key []byte, flagEnabled bool) {
 
 			if !flagEnabled {
 				enableEpochsHandler, _ := host.EnableEpochsHandler().(*vmMock.EnableEpochsHandlerStub)
-				enableEpochsHandler.IsStorageAPICostOptimizationFlagEnabledField = false
+				enableEpochsHandler.IsFlagEnabledInCurrentEpochCalled = func(flag core.EnableEpochFlag) bool {
+					return false
+				}
 			}
 		}).
 		AndAssertResults(func(world *worldmock.MockWorld, verify *test.VMOutputVerifier) {

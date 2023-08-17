@@ -103,8 +103,7 @@ func (host *vmHost) isESDTTransferOnReturnDataFromFunctionAndArgs(
 	functionName string,
 	args [][]byte,
 ) (bool, string, [][]byte) {
-	currentEpoch := host.enableEpochsHandler.GetCurrentEpoch()
-	if !host.enableEpochsHandler.IsMultiESDTTransferFixOnCallBackFlagEnabledInEpoch(currentEpoch) && functionName == core.BuiltInFunctionMultiESDTNFTTransfer {
+	if !host.enableEpochsHandler.IsFlagEnabledInCurrentEpoch(core.MultiESDTTransferFixOnCallBackFlag) && functionName == core.BuiltInFunctionMultiESDTNFTTransfer {
 		return false, functionName, args
 	}
 
@@ -206,8 +205,7 @@ func (host *vmHost) executeSyncCallbackCall(
 	destinationErr error,
 ) (*vmcommon.VMOutput, error) {
 	actualDestination := asyncCallInfo.GetDestination()
-	currentEpoch := host.enableEpochsHandler.GetCurrentEpoch()
-	if host.enableEpochsHandler.IsMultiESDTTransferFixOnCallBackFlagEnabledInEpoch(currentEpoch) {
+	if host.enableEpochsHandler.IsFlagEnabledInCurrentEpoch(core.MultiESDTTransferFixOnCallBackFlag) {
 		actualDestination = host.determineDestinationForAsyncCall(asyncCallInfo)
 	}
 	callbackCallInput, err := host.createCallbackContractCallInput(
@@ -282,8 +280,7 @@ func (host *vmHost) sendAsyncCallToDestination(asyncCallInfo vmhost.AsyncCallInf
 }
 
 func (host *vmHost) returnCodeToBytes(returnCode vmcommon.ReturnCode) []byte {
-	currentEpoch := host.enableEpochsHandler.GetCurrentEpoch()
-	if host.enableEpochsHandler.IsManagedCryptoAPIsFlagEnabledInEpoch(currentEpoch) && returnCode == vmcommon.Ok {
+	if host.enableEpochsHandler.IsFlagEnabledInCurrentEpoch(core.ManagedCryptoAPIsFlag) && returnCode == vmcommon.Ok {
 		return []byte{0}
 	}
 	return big.NewInt(int64(returnCode)).Bytes()
@@ -297,8 +294,7 @@ func (host *vmHost) sendCallbackToCurrentCaller() error {
 	currentCall := runtime.GetVMInput()
 
 	retData := []byte("@" + core.ConvertToEvenHex(int(output.ReturnCode())))
-	currentEpoch := host.enableEpochsHandler.GetCurrentEpoch()
-	if !host.enableEpochsHandler.IsManagedCryptoAPIsFlagEnabledInEpoch(currentEpoch) {
+	if !host.enableEpochsHandler.IsFlagEnabledInCurrentEpoch(core.ManagedCryptoAPIsFlag) {
 		// the legacy implementation was using the message string instead of the code
 		retData = []byte("@" + hex.EncodeToString([]byte(output.ReturnCode().String())))
 	}
@@ -308,7 +304,7 @@ func (host *vmHost) sendCallbackToCurrentCaller() error {
 	}
 
 	valueToTransfer := currentCall.CallValue
-	if host.enableEpochsHandler.IsStorageAPICostOptimizationFlagEnabledInEpoch(currentEpoch) {
+	if host.enableEpochsHandler.IsFlagEnabledInCurrentEpoch(core.StorageAPICostOptimizationFlag) {
 		valueToTransfer = big.NewInt(0)
 	}
 

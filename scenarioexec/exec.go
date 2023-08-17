@@ -80,17 +80,19 @@ func (ae *VMTestExecutor) InitVM(scenGasSchedule mj.GasSchedule) error {
 		ESDTTransferParser:   esdtTransferParser,
 		EpochNotifier:        &mock.EpochNotifierStub{},
 		EnableEpochsHandler: &mock.EnableEpochsHandlerStub{
-			IsStorageAPICostOptimizationFlagEnabledField:         true,
-			IsMultiESDTTransferFixOnCallBackFlagEnabledField:     true,
-			IsFixOOGReturnCodeFlagEnabledField:                   true,
-			IsRemoveNonUpdatedStorageFlagEnabledField:            true,
-			IsCreateNFTThroughExecByCallerFlagEnabledField:       true,
-			IsManagedCryptoAPIsFlagEnabledField:                  true,
-			IsFailExecutionOnEveryAPIErrorFlagEnabledField:       true,
-			IsRefactorContextFlagEnabledField:                    true,
-			IsCheckCorrectTokenIDForTransferRoleFlagEnabledField: true,
-			IsDisableExecByCallerFlagEnabledField:                true,
-			IsCheckExecuteOnReadOnlyFlagEnabledField:             true,
+			IsFlagEnabledInCurrentEpochCalled: func(flag core.EnableEpochFlag) bool {
+				return flag == core.StorageAPICostOptimizationFlag ||
+					flag == core.MultiESDTTransferFixOnCallBackFlag ||
+					flag == core.FixOOGReturnCodeFlag ||
+					flag == core.RemoveNonUpdatedStorageFlag ||
+					flag == core.CreateNFTThroughExecByCallerFlag ||
+					flag == core.ManagedCryptoAPIsFlag ||
+					flag == core.FailExecutionOnEveryAPIErrorFlag ||
+					flag == core.RefactorContextFlag ||
+					flag == core.CheckCorrectTokenIDForTransferRoleFlag ||
+					flag == core.DisableExecByCallerFlag ||
+					flag == core.CheckExecuteOnReadOnlyFlag
+			},
 		},
 		WasmerSIGSEGVPassthrough: false,
 		Hasher:                   worldhook.DefaultHasher,

@@ -5,6 +5,7 @@ import (
 	"io"
 	"math/big"
 
+	"github.com/multiversx/mx-chain-core-go/core"
 	"github.com/multiversx/mx-chain-core-go/data/esdt"
 	"github.com/multiversx/mx-chain-core-go/data/vm"
 	vmcommon "github.com/multiversx/mx-chain-vm-common-go"
@@ -343,30 +344,7 @@ type HashComputer interface {
 
 // EnableEpochsHandler is used to verify which flags are set in a specific epoch based on EnableEpochs config
 type EnableEpochsHandler interface {
-	GetCurrentEpoch() uint32
-	CheckExecuteReadOnlyEnableEpoch() uint32
-	DisableExecByCallerEnableEpoch() uint32
-	RefactorContextEnableEpoch() uint32
-	FixFailExecutionOnErrorEnableEpoch() uint32
-	ManagedCryptoAPIEnableEpoch() uint32
-	CreateNFTThroughExecByCallerEnableEpoch() uint32
-	FixOOGReturnCodeEnableEpoch() uint32
-	MultiESDTTransferAsyncCallBackEnableEpoch() uint32
-	RemoveNonUpdatedStorageEnableEpoch() uint32
-	StorageAPICostOptimizationEnableEpoch() uint32
-
-	IsStorageAPICostOptimizationFlagEnabledInEpoch(epoch uint32) bool
-	IsManagedCryptoAPIsFlagEnabledInEpoch(epoch uint32) bool
-	IsMultiESDTTransferFixOnCallBackFlagEnabledInEpoch(epoch uint32) bool
-	IsRemoveNonUpdatedStorageFlagEnabledInEpoch(epoch uint32) bool
-	IsRefactorContextFlagEnabledInEpoch(epoch uint32) bool
-	IsFailExecutionOnEveryAPIErrorFlagEnabledInEpoch(epoch uint32) bool
-	IsFixOOGReturnCodeFlagEnabledInEpoch(epoch uint32) bool
-	IsCreateNFTThroughExecByCallerFlagEnabledInEpoch(epoch uint32) bool
-	IsDisableExecByCallerFlagEnabledInEpoch(epoch uint32) bool
-	IsCheckExecuteOnReadOnlyFlagEnabledInEpoch(epoch uint32) bool
-	IsRuntimeCodeSizeFixEnabledInEpoch(epoch uint32) bool
-	IsRuntimeMemStoreLimitEnabledInEpoch(epoch uint32) bool
-
+	IsFlagEnabledInCurrentEpoch(flag core.EnableEpochFlag) bool
+	GetActivationEpoch(flag core.EnableEpochFlag) uint32
 	IsInterfaceNil() bool
 }

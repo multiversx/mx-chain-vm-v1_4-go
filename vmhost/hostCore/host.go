@@ -6,6 +6,7 @@ import (
 	"sync"
 	"time"
 
+	"github.com/multiversx/mx-chain-core-go/core"
 	"github.com/multiversx/mx-chain-core-go/core/check"
 	logger "github.com/multiversx/mx-chain-logger-go"
 	vmcommon "github.com/multiversx/mx-chain-vm-common-go"
@@ -186,16 +187,16 @@ func NewVMHost(
 func createActivationMap(hostParameters *vmhost.VMHostParameters) map[uint32]struct{} {
 	activationMap := make(map[uint32]struct{})
 
-	activationMap[hostParameters.EnableEpochsHandler.CheckExecuteReadOnlyEnableEpoch()] = struct{}{}
-	activationMap[hostParameters.EnableEpochsHandler.DisableExecByCallerEnableEpoch()] = struct{}{}
-	activationMap[hostParameters.EnableEpochsHandler.RefactorContextEnableEpoch()] = struct{}{}
-	activationMap[hostParameters.EnableEpochsHandler.FixFailExecutionOnErrorEnableEpoch()] = struct{}{}
-	activationMap[hostParameters.EnableEpochsHandler.ManagedCryptoAPIEnableEpoch()] = struct{}{}
-	activationMap[hostParameters.EnableEpochsHandler.CreateNFTThroughExecByCallerEnableEpoch()] = struct{}{}
-	activationMap[hostParameters.EnableEpochsHandler.FixOOGReturnCodeEnableEpoch()] = struct{}{}
-	activationMap[hostParameters.EnableEpochsHandler.MultiESDTTransferAsyncCallBackEnableEpoch()] = struct{}{}
-	activationMap[hostParameters.EnableEpochsHandler.RemoveNonUpdatedStorageEnableEpoch()] = struct{}{}
-	activationMap[hostParameters.EnableEpochsHandler.StorageAPICostOptimizationEnableEpoch()] = struct{}{}
+	activationMap[hostParameters.EnableEpochsHandler.GetActivationEpoch(core.CheckExecuteOnReadOnlyFlag)] = struct{}{}
+	activationMap[hostParameters.EnableEpochsHandler.GetActivationEpoch(core.DisableExecByCallerFlag)] = struct{}{}
+	activationMap[hostParameters.EnableEpochsHandler.GetActivationEpoch(core.RefactorContextFlag)] = struct{}{}
+	activationMap[hostParameters.EnableEpochsHandler.GetActivationEpoch(core.FailExecutionOnEveryAPIErrorFlag)] = struct{}{}
+	activationMap[hostParameters.EnableEpochsHandler.GetActivationEpoch(core.ManagedCryptoAPIsFlag)] = struct{}{}
+	activationMap[hostParameters.EnableEpochsHandler.GetActivationEpoch(core.CreateNFTThroughExecByCallerFlag)] = struct{}{}
+	activationMap[hostParameters.EnableEpochsHandler.GetActivationEpoch(core.FixOOGReturnCodeFlag)] = struct{}{}
+	activationMap[hostParameters.EnableEpochsHandler.GetActivationEpoch(core.MultiESDTTransferFixOnCallBackFlag)] = struct{}{}
+	activationMap[hostParameters.EnableEpochsHandler.GetActivationEpoch(core.RemoveNonUpdatedStorageFlag)] = struct{}{}
+	activationMap[hostParameters.EnableEpochsHandler.GetActivationEpoch(core.StorageAPICostOptimizationFlag)] = struct{}{}
 
 	return activationMap
 }
@@ -531,27 +532,27 @@ func (host *vmHost) EpochConfirmed(epoch uint32, _ uint64) {
 
 // FixOOGReturnCodeEnabled returns true if the corresponding flag is set
 func (host *vmHost) FixOOGReturnCodeEnabled() bool {
-	return host.enableEpochsHandler.IsFixOOGReturnCodeFlagEnabledInEpoch(host.enableEpochsHandler.GetCurrentEpoch())
+	return host.enableEpochsHandler.IsFlagEnabledInCurrentEpoch(core.FixOOGReturnCodeFlag)
 }
 
 // FixFailExecutionEnabled returns true if the corresponding flag is set
 func (host *vmHost) FixFailExecutionEnabled() bool {
-	return host.enableEpochsHandler.IsFailExecutionOnEveryAPIErrorFlagEnabledInEpoch(host.enableEpochsHandler.GetCurrentEpoch())
+	return host.enableEpochsHandler.IsFlagEnabledInCurrentEpoch(core.FailExecutionOnEveryAPIErrorFlag)
 }
 
 // CreateNFTOnExecByCallerEnabled returns true if the corresponding flag is set
 func (host *vmHost) CreateNFTOnExecByCallerEnabled() bool {
-	return host.enableEpochsHandler.IsCreateNFTThroughExecByCallerFlagEnabledInEpoch(host.enableEpochsHandler.GetCurrentEpoch())
+	return host.enableEpochsHandler.IsFlagEnabledInCurrentEpoch(core.CreateNFTThroughExecByCallerFlag)
 }
 
 // DisableExecByCaller returns true if the corresponding flag is set
 func (host *vmHost) DisableExecByCaller() bool {
-	return host.enableEpochsHandler.IsDisableExecByCallerFlagEnabledInEpoch(host.enableEpochsHandler.GetCurrentEpoch())
+	return host.enableEpochsHandler.IsFlagEnabledInCurrentEpoch(core.DisableExecByCallerFlag)
 }
 
 // CheckExecuteReadOnly returns true if the corresponding flag is set
 func (host *vmHost) CheckExecuteReadOnly() bool {
-	return host.enableEpochsHandler.IsCheckExecuteOnReadOnlyFlagEnabledInEpoch(host.enableEpochsHandler.GetCurrentEpoch())
+	return host.enableEpochsHandler.IsFlagEnabledInCurrentEpoch(core.CheckExecuteOnReadOnlyFlag)
 }
 
 func (host *vmHost) setGasTracerEnabledIfLogIsTrace() {

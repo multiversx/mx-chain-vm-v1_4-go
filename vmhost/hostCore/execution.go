@@ -105,8 +105,7 @@ func (host *vmHost) performCodeDeployment(input vmhost.CodeDeployInput) (*vmcomm
 	}
 
 	output.DeployCode(input)
-	currentEpoch := host.enableEpochsHandler.GetCurrentEpoch()
-	if host.enableEpochsHandler.IsRemoveNonUpdatedStorageFlagEnabledInEpoch(currentEpoch) {
+	if host.enableEpochsHandler.IsFlagEnabledInCurrentEpoch(core.RemoveNonUpdatedStorageFlag) {
 		output.RemoveNonUpdatedStorage()
 	}
 
@@ -235,8 +234,7 @@ func (host *vmHost) doRunSmartContractCall(input *vmcommon.ContractCallInput) *v
 		return vmOutput
 	}
 
-	currentEpoch := host.enableEpochsHandler.GetCurrentEpoch()
-	if host.enableEpochsHandler.IsRemoveNonUpdatedStorageFlagEnabledInEpoch(currentEpoch) {
+	if host.enableEpochsHandler.IsFlagEnabledInCurrentEpoch(core.RemoveNonUpdatedStorageFlag) {
 		output.RemoveNonUpdatedStorage()
 	}
 
@@ -416,8 +414,7 @@ func (host *vmHost) ExecuteOnSameContext(input *vmcommon.ContractCallInput) (asy
 	librarySCAddress := make([]byte, len(input.RecipientAddr))
 	copy(librarySCAddress, input.RecipientAddr)
 
-	currentEpoch := host.enableEpochsHandler.GetCurrentEpoch()
-	if host.enableEpochsHandler.IsRefactorContextFlagEnabledInEpoch(currentEpoch) {
+	if host.enableEpochsHandler.IsFlagEnabledInCurrentEpoch(core.RefactorContextFlag) {
 		input.RecipientAddr = input.CallerAddr
 	}
 

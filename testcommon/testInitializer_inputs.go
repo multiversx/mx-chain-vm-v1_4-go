@@ -10,6 +10,7 @@ import (
 	"strings"
 	"testing"
 
+	"github.com/multiversx/mx-chain-core-go/core"
 	"github.com/multiversx/mx-chain-core-go/data/vm"
 	vmcommon "github.com/multiversx/mx-chain-vm-common-go"
 	"github.com/multiversx/mx-chain-vm-common-go/builtInFunctions"
@@ -322,14 +323,16 @@ func DefaultTestVMWithWorldMockWithGasSchedule(tb testing.TB, customGasSchedule 
 		ESDTTransferParser:   esdtTransferParser,
 		EpochNotifier:        &mock.EpochNotifierStub{},
 		EnableEpochsHandler: &mock.EnableEpochsHandlerStub{
-			IsStorageAPICostOptimizationFlagEnabledField:     true,
-			IsMultiESDTTransferFixOnCallBackFlagEnabledField: true,
-			IsFixOOGReturnCodeFlagEnabledField:               true,
-			IsRemoveNonUpdatedStorageFlagEnabledField:        true,
-			IsCreateNFTThroughExecByCallerFlagEnabledField:   true,
-			IsManagedCryptoAPIsFlagEnabledField:              true,
-			IsFailExecutionOnEveryAPIErrorFlagEnabledField:   true,
-			IsCheckExecuteOnReadOnlyFlagEnabledField:         true,
+			IsFlagEnabledInCurrentEpochCalled: func(flag core.EnableEpochFlag) bool {
+				return flag == core.StorageAPICostOptimizationFlag ||
+					flag == core.MultiESDTTransferFixOnCallBackFlag ||
+					flag == core.FixOOGReturnCodeFlag ||
+					flag == core.RemoveNonUpdatedStorageFlag ||
+					flag == core.CreateNFTThroughExecByCallerFlag ||
+					flag == core.ManagedCryptoAPIsFlag ||
+					flag == core.FailExecutionOnEveryAPIErrorFlag ||
+					flag == core.CheckExecuteOnReadOnlyFlag
+			},
 		},
 		WasmerSIGSEGVPassthrough: false,
 		Hasher:                   worldmock.DefaultHasher,
@@ -368,17 +371,19 @@ func DefaultTestVMWithGasSchedule(
 		ESDTTransferParser:   esdtTransferParser,
 		EpochNotifier:        &mock.EpochNotifierStub{},
 		EnableEpochsHandler: &mock.EnableEpochsHandlerStub{
-			IsStorageAPICostOptimizationFlagEnabledField:         true,
-			IsMultiESDTTransferFixOnCallBackFlagEnabledField:     true,
-			IsFixOOGReturnCodeFlagEnabledField:                   true,
-			IsRemoveNonUpdatedStorageFlagEnabledField:            true,
-			IsCreateNFTThroughExecByCallerFlagEnabledField:       true,
-			IsManagedCryptoAPIsFlagEnabledField:                  true,
-			IsFailExecutionOnEveryAPIErrorFlagEnabledField:       true,
-			IsRefactorContextFlagEnabledField:                    true,
-			IsCheckCorrectTokenIDForTransferRoleFlagEnabledField: true,
-			IsDisableExecByCallerFlagEnabledField:                true,
-			IsCheckExecuteOnReadOnlyFlagEnabledField:             true,
+			IsFlagEnabledInCurrentEpochCalled: func(flag core.EnableEpochFlag) bool {
+				return flag == core.StorageAPICostOptimizationFlag ||
+					flag == core.MultiESDTTransferFixOnCallBackFlag ||
+					flag == core.FixOOGReturnCodeFlag ||
+					flag == core.RemoveNonUpdatedStorageFlag ||
+					flag == core.CreateNFTThroughExecByCallerFlag ||
+					flag == core.ManagedCryptoAPIsFlag ||
+					flag == core.FailExecutionOnEveryAPIErrorFlag ||
+					flag == core.RefactorContextFlag ||
+					flag == core.CheckCorrectTokenIDForTransferRoleFlag ||
+					flag == core.DisableExecByCallerFlag ||
+					flag == core.CheckExecuteOnReadOnlyFlag
+			},
 		},
 		WasmerSIGSEGVPassthrough: wasmerSIGSEGVPassthrough,
 		Hasher:                   worldmock.DefaultHasher,

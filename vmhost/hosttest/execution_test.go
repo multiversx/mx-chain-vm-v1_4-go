@@ -9,6 +9,7 @@ import (
 	"math/big"
 	"testing"
 
+	"github.com/multiversx/mx-chain-core-go/core"
 	logger "github.com/multiversx/mx-chain-logger-go"
 	vmcommon "github.com/multiversx/mx-chain-vm-common-go"
 	"github.com/multiversx/mx-chain-vm-v1_4-go/config"
@@ -962,7 +963,9 @@ func runTestMBufferSetByteSliceDeploy(t *testing.T, enabled bool, retCode vmcomm
 		WithSetup(func(host vmhost.VMHost, stubBlockchainHook *contextmock.BlockchainHookStub) {
 			if !enabled {
 				enableEpochsHandler, _ := host.EnableEpochsHandler().(*vmMock.EnableEpochsHandlerStub)
-				enableEpochsHandler.IsStorageAPICostOptimizationFlagEnabledField = false
+				enableEpochsHandler.IsFlagEnabledInCurrentEpochCalled = func(flag core.EnableEpochFlag) bool {
+					return false
+				}
 			}
 		}).
 		AndAssertResults(func(blockchainHook *contextmock.BlockchainHookStub, verify *test.VMOutputVerifier) {
@@ -991,7 +994,9 @@ func runTestMBufferSetByteSlice(
 		WithSetup(func(host vmhost.VMHost, stubBlockchainHook *contextmock.BlockchainHookStub) {
 			if !enabled {
 				enableEpochsHandler, _ := host.EnableEpochsHandler().(*vmMock.EnableEpochsHandlerStub)
-				enableEpochsHandler.IsStorageAPICostOptimizationFlagEnabledField = false
+				enableEpochsHandler.IsFlagEnabledInCurrentEpochCalled = func(flag core.EnableEpochFlag) bool {
+					return false
+				}
 			}
 		}).
 		AndAssertResults(func(host vmhost.VMHost, stubBlockchainHook *contextmock.BlockchainHookStub, verify *test.VMOutputVerifier) {
@@ -2634,7 +2639,12 @@ func runTestExecutionRuntimeCodeSizeUpgradeContract(t *testing.T, fixEpochFlag b
 	testCase := test.BuildInstanceCallTest(t).
 		WithSetup(func(host vmhost.VMHost, _ *contextmock.BlockchainHookStub) {
 			epochs := host.EnableEpochsHandler().(*vmMock.EnableEpochsHandlerStub)
-			epochs.IsRuntimeCodeSizeFixEnabledField = fixEpochFlag
+			epochs.IsFlagEnabledInCurrentEpochCalled = func(flag core.EnableEpochFlag) bool {
+				if flag == core.RuntimeCodeSizeFixFlag {
+					return fixEpochFlag
+				}
+				return false
+			}
 		}).
 		WithContracts(
 			test.CreateInstanceContract(test.ParentAddress).

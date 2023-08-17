@@ -8,6 +8,7 @@ import (
 	"math/big"
 	"unsafe"
 
+	"github.com/multiversx/mx-chain-core-go/core"
 	"github.com/multiversx/mx-chain-core-go/core/check"
 	logger "github.com/multiversx/mx-chain-logger-go"
 	vmcommon "github.com/multiversx/mx-chain-vm-common-go"
@@ -303,8 +304,7 @@ func (context *runtimeContext) GetSCCode() ([]byte, error) {
 
 // GetSCCodeSize returns the size of the current SC code.
 func (context *runtimeContext) GetSCCodeSize() uint64 {
-	currentEpoch := context.host.EnableEpochsHandler().GetCurrentEpoch()
-	if context.host.EnableEpochsHandler().IsRuntimeCodeSizeFixEnabledInEpoch(currentEpoch) {
+	if context.host.EnableEpochsHandler().IsFlagEnabledInCurrentEpoch(core.RuntimeCodeSizeFixFlag) {
 		return context.iTracker.GetCodeSize()
 	}
 	return context.codeSize
@@ -647,8 +647,7 @@ func (context *runtimeContext) VerifyContractCode() error {
 	}
 
 	enableEpochsHandler := context.host.EnableEpochsHandler()
-	currentEpoch := enableEpochsHandler.GetCurrentEpoch()
-	if !enableEpochsHandler.IsStorageAPICostOptimizationFlagEnabledInEpoch(currentEpoch) {
+	if !enableEpochsHandler.IsFlagEnabledInCurrentEpoch(core.StorageAPICostOptimizationFlag) {
 		err = context.checkBackwardCompatibility()
 		if err != nil {
 			logRuntime.Trace("verify contract code", "error", err)
@@ -656,7 +655,7 @@ func (context *runtimeContext) VerifyContractCode() error {
 		}
 	}
 
-	if !enableEpochsHandler.IsManagedCryptoAPIsFlagEnabledInEpoch(currentEpoch) {
+	if !enableEpochsHandler.IsFlagEnabledInCurrentEpoch(core.ManagedCryptoAPIsFlag) {
 		err = context.checkIfContainsNewManagedCryptoAPI()
 		if err != nil {
 			logRuntime.Trace("verify contract code", "error", err)
@@ -664,7 +663,7 @@ func (context *runtimeContext) VerifyContractCode() error {
 		}
 	}
 
-	if enableEpochsHandler.IsManagedCryptoAPIsFlagEnabledInEpoch(currentEpoch) {
+	if enableEpochsHandler.IsFlagEnabledInCurrentEpoch(core.ManagedCryptoAPIsFlag) {
 		err = context.validator.verifyProtectedFunctions(context.iTracker.Instance())
 		if err != nil {
 			logRuntime.Trace("verify contract code", "error", err)
@@ -1140,8 +1139,7 @@ func (context *runtimeContext) MemStore(offset int32, data []byte) error {
 	epochsHandler := context.host.EnableEpochsHandler()
 
 	if isNewPageNecessary {
-		currentEpoch := epochsHandler.GetCurrentEpoch()
-		if epochsHandler.IsRuntimeMemStoreLimitEnabledInEpoch(currentEpoch) {
+		if epochsHandler.IsFlagEnabledInCurrentEpoch(core.RuntimeMemStoreLimitFlag) {
 			return vmhost.ErrBadUpperBounds
 		}
 

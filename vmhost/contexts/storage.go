@@ -3,6 +3,7 @@ package contexts
 import (
 	"bytes"
 
+	"github.com/multiversx/mx-chain-core-go/core"
 	"github.com/multiversx/mx-chain-core-go/core/check"
 	logger "github.com/multiversx/mx-chain-logger-go"
 	vmcommon "github.com/multiversx/mx-chain-vm-common-go"
@@ -113,8 +114,7 @@ func (context *storageContext) GetStorage(key []byte) ([]byte, bool, error) {
 func (context *storageContext) useGasForValueIfNeeded(value []byte, usedCache bool) {
 	metering := context.host.Metering()
 	enableEpochsHandler := context.host.EnableEpochsHandler()
-	currentEpoch := enableEpochsHandler.GetCurrentEpoch()
-	gasFlagSet := enableEpochsHandler.IsStorageAPICostOptimizationFlagEnabledInEpoch(currentEpoch)
+	gasFlagSet := enableEpochsHandler.IsFlagEnabledInCurrentEpoch(core.StorageAPICostOptimizationFlag)
 	if !usedCache || !gasFlagSet {
 		costPerByte := metering.GasSchedule().BaseOperationCost.DataCopyPerByte
 		gasToUse := math.MulUint64(costPerByte, uint64(len(value)))
@@ -129,8 +129,7 @@ func (context *storageContext) useExtraGasForKeyIfNeeded(key []byte, usedCache b
 		return
 	}
 	enableEpochsHandler := context.host.EnableEpochsHandler()
-	currentEpoch := enableEpochsHandler.GetCurrentEpoch()
-	gasFlagSet := enableEpochsHandler.IsStorageAPICostOptimizationFlagEnabledInEpoch(currentEpoch)
+	gasFlagSet := enableEpochsHandler.IsFlagEnabledInCurrentEpoch(core.StorageAPICostOptimizationFlag)
 	if !gasFlagSet || !usedCache {
 		gasToUse := math.MulUint64(metering.GasSchedule().BaseOperationCost.DataCopyPerByte, uint64(extraBytes))
 		metering.UseGas(gasToUse)
@@ -172,8 +171,7 @@ func (context *storageContext) getStorageFromAddressUnmetered(address []byte, ke
 	var err error
 
 	enableEpochsHandler := context.host.EnableEpochsHandler()
-	currentEpoch := enableEpochsHandler.GetCurrentEpoch()
-	if context.isProtocolProtectedKey(key) && enableEpochsHandler.IsStorageAPICostOptimizationFlagEnabledInEpoch(currentEpoch) {
+	if context.isProtocolProtectedKey(key) && enableEpochsHandler.IsFlagEnabledInCurrentEpoch(core.StorageAPICostOptimizationFlag) {
 		value, err = context.readFromBlockchain(address, key)
 		return value, false, err
 	}
@@ -366,8 +364,7 @@ func (context *storageContext) computeGasForUnchangedValue(length int, usedCache
 	metering := context.host.Metering()
 	useGas := uint64(0)
 	enableEpochsHandler := context.host.EnableEpochsHandler()
-	currentEpoch := enableEpochsHandler.GetCurrentEpoch()
-	if !usedCache || !enableEpochsHandler.IsStorageAPICostOptimizationFlagEnabledInEpoch(currentEpoch) {
+	if !usedCache || !enableEpochsHandler.IsFlagEnabledInCurrentEpoch(core.StorageAPICostOptimizationFlag) {
 		useGas = math.MulUint64(metering.GasSchedule().BaseOperationCost.DataCopyPerByte, uint64(length))
 	}
 	return useGas
@@ -401,9 +398,8 @@ func (context *storageContext) computeGasForKey(key []byte, usedCache bool) uint
 	extraBytes := len(key) - vmhost.AddressLen
 	extraKeyLenGas := uint64(0)
 	enableEpochsHandler := context.host.EnableEpochsHandler()
-	currentEpoch := enableEpochsHandler.GetCurrentEpoch()
 	if extraBytes > 0 &&
-		(!usedCache || !enableEpochsHandler.IsStorageAPICostOptimizationFlagEnabledInEpoch(currentEpoch)) {
+		(!usedCache || !enableEpochsHandler.IsFlagEnabledInCurrentEpoch(core.StorageAPICostOptimizationFlag)) {
 		extraKeyLenGas = math.MulUint64(metering.GasSchedule().BaseOperationCost.DataCopyPerByte, uint64(extraBytes))
 	}
 	return extraKeyLenGas
@@ -413,8 +409,7 @@ func (context *storageContext) computeGasForKey(key []byte, usedCache bool) uint
 func (context *storageContext) UseGasForStorageLoad(tracedFunctionName string, loadCost uint64, usedCache bool) {
 	metering := context.host.Metering()
 	enableEpochsHandler := context.host.EnableEpochsHandler()
-	currentEpoch := enableEpochsHandler.GetCurrentEpoch()
-	if enableEpochsHandler.IsStorageAPICostOptimizationFlagEnabledInEpoch(currentEpoch) && usedCache {
+	if enableEpochsHandler.IsFlagEnabledInCurrentEpoch(core.StorageAPICostOptimizationFlag) && usedCache {
 		loadCost = metering.GasSchedule().BaseOpsAPICost.CachedStorageLoad
 	}
 
@@ -424,8 +419,7 @@ func (context *storageContext) UseGasForStorageLoad(tracedFunctionName string, l
 // IsUseDifferentGasCostFlagSet - getter for flag
 func (context *storageContext) IsUseDifferentGasCostFlagSet() bool {
 	enableEpochsHandler := context.host.EnableEpochsHandler()
-	currentEpoch := enableEpochsHandler.GetCurrentEpoch()
-	return enableEpochsHandler.IsStorageAPICostOptimizationFlagEnabledInEpoch(currentEpoch)
+	return enableEpochsHandler.IsFlagEnabledInCurrentEpoch(core.StorageAPICostOptimizationFlag)
 }
 
 // IsInterfaceNil returns true if there is no value under the interface
