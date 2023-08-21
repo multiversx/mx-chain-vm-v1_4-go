@@ -323,15 +323,15 @@ func DefaultTestVMWithWorldMockWithGasSchedule(tb testing.TB, customGasSchedule 
 		ESDTTransferParser:   esdtTransferParser,
 		EpochNotifier:        &mock.EpochNotifierStub{},
 		EnableEpochsHandler: &mock.EnableEpochsHandlerStub{
-			IsFlagEnabledInCurrentEpochCalled: func(flag core.EnableEpochFlag) bool {
-				return flag == core.StorageAPICostOptimizationFlag ||
-					flag == core.MultiESDTTransferFixOnCallBackFlag ||
-					flag == core.FixOOGReturnCodeFlag ||
-					flag == core.RemoveNonUpdatedStorageFlag ||
-					flag == core.CreateNFTThroughExecByCallerFlag ||
-					flag == core.ManagedCryptoAPIsFlag ||
-					flag == core.FailExecutionOnEveryAPIErrorFlag ||
-					flag == core.CheckExecuteOnReadOnlyFlag
+			IsFlagEnabledCalled: func(flag core.EnableEpochFlag) bool {
+				return flag == vmhost.StorageAPICostOptimizationFlag ||
+					flag == vmhost.MultiESDTTransferFixOnCallBackFlag ||
+					flag == vmhost.FixOOGReturnCodeFlag ||
+					flag == vmhost.RemoveNonUpdatedStorageFlag ||
+					flag == vmhost.CreateNFTThroughExecByCallerFlag ||
+					flag == vmhost.ManagedCryptoAPIsFlag ||
+					flag == vmhost.FailExecutionOnEveryAPIErrorFlag ||
+					flag == vmhost.CheckExecuteOnReadOnlyFlag
 			},
 		},
 		WasmerSIGSEGVPassthrough: false,
@@ -371,18 +371,17 @@ func DefaultTestVMWithGasSchedule(
 		ESDTTransferParser:   esdtTransferParser,
 		EpochNotifier:        &mock.EpochNotifierStub{},
 		EnableEpochsHandler: &mock.EnableEpochsHandlerStub{
-			IsFlagEnabledInCurrentEpochCalled: func(flag core.EnableEpochFlag) bool {
-				return flag == core.StorageAPICostOptimizationFlag ||
-					flag == core.MultiESDTTransferFixOnCallBackFlag ||
-					flag == core.FixOOGReturnCodeFlag ||
-					flag == core.RemoveNonUpdatedStorageFlag ||
-					flag == core.CreateNFTThroughExecByCallerFlag ||
-					flag == core.ManagedCryptoAPIsFlag ||
-					flag == core.FailExecutionOnEveryAPIErrorFlag ||
-					flag == core.RefactorContextFlag ||
-					flag == core.CheckCorrectTokenIDForTransferRoleFlag ||
-					flag == core.DisableExecByCallerFlag ||
-					flag == core.CheckExecuteOnReadOnlyFlag
+			IsFlagEnabledCalled: func(flag core.EnableEpochFlag) bool {
+				return flag == vmhost.StorageAPICostOptimizationFlag ||
+					flag == vmhost.MultiESDTTransferFixOnCallBackFlag ||
+					flag == vmhost.FixOOGReturnCodeFlag ||
+					flag == vmhost.RemoveNonUpdatedStorageFlag ||
+					flag == vmhost.CreateNFTThroughExecByCallerFlag ||
+					flag == vmhost.ManagedCryptoAPIsFlag ||
+					flag == vmhost.FailExecutionOnEveryAPIErrorFlag ||
+					flag == vmhost.RefactorContextFlag ||
+					flag == vmhost.DisableExecByCallerFlag ||
+					flag == vmhost.CheckExecuteOnReadOnlyFlag
 			},
 		},
 		WasmerSIGSEGVPassthrough: wasmerSIGSEGVPassthrough,

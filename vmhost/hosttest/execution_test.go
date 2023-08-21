@@ -963,7 +963,7 @@ func runTestMBufferSetByteSliceDeploy(t *testing.T, enabled bool, retCode vmcomm
 		WithSetup(func(host vmhost.VMHost, stubBlockchainHook *contextmock.BlockchainHookStub) {
 			if !enabled {
 				enableEpochsHandler, _ := host.EnableEpochsHandler().(*vmMock.EnableEpochsHandlerStub)
-				enableEpochsHandler.IsFlagEnabledInCurrentEpochCalled = func(flag core.EnableEpochFlag) bool {
+				enableEpochsHandler.IsFlagEnabledCalled = func(flag core.EnableEpochFlag) bool {
 					return false
 				}
 			}
@@ -994,7 +994,7 @@ func runTestMBufferSetByteSlice(
 		WithSetup(func(host vmhost.VMHost, stubBlockchainHook *contextmock.BlockchainHookStub) {
 			if !enabled {
 				enableEpochsHandler, _ := host.EnableEpochsHandler().(*vmMock.EnableEpochsHandlerStub)
-				enableEpochsHandler.IsFlagEnabledInCurrentEpochCalled = func(flag core.EnableEpochFlag) bool {
+				enableEpochsHandler.IsFlagEnabledCalled = func(flag core.EnableEpochFlag) bool {
 					return false
 				}
 			}
@@ -2639,8 +2639,8 @@ func runTestExecutionRuntimeCodeSizeUpgradeContract(t *testing.T, fixEpochFlag b
 	testCase := test.BuildInstanceCallTest(t).
 		WithSetup(func(host vmhost.VMHost, _ *contextmock.BlockchainHookStub) {
 			epochs := host.EnableEpochsHandler().(*vmMock.EnableEpochsHandlerStub)
-			epochs.IsFlagEnabledInCurrentEpochCalled = func(flag core.EnableEpochFlag) bool {
-				if flag == core.RuntimeCodeSizeFixFlag {
+			epochs.IsFlagEnabledCalled = func(flag core.EnableEpochFlag) bool {
+				if flag == vmhost.RuntimeCodeSizeFixFlag {
 					return fixEpochFlag
 				}
 				return false

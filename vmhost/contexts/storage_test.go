@@ -55,8 +55,8 @@ func TestNewStorageContext(t *testing.T) {
 		t.Parallel()
 
 		enableEpochsHandler := &mock.EnableEpochsHandlerStub{
-			IsFlagEnabledInCurrentEpochCalled: func(flag core.EnableEpochFlag) bool {
-				return flag == core.StorageAPICostOptimizationFlag
+			IsFlagEnabledCalled: func(flag core.EnableEpochFlag) bool {
+				return flag == vmhost.StorageAPICostOptimizationFlag
 			},
 		}
 		host := &contextmock.VMHostMock{
@@ -105,8 +105,8 @@ func TestStorageContext_SetAddress(t *testing.T) {
 	mockMetering.SetGasSchedule(config.MakeGasMapForTests())
 	mockMetering.BlockGasLimitMock = uint64(15000)
 	enableEpochsHandler := &mock.EnableEpochsHandlerStub{
-		IsFlagEnabledInCurrentEpochCalled: func(flag core.EnableEpochFlag) bool {
-			return flag == core.StorageAPICostOptimizationFlag
+		IsFlagEnabledCalled: func(flag core.EnableEpochFlag) bool {
+			return flag == vmhost.StorageAPICostOptimizationFlag
 		},
 	}
 
@@ -164,8 +164,8 @@ func TestStorageContext_GetStorageUpdates(t *testing.T) {
 	}
 
 	enableEpochsHandler := &mock.EnableEpochsHandlerStub{
-		IsFlagEnabledInCurrentEpochCalled: func(flag core.EnableEpochFlag) bool {
-			return flag == core.StorageAPICostOptimizationFlag
+		IsFlagEnabledCalled: func(flag core.EnableEpochFlag) bool {
+			return flag == vmhost.StorageAPICostOptimizationFlag
 		},
 	}
 
@@ -198,8 +198,8 @@ func TestStorageContext_SetStorage(t *testing.T) {
 	mockMetering.BlockGasLimitMock = uint64(15000)
 
 	enableEpochsHandler := &mock.EnableEpochsHandlerStub{
-		IsFlagEnabledInCurrentEpochCalled: func(flag core.EnableEpochFlag) bool {
-			return flag == core.StorageAPICostOptimizationFlag
+		IsFlagEnabledCalled: func(flag core.EnableEpochFlag) bool {
+			return flag == vmhost.StorageAPICostOptimizationFlag
 		},
 	}
 
@@ -341,8 +341,8 @@ func TestStorageContext_SetStorage_GasUsage(t *testing.T) {
 	mockMetering.BlockGasLimitMock = uint64(15000)
 
 	enableEpochsHandler := &mock.EnableEpochsHandlerStub{
-		IsFlagEnabledInCurrentEpochCalled: func(flag core.EnableEpochFlag) bool {
-			return flag == core.StorageAPICostOptimizationFlag
+		IsFlagEnabledCalled: func(flag core.EnableEpochFlag) bool {
+			return flag == vmhost.StorageAPICostOptimizationFlag
 		},
 	}
 	host := &contextmock.VMHostMock{
@@ -407,8 +407,8 @@ func TestStorageContext_StorageProtection(t *testing.T) {
 	mockMetering.BlockGasLimitMock = uint64(15000)
 
 	enableEpochsHandler := &mock.EnableEpochsHandlerStub{
-		IsFlagEnabledInCurrentEpochCalled: func(flag core.EnableEpochFlag) bool {
-			return flag == core.StorageAPICostOptimizationFlag
+		IsFlagEnabledCalled: func(flag core.EnableEpochFlag) bool {
+			return flag == vmhost.StorageAPICostOptimizationFlag
 		},
 	}
 
@@ -449,8 +449,8 @@ func TestStorageContext_GetStorageFromAddress(t *testing.T) {
 
 	scAddress := []byte("account")
 	enableEpochsHandler := &mock.EnableEpochsHandlerStub{
-		IsFlagEnabledInCurrentEpochCalled: func(flag core.EnableEpochFlag) bool {
-			return flag == core.StorageAPICostOptimizationFlag
+		IsFlagEnabledCalled: func(flag core.EnableEpochFlag) bool {
+			return flag == vmhost.StorageAPICostOptimizationFlag
 		},
 	}
 
@@ -574,8 +574,8 @@ func TestStorageContext_StoreGasPerKey(t *testing.T) {
 func TestStorageContext_PopSetActiveStateIfStackIsEmptyShouldNotPanic(t *testing.T) {
 	t.Parallel()
 	enableEpochsHandler := &mock.EnableEpochsHandlerStub{
-		IsFlagEnabledInCurrentEpochCalled: func(flag core.EnableEpochFlag) bool {
-			return flag == core.StorageAPICostOptimizationFlag
+		IsFlagEnabledCalled: func(flag core.EnableEpochFlag) bool {
+			return flag == vmhost.StorageAPICostOptimizationFlag
 		},
 	}
 
@@ -592,8 +592,8 @@ func TestStorageContext_PopSetActiveStateIfStackIsEmptyShouldNotPanic(t *testing
 func TestStorageContext_PopDiscardIfStackIsEmptyShouldNotPanic(t *testing.T) {
 	t.Parallel()
 	enableEpochsHandler := &mock.EnableEpochsHandlerStub{
-		IsFlagEnabledInCurrentEpochCalled: func(flag core.EnableEpochFlag) bool {
-			return flag == core.StorageAPICostOptimizationFlag
+		IsFlagEnabledCalled: func(flag core.EnableEpochFlag) bool {
+			return flag == vmhost.StorageAPICostOptimizationFlag
 		},
 	}
 

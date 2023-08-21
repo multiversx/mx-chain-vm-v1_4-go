@@ -463,7 +463,7 @@ func runUpdateFromSourceTest(t *testing.T, testConfig *updateFromSourceTestConfi
 
 			if !testConfig.isFlagEnabled {
 				enableEpochsHandler, _ := host.EnableEpochsHandler().(*vmMock.EnableEpochsHandlerStub)
-				enableEpochsHandler.IsFlagEnabledInCurrentEpochCalled = func(flag core.EnableEpochFlag) bool {
+				enableEpochsHandler.IsFlagEnabledCalled = func(flag core.EnableEpochFlag) bool {
 					return false
 				}
 			}

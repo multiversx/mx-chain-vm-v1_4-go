@@ -8,7 +8,6 @@ import (
 	"math/big"
 	"unsafe"
 
-	"github.com/multiversx/mx-chain-core-go/core"
 	"github.com/multiversx/mx-chain-core-go/core/check"
 	logger "github.com/multiversx/mx-chain-logger-go"
 	vmcommon "github.com/multiversx/mx-chain-vm-common-go"
@@ -304,7 +303,7 @@ func (context *runtimeContext) GetSCCode() ([]byte, error) {
 
 // GetSCCodeSize returns the size of the current SC code.
 func (context *runtimeContext) GetSCCodeSize() uint64 {
-	if context.host.EnableEpochsHandler().IsFlagEnabledInCurrentEpoch(core.RuntimeCodeSizeFixFlag) {
+	if context.host.EnableEpochsHandler().IsFlagEnabled(vmhost.RuntimeCodeSizeFixFlag) {
 		return context.iTracker.GetCodeSize()
 	}
 	return context.codeSize
@@ -647,7 +646,7 @@ func (context *runtimeContext) VerifyContractCode() error {
 	}
 
 	enableEpochsHandler := context.host.EnableEpochsHandler()
-	if !enableEpochsHandler.IsFlagEnabledInCurrentEpoch(core.StorageAPICostOptimizationFlag) {
+	if !enableEpochsHandler.IsFlagEnabled(vmhost.StorageAPICostOptimizationFlag) {
 		err = context.checkBackwardCompatibility()
 		if err != nil {
 			logRuntime.Trace("verify contract code", "error", err)
@@ -655,7 +654,7 @@ func (context *runtimeContext) VerifyContractCode() error {
 		}
 	}
 
-	if !enableEpochsHandler.IsFlagEnabledInCurrentEpoch(core.ManagedCryptoAPIsFlag) {
+	if !enableEpochsHandler.IsFlagEnabled(vmhost.ManagedCryptoAPIsFlag) {
 		err = context.checkIfContainsNewManagedCryptoAPI()
 		if err != nil {
 			logRuntime.Trace("verify contract code", "error", err)
@@ -663,7 +662,7 @@ func (context *runtimeContext) VerifyContractCode() error {
 		}
 	}
 
-	if enableEpochsHandler.IsFlagEnabledInCurrentEpoch(core.ManagedCryptoAPIsFlag) {
+	if enableEpochsHandler.IsFlagEnabled(vmhost.ManagedCryptoAPIsFlag) {
 		err = context.validator.verifyProtectedFunctions(context.iTracker.Instance())
 		if err != nil {
 			logRuntime.Trace("verify contract code", "error", err)
@@ -1139,7 +1138,7 @@ func (context *runtimeContext) MemStore(offset int32, data []byte) error {
 	epochsHandler := context.host.EnableEpochsHandler()
 
 	if isNewPageNecessary {
-		if epochsHandler.IsFlagEnabledInCurrentEpoch(core.RuntimeMemStoreLimitFlag) {
+		if epochsHandler.IsFlagEnabled(vmhost.RuntimeMemStoreLimitFlag) {
 			return vmhost.ErrBadUpperBounds
 		}
 

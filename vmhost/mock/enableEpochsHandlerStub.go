@@ -10,7 +10,8 @@ var _ vmhost.EnableEpochsHandler = (*EnableEpochsHandlerStub)(nil)
 // EnableEpochsHandlerStub -
 type EnableEpochsHandlerStub struct {
 	IsFlagDefinedCalled                            func(flag core.EnableEpochFlag) bool
-	IsFlagEnabledInCurrentEpochCalled              func(flag core.EnableEpochFlag) bool
+	IsFlagEnabledCalled                            func(flag core.EnableEpochFlag) bool
+	IsFlagEnabledInEpochCalled                     func(flag core.EnableEpochFlag, epoch uint32) bool
 	GetActivationEpochCalled                       func(flag core.EnableEpochFlag) uint32
 	MultiESDTTransferAsyncCallBackEnableEpochField uint32
 	FixOOGReturnCodeEnableEpochField               uint32
@@ -32,10 +33,18 @@ func (stub *EnableEpochsHandlerStub) IsFlagDefined(flag core.EnableEpochFlag) bo
 	return true
 }
 
-// IsFlagEnabledInCurrentEpoch -
-func (stub *EnableEpochsHandlerStub) IsFlagEnabledInCurrentEpoch(flag core.EnableEpochFlag) bool {
-	if stub.IsFlagEnabledInCurrentEpochCalled != nil {
-		return stub.IsFlagEnabledInCurrentEpochCalled(flag)
+// IsFlagEnabled -
+func (stub *EnableEpochsHandlerStub) IsFlagEnabled(flag core.EnableEpochFlag) bool {
+	if stub.IsFlagEnabledCalled != nil {
+		return stub.IsFlagEnabledCalled(flag)
+	}
+	return false
+}
+
+// IsFlagEnabledInEpoch -
+func (stub *EnableEpochsHandlerStub) IsFlagEnabledInEpoch(flag core.EnableEpochFlag, epoch uint32) bool {
+	if stub.IsFlagEnabledInEpochCalled != nil {
+		return stub.IsFlagEnabledInEpochCalled(flag, epoch)
 	}
 	return false
 }
@@ -46,25 +55,25 @@ func (stub *EnableEpochsHandlerStub) GetActivationEpoch(flag core.EnableEpochFla
 		return stub.GetActivationEpochCalled(flag)
 	}
 	switch flag {
-	case core.MultiESDTTransferFixOnCallBackFlag:
+	case vmhost.MultiESDTTransferFixOnCallBackFlag:
 		return stub.MultiESDTTransferAsyncCallBackEnableEpochField
-	case core.FixOOGReturnCodeFlag:
+	case vmhost.FixOOGReturnCodeFlag:
 		return stub.FixOOGReturnCodeEnableEpochField
-	case core.RemoveNonUpdatedStorageFlag:
+	case vmhost.RemoveNonUpdatedStorageFlag:
 		return stub.RemoveNonUpdatedStorageEnableEpochField
-	case core.CreateNFTThroughExecByCallerFlag:
+	case vmhost.CreateNFTThroughExecByCallerFlag:
 		return stub.CreateNFTThroughExecByCallerEnableEpochField
-	case core.FailExecutionOnEveryAPIErrorFlag:
+	case vmhost.FailExecutionOnEveryAPIErrorFlag:
 		return stub.FixFailExecutionOnErrorEnableEpochField
-	case core.ManagedCryptoAPIsFlag:
+	case vmhost.ManagedCryptoAPIsFlag:
 		return stub.ManagedCryptoAPIEnableEpochField
-	case core.DisableExecByCallerFlag:
+	case vmhost.DisableExecByCallerFlag:
 		return stub.DisableExecByCallerEnableEpochField
-	case core.RefactorContextFlag:
+	case vmhost.RefactorContextFlag:
 		return stub.RefactorContextEnableEpochField
-	case core.CheckExecuteOnReadOnlyFlag:
+	case vmhost.CheckExecuteOnReadOnlyFlag:
 		return stub.CheckExecuteReadOnlyEnableEpochField
-	case core.StorageAPICostOptimizationFlag:
+	case vmhost.StorageAPICostOptimizationFlag:
 		return stub.StorageAPICostOptimizationEnableEpochField
 	default:
 		return 0

@@ -61,7 +61,7 @@ func loadStorage(t *testing.T, key []byte, flagEnabled bool) {
 
 			if !flagEnabled {
 				enableEpochsHandler, _ := host.EnableEpochsHandler().(*vmMock.EnableEpochsHandlerStub)
-				enableEpochsHandler.IsFlagEnabledInCurrentEpochCalled = func(flag core.EnableEpochFlag) bool {
+				enableEpochsHandler.IsFlagEnabledCalled = func(flag core.EnableEpochFlag) bool {
 					return false
 				}
 			}
@@ -128,7 +128,7 @@ func loadStorageFromAddress(t *testing.T, key []byte, flagEnabled bool) {
 
 			if !flagEnabled {
 				enableEpochsHandler, _ := host.EnableEpochsHandler().(*vmMock.EnableEpochsHandlerStub)
-				enableEpochsHandler.IsFlagEnabledInCurrentEpochCalled = func(flag core.EnableEpochFlag) bool {
+				enableEpochsHandler.IsFlagEnabledCalled = func(flag core.EnableEpochFlag) bool {
 					return false
 				}
 			}
@@ -219,7 +219,7 @@ func setStorage(t *testing.T, key []byte, flagEnabled bool) {
 
 			if !flagEnabled {
 				enableEpochsHandler, _ := host.EnableEpochsHandler().(*vmMock.EnableEpochsHandlerStub)
-				enableEpochsHandler.IsFlagEnabledInCurrentEpochCalled = func(flag core.EnableEpochFlag) bool {
+				enableEpochsHandler.IsFlagEnabledCalled = func(flag core.EnableEpochFlag) bool {
 					return false
 				}
 			}
