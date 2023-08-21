@@ -30,7 +30,7 @@ var _ vmhost.VMHost = (*vmHost)(nil)
 const minExecutionTimeout = time.Second
 const internalVMErrors = "internalVMErrors"
 
-// allFlags must have all flags used by mx-chain-vm-v1_2-go in the current version
+// allFlags must have all flags used by mx-chain-vm-v1_4-go in the current version
 var allFlags = []core.EnableEpochFlag{
 	vmhost.MultiESDTTransferFixOnCallBackFlag,
 	vmhost.RemoveNonUpdatedStorageFlag,
