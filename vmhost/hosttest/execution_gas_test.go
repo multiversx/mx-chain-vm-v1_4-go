@@ -1358,7 +1358,7 @@ func TestGasUsed_TransferAndExecute_CrossShard(t *testing.T) {
 				test.ParentAddress,
 				contracts.GetChildAddressForTransfer(transfer),
 				big.NewInt(testConfig.TransferFromParentToChild).Bytes()},
-			Data:       []byte{},
+			Data:       [][]byte{{}},
 			Identifier: []byte("transferValueOnly"),
 		})
 	}

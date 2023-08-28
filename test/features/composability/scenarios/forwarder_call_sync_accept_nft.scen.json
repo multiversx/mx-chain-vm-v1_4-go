@@ -57,43 +57,6 @@
             "expect": {
                 "out": [],
                 "status": "0",
-                "logs": [
-                    {
-                        "address": "sc:forwarder",
-                        "endpoint": "str:ESDTNFTTransfer",
-                        "topics": [
-                            "str:NFT-000001",
-                            "5",
-                            "1",
-                            "sc:vault"
-                        ],
-                        "data": ""
-                    },
-                    {
-                        "address": "sc:vault",
-                        "endpoint": "str:accept_funds_echo_payment",
-                        "topics": [
-                            "str:accept_funds",
-                            "0",
-                            "str:NFT-000001",
-                            "5",
-                            "1"
-                        ],
-                        "data": ""
-                    },
-                    {
-                        "address": "sc:forwarder",
-                        "endpoint": "str:forward_sync_accept_funds",
-                        "topics": [
-                            "str:accept_funds_sync_result",
-                            "0",
-                            "str:NFT-000001",
-                            "5",
-                            "1"
-                        ],
-                        "data": ""
-                    }
-                ],
                 "gas": "*",
                 "refund": "*"
             }

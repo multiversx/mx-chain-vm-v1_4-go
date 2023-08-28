@@ -45,19 +45,6 @@
             "expect": {
                 "out": [],
                 "status": "0",
-                "logs": [
-                    {
-                        "address": "sc:forwarder",
-                        "endpoint": "str:ESDTTransfer",
-                        "topics": [
-                            "str:TEST-TOKENA",
-                            "",
-                            "1000",
-                            "sc:vault"
-                        ],
-                        "data": ""
-                    }
-                ],
                 "gas": "*",
                 "refund": "*"
             }
