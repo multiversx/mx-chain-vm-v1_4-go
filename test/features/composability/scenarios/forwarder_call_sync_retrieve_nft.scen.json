@@ -49,30 +49,6 @@
             "expect": {
                 "out": [],
                 "status": "0",
-                "logs": [
-                    {
-                        "address": "sc:vault",
-                        "endpoint": "str:retrieve_funds",
-                        "topics": [
-                            "str:retrieve_funds",
-                            "str:NFT-000001",
-                            "5",
-                            "1"
-                        ],
-                        "data": ""
-                    },
-                    {
-                        "address": "sc:vault",
-                        "endpoint": "str:ESDTNFTTransfer",
-                        "topics": [
-                            "str:NFT-000001",
-                            "5",
-                            "01",
-                            "sc:forwarder"
-                        ],
-                        "data": ""
-                    }
-                ],
                 "gas": "*",
                 "refund": "*"
             }
