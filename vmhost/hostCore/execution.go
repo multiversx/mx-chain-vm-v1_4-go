@@ -259,13 +259,13 @@ func copyTxHashesFromContext(runtime vmhost.RuntimeContext, input *vmcommon.Cont
 	if len(currentVMInput.PrevTxHash) > 0 {
 		input.PrevTxHash = currentVMInput.PrevTxHash
 	}
-
 }
 
 // ExecuteOnDestContext pushes each context to the corresponding stack
 // and initializes new contexts for executing the contract call with the given input
 func (host *vmHost) ExecuteOnDestContext(input *vmcommon.ContractCallInput) (vmOutput *vmcommon.VMOutput, asyncInfo *vmhost.AsyncContextInfo, err error) {
 	log.Trace("ExecuteOnDestContext", "caller", input.CallerAddr, "dest", input.RecipientAddr, "function", input.Function)
+	log.Trace("ExecuteOnDestContext", "gasProvided", input.GasProvided)
 
 	scExecutionInput := input
 

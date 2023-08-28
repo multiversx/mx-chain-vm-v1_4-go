@@ -33,7 +33,6 @@ func NewMeteringContext(
 	gasMap config.GasScheduleMap,
 	blockGasLimit uint64,
 ) (*meteringContext, error) {
-
 	gasSchedule, err := config.CreateGasConfig(gasMap)
 	if err != nil {
 		return nil, err
@@ -197,6 +196,12 @@ func (context *meteringContext) updateSCGasUsed() {
 	gasUsed = math.SubUint64(gasUsed, gasUsedByOthers)
 
 	context.gasUsedByAccounts[string(currentAccountAddress)] = gasUsed
+
+	logMetering.Trace("updateSCGasUsed",
+		"scAddress", currentAccountAddress,
+		"gasUsed", gasUsed,
+		"gasTransferred", gasTransferredByCurrentAccount,
+		"gasUsedByOthers", gasUsedByOthers)
 }
 
 // TrackGasUsedByBuiltinFunction computes the gas used by a builtin function
@@ -370,7 +375,14 @@ func (context *meteringContext) GasLeft() uint64 {
 		return 0
 	}
 
-	return gasProvided - gasUsed
+	gasLeft := gasProvided - gasUsed
+
+	logMetering.Trace("metering.GasLeft()",
+		"gasProvided", gasProvided,
+		"gasUsed", gasUsed,
+		"gasLeft", gasLeft)
+
+	return gasLeft
 }
 
 // GasSpentByContract calculates the entire gas consumption of the contract,
@@ -509,6 +521,12 @@ func (context *meteringContext) deductInitialGas(
 
 	context.initialCost = initialCost
 	context.gasForExecution = input.GasProvided - initialCost
+
+	logMetering.Trace("deductInitialGas",
+		"initialGasProvided", context.initialGasProvided,
+		"gasProvided", input.GasProvided,
+		"initialCost", context.initialCost,
+		"gasForExecution", context.gasForExecution)
 	return nil
 }
 
