@@ -56,6 +56,11 @@ type EnableEpochsHandlerStub struct {
 	StorageAPICostOptimizationEnableEpochField           uint32
 }
 
+// IsDynamicGasCostForDataTrieStorageLoadEnabled -
+func (stub *EnableEpochsHandlerStub) IsDynamicGasCostForDataTrieStorageLoadEnabled() bool {
+	return false
+}
+
 // IsGuardAccountEnabled -
 func (stub *EnableEpochsHandlerStub) IsGuardAccountEnabled() bool {
 	return stub.IsGuardAccountEnabledField
