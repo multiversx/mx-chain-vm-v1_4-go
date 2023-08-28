@@ -389,7 +389,7 @@ func (host *vmHost) finishExecuteOnDestContext(executeErr error) *vmcommon.VMOut
 	// Restore remaining gas to the caller Wasmer instance
 	metering.RestoreGas(vmOutput.GasRemaining)
 
-	log.Trace("ExecuteOnDestContext finished", "gas spent", gasSpentByChildContract)
+	log.Trace("ExecuteOnDestContext finished", "gas spent by contract", gasSpentByChildContract)
 
 	return vmOutput
 }

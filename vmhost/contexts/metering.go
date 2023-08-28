@@ -354,6 +354,9 @@ func (context *meteringContext) GetGasTrace() map[string]map[string][]uint64 {
 // RestoreGas subtracts the given gas from the gas used that is set in the runtime context.
 func (context *meteringContext) RestoreGas(gas uint64) {
 	gasUsed := context.host.Runtime().GetPointsUsed()
+	logMetering.Trace("metering.RestoreGas()",
+		"gasToRestore", gas,
+		"executionGasUsed", gasUsed)
 	if gas <= gasUsed {
 		gasUsed = math.SubUint64(gasUsed, gas)
 		context.host.Runtime().SetPointsUsed(gasUsed)
@@ -392,6 +395,10 @@ func (context *meteringContext) GasSpentByContract() uint64 {
 	executionGasUsed := runtime.GetPointsUsed()
 
 	gasSpent := math.AddUint64(context.initialCost, executionGasUsed)
+
+	logMetering.Trace("metering.GasSpentByContract()",
+		"executionGasUsed", executionGasUsed,
+		"totalGasSpent", gasSpent)
 	return gasSpent
 }
 
