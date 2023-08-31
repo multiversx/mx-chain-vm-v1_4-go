@@ -27,4 +27,5 @@ const (
 	RuntimeCodeSizeFixFlag core.EnableEpochFlag = "RuntimeCodeSizeFixFlag"
 	// FixOOGReturnCodeFlag defines the flag that activates the fix oog return code
 	FixOOGReturnCodeFlag core.EnableEpochFlag = "FixOOGReturnCodeFlag"
+	// all new flags must be added to allFlags slice from hostCore/host
 )
