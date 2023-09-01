@@ -24,7 +24,7 @@ type VMHostMock struct {
 	OutputContext            vmhost.OutputContext
 	MeteringContext          vmhost.MeteringContext
 	StorageContext           vmhost.StorageContext
-	EnableEpochsHandlerField vmcommon.EnableEpochsHandler
+	EnableEpochsHandlerField vmhost.EnableEpochsHandler
 	ManagedTypesContext      vmhost.ManagedTypesContext
 
 	SCAPIMethods  *wasmer.Imports
@@ -72,7 +72,7 @@ func (host *VMHostMock) Storage() vmhost.StorageContext {
 }
 
 // EnableEpochsHandler mocked method
-func (host *VMHostMock) EnableEpochsHandler() vmcommon.EnableEpochsHandler {
+func (host *VMHostMock) EnableEpochsHandler() vmhost.EnableEpochsHandler {
 	return host.EnableEpochsHandlerField
 }
 
