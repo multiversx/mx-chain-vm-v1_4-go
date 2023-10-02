@@ -80,29 +80,18 @@ func (ae *VMTestExecutor) InitVM(scenGasSchedule mj.GasSchedule) error {
 		ESDTTransferParser:   esdtTransferParser,
 		EpochNotifier:        &mock.EpochNotifierStub{},
 		EnableEpochsHandler: &mock.EnableEpochsHandlerStub{
-			IsStorageAPICostOptimizationFlagEnabledField:         true,
-			IsMultiESDTTransferFixOnCallBackFlagEnabledField:     true,
-			IsFixOOGReturnCodeFlagEnabledField:                   true,
-			IsRemoveNonUpdatedStorageFlagEnabledField:            true,
-			IsCreateNFTThroughExecByCallerFlagEnabledField:       true,
-			IsManagedCryptoAPIsFlagEnabledField:                  true,
-			IsFailExecutionOnEveryAPIErrorFlagEnabledField:       true,
-			IsRefactorContextFlagEnabledField:                    true,
-			IsCheckCorrectTokenIDForTransferRoleFlagEnabledField: true,
-			IsDisableExecByCallerFlagEnabledField:                true,
-			IsESDTTransferRoleFlagEnabledField:                   true,
-			IsGlobalMintBurnFlagEnabledField:                     true,
-			IsTransferToMetaFlagEnabledField:                     true,
-			IsCheckFrozenCollectionFlagEnabledField:              true,
-			IsFixAsyncCallbackCheckFlagEnabledField:              true,
-			IsESDTNFTImprovementV1FlagEnabledField:               true,
-			IsSaveToSystemAccountFlagEnabledField:                true,
-			IsValueLengthCheckFlagEnabledField:                   true,
-			IsSCDeployFlagEnabledField:                           true,
-			IsRepairCallbackFlagEnabledField:                     true,
-			IsAheadOfTimeGasUsageFlagEnabledField:                true,
-			IsCheckFunctionArgumentFlagEnabledField:              true,
-			IsCheckExecuteOnReadOnlyFlagEnabledField:             true,
+			IsFlagEnabledCalled: func(flag core.EnableEpochFlag) bool {
+				return flag == vmhost.StorageAPICostOptimizationFlag ||
+					flag == vmhost.MultiESDTTransferFixOnCallBackFlag ||
+					flag == vmhost.FixOOGReturnCodeFlag ||
+					flag == vmhost.RemoveNonUpdatedStorageFlag ||
+					flag == vmhost.CreateNFTThroughExecByCallerFlag ||
+					flag == vmhost.ManagedCryptoAPIsFlag ||
+					flag == vmhost.FailExecutionOnEveryAPIErrorFlag ||
+					flag == vmhost.RefactorContextFlag ||
+					flag == vmhost.DisableExecByCallerFlag ||
+					flag == vmhost.CheckExecuteOnReadOnlyFlag
+			},
 		},
 		WasmerSIGSEGVPassthrough: false,
 		Hasher:                   worldhook.DefaultHasher,

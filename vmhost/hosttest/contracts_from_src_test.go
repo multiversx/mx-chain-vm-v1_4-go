@@ -4,6 +4,7 @@ import (
 	"math/big"
 	"testing"
 
+	"github.com/multiversx/mx-chain-core-go/core"
 	vmcommon "github.com/multiversx/mx-chain-vm-common-go"
 	mock "github.com/multiversx/mx-chain-vm-v1_4-go/mock/context"
 	"github.com/multiversx/mx-chain-vm-v1_4-go/mock/contracts"
@@ -462,7 +463,9 @@ func runUpdateFromSourceTest(t *testing.T, testConfig *updateFromSourceTestConfi
 
 			if !testConfig.isFlagEnabled {
 				enableEpochsHandler, _ := host.EnableEpochsHandler().(*vmMock.EnableEpochsHandlerStub)
-				enableEpochsHandler.IsStorageAPICostOptimizationFlagEnabledField = false
+				enableEpochsHandler.IsFlagEnabledCalled = func(flag core.EnableEpochFlag) bool {
+					return false
+				}
 			}
 		}).
 		AndAssertResults(asserts)
