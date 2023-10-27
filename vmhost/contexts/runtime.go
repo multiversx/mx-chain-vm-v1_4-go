@@ -1086,10 +1086,13 @@ func (context *runtimeContext) MemLoad(offset int32, length int32) ([]byte, erro
 		return nil, fmt.Errorf("mem load: %w", vmhost.ErrNegativeLength)
 	}
 
-	result := make([]byte, length)
+	var result []byte
+
 	if isRequestedEndTooLarge {
+		result = make([]byte, memoryLength-uint32(offset))
 		copy(result, memoryView[offset:])
 	} else {
+		result = make([]byte, requestedEnd-offset)
 		copy(result, memoryView[offset:requestedEnd])
 	}
 
