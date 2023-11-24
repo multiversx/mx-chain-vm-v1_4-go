@@ -652,7 +652,7 @@ func TestRuntimeContext_MemLoadCases(t *testing.T) {
 	length = 9
 	memContents, err = runtimeContext.MemLoad(offset, length)
 	require.Nil(t, err)
-	require.Equal(t, []byte{'e', 's', 't', ' ', 'd', 'a', 't', 'a', 0}, memContents)
+	require.Equal(t, []byte{'e', 's', 't', ' ', 'd', 'a', 't', 'a'}, memContents)
 
 	// Zero length
 	offset = int32(memory.Length() - 8)
