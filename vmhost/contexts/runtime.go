@@ -303,7 +303,7 @@ func (context *runtimeContext) GetSCCode() ([]byte, error) {
 
 // GetSCCodeSize returns the size of the current SC code.
 func (context *runtimeContext) GetSCCodeSize() uint64 {
-	if context.host.EnableEpochsHandler().IsRuntimeCodeSizeFixEnabled() {
+	if context.host.EnableEpochsHandler().IsFlagEnabled(vmhost.RuntimeCodeSizeFixFlag) {
 		return context.iTracker.GetCodeSize()
 	}
 	return context.codeSize
@@ -646,7 +646,7 @@ func (context *runtimeContext) VerifyContractCode() error {
 	}
 
 	enableEpochsHandler := context.host.EnableEpochsHandler()
-	if !enableEpochsHandler.IsStorageAPICostOptimizationFlagEnabled() {
+	if !enableEpochsHandler.IsFlagEnabled(vmhost.StorageAPICostOptimizationFlag) {
 		err = context.checkBackwardCompatibility()
 		if err != nil {
 			logRuntime.Trace("verify contract code", "error", err)
@@ -654,15 +654,13 @@ func (context *runtimeContext) VerifyContractCode() error {
 		}
 	}
 
-	if !enableEpochsHandler.IsManagedCryptoAPIsFlagEnabled() {
+	if !enableEpochsHandler.IsFlagEnabled(vmhost.ManagedCryptoAPIsFlag) {
 		err = context.checkIfContainsNewManagedCryptoAPI()
 		if err != nil {
 			logRuntime.Trace("verify contract code", "error", err)
 			return err
 		}
-	}
 
-	if enableEpochsHandler.IsManagedCryptoAPIsFlagEnabled() {
 		err = context.validator.verifyProtectedFunctions(context.iTracker.Instance())
 		if err != nil {
 			logRuntime.Trace("verify contract code", "error", err)
@@ -1086,10 +1084,13 @@ func (context *runtimeContext) MemLoad(offset int32, length int32) ([]byte, erro
 		return nil, fmt.Errorf("mem load: %w", vmhost.ErrNegativeLength)
 	}
 
-	result := make([]byte, length)
+	var result []byte
+
 	if isRequestedEndTooLarge {
+		result = make([]byte, memoryLength-uint32(offset))
 		copy(result, memoryView[offset:])
 	} else {
+		result = make([]byte, requestedEnd-offset)
 		copy(result, memoryView[offset:requestedEnd])
 	}
 
@@ -1138,7 +1139,7 @@ func (context *runtimeContext) MemStore(offset int32, data []byte) error {
 	epochsHandler := context.host.EnableEpochsHandler()
 
 	if isNewPageNecessary {
-		if epochsHandler.IsRuntimeMemStoreLimitEnabled() {
+		if epochsHandler.IsFlagEnabled(vmhost.RuntimeMemStoreLimitFlag) {
 			return vmhost.ErrBadUpperBounds
 		}
 

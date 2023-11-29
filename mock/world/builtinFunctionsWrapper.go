@@ -3,12 +3,13 @@ package worldmock
 import (
 	"bytes"
 
+	"github.com/multiversx/mx-chain-core-go/core"
 	"github.com/multiversx/mx-chain-core-go/core/check"
 	"github.com/multiversx/mx-chain-core-go/marshal"
 	vmcommon "github.com/multiversx/mx-chain-vm-common-go"
 	"github.com/multiversx/mx-chain-vm-common-go/builtInFunctions"
+	"github.com/multiversx/mx-chain-vm-common-go/mock"
 	"github.com/multiversx/mx-chain-vm-v1_4-go/config"
-	"github.com/multiversx/mx-chain-vm-v1_4-go/vmhost/mock"
 )
 
 // WorldMarshalizer is the global marshalizer to be used by the components of
@@ -43,31 +44,19 @@ func NewBuiltinFunctionsWrapper(
 		ShardCoordinator:                 world,
 		MaxNumOfAddressesForTransferRole: 100,
 		EnableEpochsHandler: &mock.EnableEpochsHandlerStub{
-			IsStorageAPICostOptimizationFlagEnabledField:         true,
-			IsMultiESDTTransferFixOnCallBackFlagEnabledField:     true,
-			IsFixOOGReturnCodeFlagEnabledField:                   true,
-			IsRemoveNonUpdatedStorageFlagEnabledField:            true,
-			IsCreateNFTThroughExecByCallerFlagEnabledField:       true,
-			IsManagedCryptoAPIsFlagEnabledField:                  true,
-			IsFailExecutionOnEveryAPIErrorFlagEnabledField:       true,
-			IsRefactorContextFlagEnabledField:                    true,
-			IsCheckCorrectTokenIDForTransferRoleFlagEnabledField: true,
-			IsDisableExecByCallerFlagEnabledField:                true,
-			IsESDTTransferRoleFlagEnabledField:                   true,
-			IsGlobalMintBurnFlagEnabledField:                     true,
-			IsTransferToMetaFlagEnabledField:                     true,
-			IsCheckFrozenCollectionFlagEnabledField:              true,
-			IsFixAsyncCallbackCheckFlagEnabledField:              true,
-			IsESDTNFTImprovementV1FlagEnabledField:               true,
-			IsSaveToSystemAccountFlagEnabledField:                true,
-			IsValueLengthCheckFlagEnabledField:                   true,
-			IsSCDeployFlagEnabledField:                           true,
-			IsRepairCallbackFlagEnabledField:                     true,
-			IsAheadOfTimeGasUsageFlagEnabledField:                true,
-			IsCheckFunctionArgumentFlagEnabledField:              true,
-			IsCheckExecuteOnReadOnlyFlagEnabledField:             true,
-			IsFixOldTokenLiquidityEnabledField:                   true,
-			IsChangeUsernameEnabledField:                         false,
+			IsFlagEnabledCalled: func(flag core.EnableEpochFlag) bool {
+				return flag == builtInFunctions.CheckCorrectTokenIDForTransferRoleFlag ||
+					flag == builtInFunctions.ESDTTransferRoleFlag ||
+					flag == builtInFunctions.GlobalMintBurnFlag ||
+					flag == builtInFunctions.TransferToMetaFlag ||
+					flag == builtInFunctions.CheckFrozenCollectionFlag ||
+					flag == builtInFunctions.FixAsyncCallbackCheckFlag ||
+					flag == builtInFunctions.ESDTNFTImprovementV1Flag ||
+					flag == builtInFunctions.SaveToSystemAccountFlag ||
+					flag == builtInFunctions.ValueLengthCheckFlag ||
+					flag == builtInFunctions.CheckFunctionArgumentFlag ||
+					flag == builtInFunctions.FixOldTokenLiquidityFlag
+			},
 		},
 	}
 
