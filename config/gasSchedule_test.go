@@ -6,6 +6,7 @@ import (
 
 	"github.com/mitchellh/mapstructure"
 	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/require"
 )
 
 type operations struct {
@@ -79,4 +80,11 @@ func TestDecode_ZeroGasCostError(t *testing.T) {
 
 	err = checkForZeroUint64Fields(*wasmCosts)
 	assert.Error(t, err)
+}
+
+func TestMakeGasMap(t *testing.T) {
+	t.Parallel()
+
+	gasMap := MakeGasMapForTests()
+	require.NotNil(t, gasMap)
 }
