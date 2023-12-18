@@ -176,6 +176,7 @@ func FillGasMapBuiltInCosts(value uint64) map[string]uint64 {
 	gasMap["UnGuardAccount"] = value
 	gasMap["TrieLoadPerNode"] = value
 	gasMap["TrieStorePerNode"] = value
+	gasMap["MigrateCodeLeaf"] = value
 
 	return gasMap
 }
