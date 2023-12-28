@@ -243,7 +243,7 @@ func (context *outputContext) WriteLogWithIdentifier(address []byte, topics [][]
 
 	newLogEntry := &vmcommon.LogEntry{
 		Address:    address,
-		Data:       data,
+		Data:       [][]byte{data},
 		Identifier: identifier,
 	}
 	logOutput.Trace("log entry", "address", address, "data", data)
