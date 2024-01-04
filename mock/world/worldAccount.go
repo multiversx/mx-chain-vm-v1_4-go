@@ -276,3 +276,8 @@ func cloneBytes(b []byte) []byte {
 	copy(clone, b)
 	return clone
 }
+
+// MigrateDataTrieLeaves -
+func (a *Account) MigrateDataTrieLeaves(_ vmcommon.ArgsMigrateDataTrieLeaves) error {
+	return nil
+}

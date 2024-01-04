@@ -1,6 +1,7 @@
 package worldmock
 
 import (
+	"errors"
 	"fmt"
 
 	vmcommon "github.com/multiversx/mx-chain-vm-common-go"
@@ -49,6 +50,11 @@ type MockWorld struct {
 	IsPausedValue              bool
 	IsLimitedTransferValue     bool
 	GuardedAccountHandler      vmcommon.GuardedAccountHandler
+}
+
+// ExecuteSmartContractCallOnOtherVM -
+func (b *MockWorld) ExecuteSmartContractCallOnOtherVM(_ *vmcommon.ContractCallInput) (*vmcommon.VMOutput, error) {
+	return nil, errors.New("not implemented")
 }
 
 // NewMockWorld creates a new MockWorld instance

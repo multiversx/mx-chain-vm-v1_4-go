@@ -5,7 +5,7 @@ on:
     branches:
       - master
   pull_request:
-    branches: [ master, development ]
+    branches: [ master, rc/*, feat/* ]
   workflow_dispatch:
 
 jobs:

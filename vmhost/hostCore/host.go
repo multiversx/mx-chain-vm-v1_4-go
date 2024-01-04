@@ -175,6 +175,8 @@ func NewVMHost(
 		wasmer.SetSIGSEGVPassthrough()
 	}
 
+	wasmer.ForceInstallSighandlers()
+
 	host.initContexts()
 	hostParameters.EpochNotifier.RegisterNotifyHandler(host)
 
@@ -477,7 +479,7 @@ func (host *vmHost) createLogEntryFromErrors(sndAddress, rcvAddress []byte, func
 		Identifier: []byte(internalVMErrors),
 		Address:    sndAddress,
 		Topics:     [][]byte{rcvAddress, []byte(function)},
-		Data:       []byte(formattedErrors.Error()),
+		Data:       [][]byte{[]byte(formattedErrors.Error())},
 	}
 
 	return logFromError

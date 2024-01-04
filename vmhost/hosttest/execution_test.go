@@ -3170,7 +3170,7 @@ func runMemGrowTest(
 			if expectedRetCode == vmcommon.ExecutionFailed {
 				vmOutput := verify.VmOutput
 				require.Len(tb, vmOutput.Logs, 1)
-				require.Contains(tb, string(vmOutput.Logs[0].Data), vmhost.ErrMemoryLimit.Error())
+				require.Contains(tb, string(vmOutput.Logs[0].GetFirstDataItem()), vmhost.ErrMemoryLimit.Error())
 			}
 		})
 }
