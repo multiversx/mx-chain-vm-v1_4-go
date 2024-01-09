@@ -4,7 +4,7 @@ import (
 	"os"
 	"testing"
 
-	worldmock "github.com/multiversx/mx-chain-vm-v1_4-go/mock/world"
+	worldmock "github.com/multiversx/mx-chain-scenario-go/worldmock"
 	"github.com/stretchr/testify/require"
 )
 

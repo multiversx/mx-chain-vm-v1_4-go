@@ -10,11 +10,10 @@
         },
         {
             "step": "scCall",
-            "txId": "unBondNodes-1",
+            "id": "unBondNodes-1",
             "tx": {
                 "from": "''node_address__________________s1",
                 "to": "sc:delegation",
-                "value": "0",
                 "function": "unBondNodes",
                 "arguments": [
                     "''bls_key_5_______________________________________________________________________________________"
@@ -34,7 +33,9 @@
                             "sc:delegation",
                             "111,000,000,000,000"
                         ],
-                        "data": ""
+                        "data": [
+                            ""
+                        ]
                     },
                     {
                         "address": "sc:delegation",
@@ -42,7 +43,9 @@
                         "topics": [
                             "0x0000000000000000000000000000000000000000000000000000000000000007"
                         ],
-                        "data": "0x"
+                        "data": [
+                            "0x"
+                        ]
                     }
                 ],
                 "gas": "*",

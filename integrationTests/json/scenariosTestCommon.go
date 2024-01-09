@@ -6,10 +6,11 @@ import (
 	"path/filepath"
 	"testing"
 
+	vmscenario "github.com/multiversx/mx-chain-vm-v1_4-go/scenario"
+
 	logger "github.com/multiversx/mx-chain-logger-go"
-	am "github.com/multiversx/mx-chain-vm-v1_4-go/scenarioexec"
-	mc "github.com/multiversx/mx-chain-vm-v1_4-go/scenarios/controller"
-	"github.com/stretchr/testify/require"
+	mc "github.com/multiversx/mx-chain-scenario-go/controller"
+	scenexec "github.com/multiversx/mx-chain-scenario-go/executor"
 )
 
 func init() {
@@ -30,16 +31,16 @@ func runAllTestsInFolder(t *testing.T, folder string) {
 }
 
 func runTestsInFolder(t *testing.T, folder string, exclusions []string) {
-	executor, err := am.NewVMTestExecutor()
-	require.Nil(t, err)
+	vmBuilder := vmscenario.NewScenarioVMHostBuilder()
+	executor := scenexec.NewScenarioExecutor(vmBuilder)
 	defer executor.Close()
 
-	runner := mc.NewScenarioRunner(
+	runner := mc.NewScenarioController(
 		executor,
 		mc.NewDefaultFileResolver(),
 	)
 
-	err = runner.RunAllJSONScenariosInDirectory(
+	err := runner.RunAllJSONScenariosInDirectory(
 		getTestRoot(),
 		folder,
 		".scen.json",
@@ -52,13 +53,11 @@ func runTestsInFolder(t *testing.T, folder string, exclusions []string) {
 }
 
 func runSingleTestReturnError(folder string, filename string) error {
-	executor, err := am.NewVMTestExecutor()
-	if err != nil {
-		return err
-	}
+	vmBuilder := vmscenario.NewScenarioVMHostBuilder()
+	executor := scenexec.NewScenarioExecutor(vmBuilder)
 	defer executor.Close()
 
-	runner := mc.NewScenarioRunner(
+	runner := mc.NewScenarioController(
 		executor,
 		mc.NewDefaultFileResolver(),
 	)
