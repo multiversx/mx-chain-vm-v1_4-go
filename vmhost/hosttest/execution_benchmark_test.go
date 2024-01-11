@@ -8,19 +8,19 @@ import (
 	"testing"
 	"time"
 
-	worldmock "github.com/multiversx/mx-chain-vm-v1_4-go/mock/world"
 	gasSchedules "github.com/multiversx/mx-chain-vm-v1_4-go/scenario/gasSchedules"
-
-	"github.com/multiversx/mx-chain-core-go/data/vm"
-	logger "github.com/multiversx/mx-chain-logger-go"
-	vmcommon "github.com/multiversx/mx-chain-vm-common-go"
-	"github.com/multiversx/mx-chain-vm-common-go/builtInFunctions"
-	"github.com/multiversx/mx-chain-vm-common-go/parsers"
 	"github.com/multiversx/mx-chain-vm-v1_4-go/testcommon"
 	"github.com/multiversx/mx-chain-vm-v1_4-go/vmhost"
 	"github.com/multiversx/mx-chain-vm-v1_4-go/vmhost/contexts"
 	"github.com/multiversx/mx-chain-vm-v1_4-go/vmhost/hostCore"
 	"github.com/multiversx/mx-chain-vm-v1_4-go/vmhost/mock"
+
+	"github.com/multiversx/mx-chain-core-go/data/vm"
+	logger "github.com/multiversx/mx-chain-logger-go"
+	"github.com/multiversx/mx-chain-scenario-go/worldmock"
+	vmcommon "github.com/multiversx/mx-chain-vm-common-go"
+	"github.com/multiversx/mx-chain-vm-common-go/builtInFunctions"
+	"github.com/multiversx/mx-chain-vm-common-go/parsers"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 )
@@ -231,7 +231,7 @@ func runMemoryUsageBenchmark(tb testing.TB, nContracts int, nTransfers int) {
 }
 
 func prepare(tb testing.TB) (*worldmock.MockWorld, *worldmock.Account, vmhost.VMHost, error) {
-	mockWorld := worldmock.NewMockWorld()
+	mockWorld := mock.NewMockWorldVM14()
 	ownerAccount := &worldmock.Account{
 		Address: owner,
 		Nonce:   1024,

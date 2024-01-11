@@ -30,6 +30,11 @@ func NewScenarioVMHostBuilder() *ScenarioVMHostBuilder {
 	return &ScenarioVMHostBuilder{}
 }
 
+// NewMockWorld defines how the MockWorld is initialized.
+func (*ScenarioVMHostBuilder) NewMockWorld() *worldmock.MockWorld {
+	return mock.NewMockWorldVM14()
+}
+
 // GasScheduleMapFromScenarios provides the correct gas schedule for the gas schedule named specified in a scenario.
 func (svb *ScenarioVMHostBuilder) GasScheduleMapFromScenarios(scenGasSchedule mj.GasSchedule) (worldmock.GasScheduleMap, error) {
 	switch scenGasSchedule {
@@ -51,39 +56,6 @@ func (svb *ScenarioVMHostBuilder) NewVM(
 	world *worldmock.MockWorld,
 	gasSchedule map[string]map[string]uint64,
 ) (scenexec.VMInterface, error) {
-	world.EnableEpochsHandler = &mock.EnableEpochsHandlerStub{
-		IsStorageAPICostOptimizationFlagEnabledField:         true,
-		IsMultiESDTTransferFixOnCallBackFlagEnabledField:     true,
-		IsFixOOGReturnCodeFlagEnabledField:                   true,
-		IsRemoveNonUpdatedStorageFlagEnabledField:            true,
-		IsCreateNFTThroughExecByCallerFlagEnabledField:       true,
-		IsManagedCryptoAPIsFlagEnabledField:                  true,
-		IsFailExecutionOnEveryAPIErrorFlagEnabledField:       true,
-		IsRefactorContextFlagEnabledField:                    true,
-		IsCheckCorrectTokenIDForTransferRoleFlagEnabledField: true,
-		IsDisableExecByCallerFlagEnabledField:                true,
-		IsESDTTransferRoleFlagEnabledField:                   true,
-		IsGlobalMintBurnFlagEnabledField:                     true,
-		IsTransferToMetaFlagEnabledField:                     true,
-		IsCheckFrozenCollectionFlagEnabledField:              true,
-		IsFixAsyncCallbackCheckFlagEnabledField:              true,
-		IsESDTNFTImprovementV1FlagEnabledField:               true,
-		IsSaveToSystemAccountFlagEnabledField:                true,
-		IsValueLengthCheckFlagEnabledField:                   true,
-		IsSCDeployFlagEnabledField:                           true,
-		IsRepairCallbackFlagEnabledField:                     true,
-		IsAheadOfTimeGasUsageFlagEnabledField:                true,
-		IsCheckFunctionArgumentFlagEnabledField:              true,
-		IsCheckExecuteOnReadOnlyFlagEnabledField:             true,
-		IsFixOldTokenLiquidityEnabledField:                   true,
-		IsChangeUsernameEnabledField:                         false, // relevant in DNS test
-	}
-
-	err := world.InitBuiltinFunctions(gasSchedule)
-	if err != nil {
-		return nil, err
-	}
-
 	blockGasLimit := uint64(10000000)
 	esdtTransferParser, _ := parsers.NewESDTTransferParser(worldmock.WorldMarshalizer)
 

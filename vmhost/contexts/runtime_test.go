@@ -7,11 +7,6 @@ import (
 	"math/big"
 	"testing"
 
-	"github.com/multiversx/mx-chain-core-go/core"
-	"github.com/multiversx/mx-chain-core-go/hashing/blake2b"
-	worldmock "github.com/multiversx/mx-chain-scenario-go/worldmock"
-	vmcommon "github.com/multiversx/mx-chain-vm-common-go"
-	"github.com/multiversx/mx-chain-vm-common-go/builtInFunctions"
 	"github.com/multiversx/mx-chain-vm-v1_4-go/config"
 	"github.com/multiversx/mx-chain-vm-v1_4-go/crypto/factory"
 	contextmock "github.com/multiversx/mx-chain-vm-v1_4-go/mock/context"
@@ -21,6 +16,11 @@ import (
 	"github.com/multiversx/mx-chain-vm-v1_4-go/vmhost/vmhooks"
 	"github.com/multiversx/mx-chain-vm-v1_4-go/vmhost/vmhooksmeta"
 	"github.com/multiversx/mx-chain-vm-v1_4-go/wasmer"
+
+	"github.com/multiversx/mx-chain-core-go/core"
+	"github.com/multiversx/mx-chain-core-go/hashing/blake2b"
+	vmcommon "github.com/multiversx/mx-chain-vm-common-go"
+	"github.com/multiversx/mx-chain-vm-common-go/builtInFunctions"
 	"github.com/stretchr/testify/require"
 )
 
@@ -57,7 +57,7 @@ func InitializeVMAndWasmer() *contextmock.VMHostMock {
 	mockMetering := &contextmock.MeteringContextMock{}
 	mockMetering.SetGasSchedule(gasSchedule)
 	host.MeteringContext = mockMetering
-	host.BlockchainContext, _ = NewBlockchainContext(host, worldmock.NewMockWorld())
+	host.BlockchainContext, _ = NewBlockchainContext(host, mock.NewMockWorldVM14())
 	host.OutputContext, _ = NewOutputContext(host)
 	host.CryptoHook = factory.NewVMCrypto()
 	return host

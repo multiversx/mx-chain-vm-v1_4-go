@@ -4,10 +4,12 @@ import (
 	"math/big"
 	"testing"
 
-	worldmock "github.com/multiversx/mx-chain-scenario-go/worldmock"
-	vmcommon "github.com/multiversx/mx-chain-vm-common-go"
 	contextmock "github.com/multiversx/mx-chain-vm-v1_4-go/mock/context"
 	"github.com/multiversx/mx-chain-vm-v1_4-go/vmhost"
+	"github.com/multiversx/mx-chain-vm-v1_4-go/vmhost/mock"
+
+	worldmock "github.com/multiversx/mx-chain-scenario-go/worldmock"
+	vmcommon "github.com/multiversx/mx-chain-vm-common-go"
 	"github.com/stretchr/testify/require"
 )
 
@@ -402,7 +404,7 @@ func TestOutputContext_Transfer(t *testing.T) {
 
 	host := &contextmock.VMHostMock{}
 	host.RuntimeContext = &contextmock.RuntimeContextMock{VMInput: &vmcommon.ContractCallInput{}}
-	mockWorld := worldmock.NewMockWorld()
+	mockWorld := mock.NewMockWorldVM14()
 	mockWorld.AcctMap.PutAccount(&worldmock.Account{
 		Address: sender,
 		Nonce:   42,
@@ -435,7 +437,7 @@ func TestOutputContext_Transfer_Errors_And_Checks(t *testing.T) {
 	sender := []byte("sender")
 	receiver := []byte("receiver")
 
-	mockWorld := worldmock.NewMockWorld()
+	mockWorld := mock.NewMockWorldVM14()
 	mockWorld.AcctMap.PutAccount(&worldmock.Account{
 		Address: sender,
 		Nonce:   88,
@@ -485,7 +487,7 @@ func TestOutputContext_Transfer_IsAccountPayable(t *testing.T) {
 	receiverPayable := make([]byte, 32)
 	receiverPayable[31] = 1
 
-	mockWorld := worldmock.NewMockWorld()
+	mockWorld := mock.NewMockWorldVM14()
 	mockWorld.AcctMap.PutAccounts([]*worldmock.Account{
 		{
 			Address: sender,
