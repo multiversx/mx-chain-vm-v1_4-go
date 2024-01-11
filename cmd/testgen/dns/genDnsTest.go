@@ -3,14 +3,13 @@ package main
 
 import (
 	"fmt"
-	"io/ioutil"
 	"os"
 	"path/filepath"
 
-	mc "github.com/multiversx/mx-chain-vm-v1_4-go/scenarios/controller"
-	mjparse "github.com/multiversx/mx-chain-vm-v1_4-go/scenarios/json/parse"
-	mjwrite "github.com/multiversx/mx-chain-vm-v1_4-go/scenarios/json/write"
-	mj "github.com/multiversx/mx-chain-vm-v1_4-go/scenarios/model"
+	mc "github.com/multiversx/mx-chain-scenario-go/controller"
+	mjparse "github.com/multiversx/mx-chain-scenario-go/json/parse"
+	mjwrite "github.com/multiversx/mx-chain-scenario-go/json/write"
+	mj "github.com/multiversx/mx-chain-scenario-go/model"
 )
 
 func getTestRoot() string {
@@ -128,7 +127,7 @@ func main() {
 
 	// save
 	serialized := mjwrite.ScenarioToJSONString(tg.generatedScenario)
-	err := ioutil.WriteFile(
+	err := os.WriteFile(
 		filepath.Join(getTestRoot(), "dns/dns_init.steps.json"),
 		[]byte(serialized), 0644)
 	if err != nil {

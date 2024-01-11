@@ -2,20 +2,21 @@ package featuresintegrationtest
 
 import (
 	"fmt"
-	"io/ioutil"
 	"math/big"
+	"os"
 	"strings"
 	"testing"
 
+	"github.com/multiversx/mx-chain-vm-v1_4-go/config"
+	"github.com/multiversx/mx-chain-vm-v1_4-go/vmhost"
+	"github.com/multiversx/mx-chain-vm-v1_4-go/vmhost/hostCore"
+	"github.com/multiversx/mx-chain-vm-v1_4-go/vmhost/mock"
+
+	er "github.com/multiversx/mx-chain-scenario-go/expression/reconstructor"
 	worldhook "github.com/multiversx/mx-chain-scenario-go/worldmock"
 	vmcommon "github.com/multiversx/mx-chain-vm-common-go"
 	"github.com/multiversx/mx-chain-vm-common-go/builtInFunctions"
 	"github.com/multiversx/mx-chain-vm-common-go/parsers"
-	"github.com/multiversx/mx-chain-vm-v1_4-go/config"
-	er "github.com/multiversx/mx-chain-vm-v1_4-go/scenarios/expression/reconstructor"
-	"github.com/multiversx/mx-chain-vm-v1_4-go/vmhost"
-	"github.com/multiversx/mx-chain-vm-v1_4-go/vmhost/hostCore"
-	"github.com/multiversx/mx-chain-vm-v1_4-go/vmhost/mock"
 	"github.com/stretchr/testify/require"
 )
 
@@ -70,7 +71,7 @@ func (pfe *pureFunctionExecutor) initAccounts(contractPath string) {
 	pfe.contractAddress = []byte("contract_addr_________________s1")
 	pfe.userAddress = []byte("user_addr_____________________s1")
 
-	scCode, err := ioutil.ReadFile(contractPath)
+	scCode, err := os.ReadFile(contractPath)
 	if err != nil {
 		panic(err)
 	}
