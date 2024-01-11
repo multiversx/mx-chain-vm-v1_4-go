@@ -1,9 +1,9 @@
 package vmserver
 
 import (
-	"io/ioutil"
+	"os"
 
-	"github.com/multiversx/mx-chain-vm-common-go"
+	vmcommon "github.com/multiversx/mx-chain-vm-common-go"
 )
 
 // DeployRequest is a CLI / REST request message
@@ -32,7 +32,7 @@ func (request *DeployRequest) digest() error {
 	}
 
 	if len(request.CodePath) > 0 {
-		request.Code, err = ioutil.ReadFile(request.CodePath)
+		request.Code, err = os.ReadFile(request.CodePath)
 		if err != nil {
 			return err
 		}
