@@ -10,7 +10,7 @@ import (
 
 	logger "github.com/multiversx/mx-chain-logger-go"
 	scenexec "github.com/multiversx/mx-chain-scenario-go/scenario/executor"
-	mc "github.com/multiversx/mx-chain-scenario-go/scenario/io"
+	scenio "github.com/multiversx/mx-chain-scenario-go/scenario/io"
 )
 
 func init() {
@@ -35,9 +35,9 @@ func runTestsInFolder(t *testing.T, folder string, exclusions []string) {
 	executor := scenexec.NewScenarioExecutor(vmBuilder)
 	defer executor.Close()
 
-	runner := mc.NewScenarioController(
+	runner := scenio.NewScenarioController(
 		executor,
-		mc.NewDefaultFileResolver(),
+		scenio.NewDefaultFileResolver(),
 	)
 
 	err := runner.RunAllJSONScenariosInDirectory(
@@ -45,7 +45,7 @@ func runTestsInFolder(t *testing.T, folder string, exclusions []string) {
 		folder,
 		".scen.json",
 		exclusions,
-		mc.DefaultRunScenarioOptions())
+		scenio.DefaultRunScenarioOptions())
 
 	if err != nil {
 		t.Error(err)
@@ -57,9 +57,9 @@ func runSingleTestReturnError(folder string, filename string) error {
 	executor := scenexec.NewScenarioExecutor(vmBuilder)
 	defer executor.Close()
 
-	runner := mc.NewScenarioController(
+	runner := scenio.NewScenarioController(
 		executor,
-		mc.NewDefaultFileResolver(),
+		scenio.NewDefaultFileResolver(),
 	)
 
 	fullPath := path.Join(getTestRoot(), folder)
@@ -67,5 +67,5 @@ func runSingleTestReturnError(folder string, filename string) error {
 
 	return runner.RunSingleJSONScenario(
 		fullPath,
-		mc.DefaultRunScenarioOptions())
+		scenio.DefaultRunScenarioOptions())
 }
