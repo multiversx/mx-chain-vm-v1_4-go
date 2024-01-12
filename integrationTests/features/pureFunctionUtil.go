@@ -12,7 +12,7 @@ import (
 	"github.com/multiversx/mx-chain-vm-v1_4-go/vmhost/hostCore"
 	"github.com/multiversx/mx-chain-vm-v1_4-go/vmhost/mock"
 
-	er "github.com/multiversx/mx-chain-scenario-go/expression/reconstructor"
+	er "github.com/multiversx/mx-chain-scenario-go/scenario/expression/reconstructor"
 	worldhook "github.com/multiversx/mx-chain-scenario-go/worldmock"
 	vmcommon "github.com/multiversx/mx-chain-vm-common-go"
 	"github.com/multiversx/mx-chain-vm-common-go/builtInFunctions"

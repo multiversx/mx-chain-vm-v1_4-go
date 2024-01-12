@@ -9,8 +9,8 @@ import (
 	vmscenario "github.com/multiversx/mx-chain-vm-v1_4-go/scenario"
 
 	logger "github.com/multiversx/mx-chain-logger-go"
-	mc "github.com/multiversx/mx-chain-scenario-go/controller"
-	scenexec "github.com/multiversx/mx-chain-scenario-go/executor"
+	scenexec "github.com/multiversx/mx-chain-scenario-go/scenario/executor"
+	mc "github.com/multiversx/mx-chain-scenario-go/scenario/io"
 )
 
 func init() {

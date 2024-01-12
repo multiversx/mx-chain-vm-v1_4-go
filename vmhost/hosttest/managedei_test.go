@@ -20,8 +20,8 @@ import (
 
 	"github.com/multiversx/mx-chain-core-go/core"
 	"github.com/multiversx/mx-chain-core-go/data/esdt"
-	"github.com/multiversx/mx-chain-scenario-go/esdtconvert"
 	"github.com/multiversx/mx-chain-scenario-go/worldmock"
+	"github.com/multiversx/mx-chain-scenario-go/worldmock/esdtconvert"
 	"github.com/stretchr/testify/require"
 )
 

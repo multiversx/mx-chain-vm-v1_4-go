@@ -10,8 +10,8 @@ import (
 	"github.com/multiversx/mx-chain-vm-v1_4-go/vmhost/mock"
 
 	"github.com/multiversx/mx-chain-core-go/core"
-	scenexec "github.com/multiversx/mx-chain-scenario-go/executor"
-	mj "github.com/multiversx/mx-chain-scenario-go/model"
+	scenexec "github.com/multiversx/mx-chain-scenario-go/scenario/executor"
+	mj "github.com/multiversx/mx-chain-scenario-go/scenario/model"
 	"github.com/multiversx/mx-chain-scenario-go/worldmock"
 	"github.com/multiversx/mx-chain-vm-common-go/parsers"
 )
