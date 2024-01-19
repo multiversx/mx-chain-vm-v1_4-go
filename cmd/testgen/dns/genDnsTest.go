@@ -3,14 +3,13 @@ package main
 
 import (
 	"fmt"
-	"io/ioutil"
 	"os"
 	"path/filepath"
 
-	mc "github.com/multiversx/mx-chain-vm-v1_4-go/scenarios/controller"
-	mjparse "github.com/multiversx/mx-chain-vm-v1_4-go/scenarios/json/parse"
-	mjwrite "github.com/multiversx/mx-chain-vm-v1_4-go/scenarios/json/write"
-	mj "github.com/multiversx/mx-chain-vm-v1_4-go/scenarios/model"
+	scenio "github.com/multiversx/mx-chain-scenario-go/scenario/io"
+	scenjsonparse "github.com/multiversx/mx-chain-scenario-go/scenario/json/parse"
+	scenjsonwrite "github.com/multiversx/mx-chain-scenario-go/scenario/json/write"
+	scenmodel "github.com/multiversx/mx-chain-scenario-go/scenario/model"
 )
 
 func getTestRoot() string {
@@ -23,8 +22,8 @@ func getTestRoot() string {
 }
 
 type testGenerator struct {
-	parser            mjparse.Parser
-	generatedScenario *mj.Scenario
+	parser            scenjsonparse.Parser
+	generatedScenario *scenmodel.Scenario
 }
 
 func (tg *testGenerator) addStep(stepSnippet string) {
@@ -36,13 +35,13 @@ func (tg *testGenerator) addStep(stepSnippet string) {
 }
 
 func main() {
-	fileResolver := mc.NewDefaultFileResolver().
+	fileResolver := scenio.NewDefaultFileResolver().
 		ReplacePath(
 			"dns.wasm",
 			filepath.Join(getTestRoot(), "dns/dns.wasm"))
 	tg := &testGenerator{
-		parser: mjparse.NewParser(fileResolver),
-		generatedScenario: &mj.Scenario{
+		parser: scenjsonparse.NewParser(fileResolver),
+		generatedScenario: &scenmodel.Scenario{
 			Name: "dns test",
 		},
 	}
@@ -127,8 +126,8 @@ func main() {
 	}
 
 	// save
-	serialized := mjwrite.ScenarioToJSONString(tg.generatedScenario)
-	err := ioutil.WriteFile(
+	serialized := scenjsonwrite.ScenarioToJSONString(tg.generatedScenario)
+	err := os.WriteFile(
 		filepath.Join(getTestRoot(), "dns/dns_init.steps.json"),
 		[]byte(serialized), 0644)
 	if err != nil {

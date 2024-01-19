@@ -3,7 +3,6 @@ package vmserver
 import (
 	"encoding/json"
 	"fmt"
-	"io/ioutil"
 	"os"
 	"path"
 )
@@ -94,7 +93,7 @@ func (db *database) getOutcomeFile(uniqueID string) string {
 }
 
 func (db *database) unmarshalDataModel(filePath string, dataModel interface{}) error {
-	data, err := ioutil.ReadFile(filePath)
+	data, err := os.ReadFile(filePath)
 	if err != nil {
 		return err
 	}
@@ -108,5 +107,5 @@ func (db *database) marshalDataModel(filePath string, dataModel interface{}) err
 		return err
 	}
 
-	return ioutil.WriteFile(filePath, data, 0644)
+	return os.WriteFile(filePath, data, 0644)
 }

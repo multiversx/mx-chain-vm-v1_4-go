@@ -5,10 +5,11 @@ import (
 	"testing"
 
 	contextmock "github.com/multiversx/mx-chain-vm-v1_4-go/mock/context"
-	worldmock "github.com/multiversx/mx-chain-vm-v1_4-go/mock/world"
 	test "github.com/multiversx/mx-chain-vm-v1_4-go/testcommon"
 	"github.com/multiversx/mx-chain-vm-v1_4-go/vmhost"
 	"github.com/multiversx/mx-chain-vm-v1_4-go/vmhost/contexts"
+
+	"github.com/multiversx/mx-chain-scenario-go/worldmock"
 	"github.com/stretchr/testify/require"
 )
 

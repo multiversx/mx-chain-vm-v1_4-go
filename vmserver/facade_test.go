@@ -4,7 +4,7 @@ import (
 	"os"
 	"testing"
 
-	worldmock "github.com/multiversx/mx-chain-vm-v1_4-go/mock/world"
+	worldmock "github.com/multiversx/mx-chain-scenario-go/worldmock"
 	"github.com/stretchr/testify/require"
 )
 
@@ -31,7 +31,7 @@ func TestFacade_RunContract_Counter(t *testing.T) {
 	deployResponse := context.deployContract(wasmCounterPath, alice.hex)
 	contractAddress := deployResponse.ContractAddress
 	contractAddressHex := deployResponse.ContractAddressHex
-	require.Equal(t, worldmock.GenerateMockAddress(alice.raw, 0), contractAddress)
+	require.Equal(t, worldmock.GenerateMockAddress(worldmock.DefaultVMType, alice.raw, 0), contractAddress)
 	require.True(t, context.accountExists(contractAddress))
 
 	context.runContract(contractAddressHex, alice.hex, "increment")
@@ -56,7 +56,7 @@ func TestFacade_RunContract_ERC20(t *testing.T) {
 	deployResponse := context.deployContract(wasmErc20Path, alice.hex, "64")
 	contractAddress := deployResponse.ContractAddress
 	contractAddressHex := deployResponse.ContractAddressHex
-	require.Equal(t, worldmock.GenerateMockAddress(alice.raw, 0), contractAddress)
+	require.Equal(t, worldmock.GenerateMockAddress(worldmock.DefaultVMType, alice.raw, 0), contractAddress)
 
 	// Initial state
 	totalSupply := context.queryContract(contractAddressHex, alice.hex, "totalSupply").getFirstResultAsInt64()

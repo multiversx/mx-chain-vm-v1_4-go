@@ -337,6 +337,16 @@ func (host *vmHost) GetGasScheduleMap() config.GasScheduleMap {
 	return host.gasSchedule
 }
 
+// GetGasScheduleMap returns the curent gas trace, used in scenario tests
+func (host *vmHost) GetGasTrace() map[string]map[string][]uint64 {
+	return host.meteringContext.GetGasTrace()
+}
+
+// SetGasTracing configures the gas tracing flag, used in scenario tests
+func (host *vmHost) SetGasTracing(enableGasTracing bool) {
+	host.meteringContext.SetGasTracing(enableGasTracing)
+}
+
 // RunSmartContractCreate executes the deployment of a new contract
 func (host *vmHost) RunSmartContractCreate(input *vmcommon.ContractCreateInput) (vmOutput *vmcommon.VMOutput, err error) {
 	host.mutExecution.RLock()

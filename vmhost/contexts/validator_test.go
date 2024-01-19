@@ -4,12 +4,12 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/multiversx/mx-chain-vm-common-go/builtInFunctions"
 	contextmock "github.com/multiversx/mx-chain-vm-v1_4-go/mock/context"
-	worldmock "github.com/multiversx/mx-chain-vm-v1_4-go/mock/world"
 	"github.com/multiversx/mx-chain-vm-v1_4-go/vmhost"
 	"github.com/multiversx/mx-chain-vm-v1_4-go/vmhost/mock"
 	"github.com/multiversx/mx-chain-vm-v1_4-go/wasmer"
+
+	"github.com/multiversx/mx-chain-vm-common-go/builtInFunctions"
 	"github.com/stretchr/testify/require"
 )
 
@@ -104,7 +104,7 @@ func TestFunctionsProtected(t *testing.T) {
 
 	validator := newWASMValidator(imports.Names(), builtInFunctions.NewBuiltInFunctionContainer())
 
-	world := worldmock.NewMockWorld()
+	world := mock.NewMockWorldVM14()
 	imb := contextmock.NewInstanceBuilderMock(world)
 	instance := imb.CreateAndStoreInstanceMock(t, host, []byte{}, []byte{}, []byte{}, []byte{}, 0, 0)
 

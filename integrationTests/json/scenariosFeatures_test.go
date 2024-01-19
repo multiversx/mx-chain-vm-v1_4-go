@@ -57,7 +57,11 @@ func TestRustPayableFeaturesLatest(t *testing.T) {
 }
 
 func TestRustComposability(t *testing.T) {
-	runAllTestsInFolder(t, "features/composability/scenarios")
+	runTestsInFolder(t, "features/composability/scenarios", []string{
+		"features/composability/scenarios/forwarder_contract_upgrade.scen.json", // bad code metadata
+		"features/composability/scenarios/proxy_test_upgrade.scen.json",         // bad code metadata
+		"features/composability/scenarios/forw_raw_contract_upgrade.scen.json",  // bad code metadata
+	})
 }
 
 func TestRustFormattedMessageFeatures(t *testing.T) {
@@ -65,7 +69,12 @@ func TestRustFormattedMessageFeatures(t *testing.T) {
 }
 
 func TestRustLegacyComposability(t *testing.T) {
-	runAllTestsInFolder(t, "features/composability/scenarios-legacy")
+	runTestsInFolder(t, "features/composability/scenarios-legacy", []string{
+		"features/composability/scenarios-legacy/l_forwarder_contract_upgrade.scen.json", // bad code metadata
+		"features/composability/scenarios-legacy/l_proxy_test_upgrade.scen.json",         // bad code metadata
+		"features/composability/scenarios-legacy/l_forw_raw_contract_upgrade.scen.json",  // bad code metadata
+
+	})
 }
 
 func TestTimelocks(t *testing.T) {

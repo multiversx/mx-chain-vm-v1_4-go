@@ -3,11 +3,10 @@
     "steps": [
         {
             "step": "scCall",
-            "txId": "cause auction mock to reject node 3",
+            "id": "cause auction mock to reject node 3",
             "tx": {
                 "from": "''someone_______________________s1",
                 "to": "sc:auction",
-                "value": "0",
                 "function": "setBlsDeliberateError",
                 "arguments": [
                     "''bls_key_3_______________________________________________________________________________________",
@@ -26,11 +25,10 @@
         },
         {
             "step": "scCall",
-            "txId": "cause auction mock to reject node 6",
+            "id": "cause auction mock to reject node 6",
             "tx": {
                 "from": "''someone_______________________s1",
                 "to": "sc:auction",
-                "value": "0",
                 "function": "setBlsDeliberateError",
                 "arguments": [
                     "''bls_key_6_______________________________________________________________________________________",
@@ -47,16 +45,12 @@
                 "refund": "*"
             }
         },
-
-
-
         {
             "step": "scCall",
-            "txId": "activate-1-partial-fail",
+            "id": "activate-1-partial-fail",
             "tx": {
                 "from": "''node_address__________________s1",
                 "to": "sc:delegation",
-                "value": "0",
                 "function": "stakeNodes",
                 "arguments": [
                     "''bls_key_2_______________________________________________________________________________________",
@@ -83,7 +77,9 @@
                             "sc:auction",
                             "333,000,000,000,000"
                         ],
-                        "data": ""
+                        "data": [
+                            ""
+                        ]
                     },
                     {
                         "address": "sc:delegation",
@@ -91,7 +87,9 @@
                         "topics": [
                             "0x0000000000000000000000000000000000000000000000000000000000000003"
                         ],
-                        "data": "0x"
+                        "data": [
+                            "0x"
+                        ]
                     },
                     {
                         "address": "sc:delegation",
@@ -99,7 +97,9 @@
                         "topics": [
                             "0x0000000000000000000000000000000000000000000000000000000000000004"
                         ],
-                        "data": "''staking failed for some nodes"
+                        "data": [
+                            "''staking failed for some nodes"
+                        ]
                     }
                 ],
                 "gas": "*",

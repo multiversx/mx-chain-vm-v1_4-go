@@ -2,8 +2,8 @@ package vmhost
 
 import (
 	"fmt"
-	"io/ioutil"
 	"math/big"
+	"os"
 	"path/filepath"
 	goRuntime "runtime"
 	"strings"
@@ -99,7 +99,7 @@ func InverseBytes(data []byte) []byte {
 
 // GetSCCode returns the SC code from a given file
 func GetSCCode(fileName string) []byte {
-	code, _ := ioutil.ReadFile(filepath.Clean(fileName))
+	code, _ := os.ReadFile(filepath.Clean(fileName))
 	return code
 }
 
@@ -146,6 +146,7 @@ type nilInterfaceChecker interface {
 }
 
 // GetVMHost returns the vm Context from the vm context map
+//
 //nolint:all
 func GetVMHost(vmHostPtr unsafe.Pointer) VMHost {
 	if logVMHookCalls {

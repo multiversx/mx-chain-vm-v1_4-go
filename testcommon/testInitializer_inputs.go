@@ -4,23 +4,24 @@ import (
 	"bytes"
 	"errors"
 	"fmt"
-	"io/ioutil"
 	"math/big"
+	"os"
 	"path/filepath"
 	"strings"
 	"testing"
 
-	"github.com/multiversx/mx-chain-core-go/data/vm"
-	vmcommon "github.com/multiversx/mx-chain-vm-common-go"
-	"github.com/multiversx/mx-chain-vm-common-go/builtInFunctions"
-	"github.com/multiversx/mx-chain-vm-common-go/parsers"
 	"github.com/multiversx/mx-chain-vm-v1_4-go/config"
 	"github.com/multiversx/mx-chain-vm-v1_4-go/crypto/hashing"
 	contextmock "github.com/multiversx/mx-chain-vm-v1_4-go/mock/context"
-	worldmock "github.com/multiversx/mx-chain-vm-v1_4-go/mock/world"
 	"github.com/multiversx/mx-chain-vm-v1_4-go/vmhost"
 	"github.com/multiversx/mx-chain-vm-v1_4-go/vmhost/hostCore"
 	"github.com/multiversx/mx-chain-vm-v1_4-go/vmhost/mock"
+
+	"github.com/multiversx/mx-chain-core-go/data/vm"
+	"github.com/multiversx/mx-chain-scenario-go/worldmock"
+	vmcommon "github.com/multiversx/mx-chain-vm-common-go"
+	"github.com/multiversx/mx-chain-vm-common-go/builtInFunctions"
+	"github.com/multiversx/mx-chain-vm-common-go/parsers"
 	"github.com/stretchr/testify/require"
 )
 
@@ -71,7 +72,7 @@ func MakeTestSCAddress(identifier string) []byte {
 
 // GetSCCode retrieves the bytecode of a WASM module from a file
 func GetSCCode(fileName string) []byte {
-	code, err := ioutil.ReadFile(filepath.Clean(fileName))
+	code, err := os.ReadFile(filepath.Clean(fileName))
 	if err != nil {
 		panic(fmt.Sprintf("GetSCCode(): %s", fileName))
 	}
@@ -85,7 +86,7 @@ func GetTestSCCode(scName string, prefixToTestSCs ...string) []byte {
 	for _, prefixToTestSC := range prefixToTestSCs {
 		pathToSC := prefixToTestSC + "test/contracts/" + scName + "/output/" + scName + ".wasm"
 		searchedPaths = append(searchedPaths, pathToSC)
-		code, err := ioutil.ReadFile(filepath.Clean(pathToSC))
+		code, err := os.ReadFile(filepath.Clean(pathToSC))
 		if err == nil {
 			return code
 		}
@@ -168,7 +169,7 @@ func DefaultTestVMForCallWithInstanceRecorderMock(tb testing.TB, code []byte, ba
 
 // DefaultTestVMForCallWithInstanceMocks creates an InstanceBuilderMock
 func DefaultTestVMForCallWithInstanceMocks(tb testing.TB) (vmhost.VMHost, *worldmock.MockWorld, *contextmock.InstanceBuilderMock) {
-	world := worldmock.NewMockWorld()
+	world := mock.NewMockWorldVM14()
 	host := DefaultTestVM(tb, world)
 
 	instanceBuilderMock := contextmock.NewInstanceBuilderMock(world)
@@ -179,7 +180,7 @@ func DefaultTestVMForCallWithInstanceMocks(tb testing.TB) (vmhost.VMHost, *world
 
 // DefaultTestVMForCallWithWorldMock creates a MockWorld
 func DefaultTestVMForCallWithWorldMock(tb testing.TB, code []byte, balance *big.Int) (vmhost.VMHost, *worldmock.MockWorld) {
-	world := worldmock.NewMockWorld()
+	world := mock.NewMockWorldVM14()
 	host := DefaultTestVM(tb, world)
 
 	err := world.InitBuiltinFunctions(host.GetGasScheduleMap())
@@ -304,7 +305,7 @@ func DefaultTestVMWithWorldMock(tb testing.TB) (vmhost.VMHost, *worldmock.MockWo
 
 // DefaultTestVMWithWorldMockWithGasSchedule creates a host configured with a mock world
 func DefaultTestVMWithWorldMockWithGasSchedule(tb testing.TB, customGasSchedule config.GasScheduleMap) (vmhost.VMHost, *worldmock.MockWorld) {
-	world := worldmock.NewMockWorld()
+	world := mock.NewMockWorldVM14()
 	gasSchedule := customGasSchedule
 	if gasSchedule == nil {
 		gasSchedule = config.MakeGasMapForTests()

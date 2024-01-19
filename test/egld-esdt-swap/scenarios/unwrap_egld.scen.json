@@ -8,7 +8,7 @@
         },
         {
             "step": "scCall",
-            "txId": "unwrap-egld",
+            "id": "unwrap-egld",
             "tx": {
                 "from": "address:user",
                 "to": "sc:egld_esdt_swap",
