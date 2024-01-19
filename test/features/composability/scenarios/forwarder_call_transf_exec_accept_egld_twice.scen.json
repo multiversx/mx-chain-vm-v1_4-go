@@ -46,7 +46,9 @@
                             "sc:vault",
                             "1000"
                         ],
-                        "data": ""
+                        "data": [
+                            ""
+                        ]
                     },
                     {
                         "address": "sc:vault",
@@ -55,7 +57,9 @@
                             "str:accept_funds",
                             "1000"
                         ],
-                        "data": ""
+                        "data": [
+                            ""
+                        ]
                     },
                     {
                         "address": "*",
@@ -65,7 +69,9 @@
                             "sc:vault",
                             "1000"
                         ],
-                        "data": ""
+                        "data": [
+                            ""
+                        ]
                     },
                     {
                         "address": "sc:vault",
@@ -74,7 +80,9 @@
                             "str:accept_funds",
                             "1000"
                         ],
-                        "data": ""
+                        "data": [
+                            ""
+                        ]
                     }
                 ],
                 "gas": "*",

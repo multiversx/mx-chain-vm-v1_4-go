@@ -3,7 +3,7 @@ package vmserver
 import (
 	"math/big"
 
-	worldmock "github.com/multiversx/mx-chain-vm-v1_4-go/mock/world"
+	worldmock "github.com/multiversx/mx-chain-scenario-go/worldmock"
 )
 
 // CreateAccountRequest is a CLI / REST request message

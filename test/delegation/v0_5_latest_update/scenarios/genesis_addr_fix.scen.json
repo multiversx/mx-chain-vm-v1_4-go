@@ -76,7 +76,7 @@
         },
         {
             "step": "scCall",
-            "txId": "genesis delegator stake",
+            "id": "genesis delegator stake",
             "tx": {
                 "from": "address:delegator_1",
                 "to": "sc:delegation",
@@ -97,7 +97,9 @@
                             "str:userStake",
                             "address:delegator_1"
                         ],
-                        "data": "7,777,000,000"
+                        "data": [
+                            "7,777,000,000"
+                        ]
                     }
                 ],
                 "gas": "*",
@@ -106,7 +108,7 @@
         },
         {
             "step": "scCall",
-            "txId": "getFullWaitingList",
+            "id": "getFullWaitingList",
             "tx": {
                 "from": "address:node_address",
                 "to": "sc:delegation",

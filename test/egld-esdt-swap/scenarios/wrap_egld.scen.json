@@ -35,7 +35,7 @@
         },
         {
             "step": "scCall",
-            "txId": "wrap-egld",
+            "id": "wrap-egld",
             "tx": {
                 "from": "address:user",
                 "to": "sc:egld_esdt_swap",

@@ -3,11 +3,10 @@
     "steps": [
         {
             "step": "scCall",
-            "txId": "15-withdrawInactiveStake-1",
+            "id": "15-withdrawInactiveStake-1",
             "tx": {
                 "from": "''delegator_1___________________s1",
                 "to": "sc:delegation",
-                "value": "0",
                 "function": "withdrawInactiveStake",
                 "arguments": [
                     "1,000,000,000,000"
@@ -27,7 +26,9 @@
                             "''delegator_1___________________s1",
                             "1,000,000,000,000"
                         ],
-                        "data": ""
+                        "data": [
+                            ""
+                        ]
                     },
                     {
                         "address": "sc:delegation",
@@ -36,7 +37,9 @@
                             "0x0000000000000000000000000000000000000000000000000000000000000002",
                             "''delegator_1___________________s1"
                         ],
-                        "data": "1,000,000,000,000"
+                        "data": [
+                            "1,000,000,000,000"
+                        ]
                     }
                 ],
                 "gas": "*",
@@ -45,11 +48,10 @@
         },
         {
             "step": "scCall",
-            "txId": "16-withdraw-check-1",
+            "id": "16-withdraw-check-1",
             "tx": {
                 "from": "''someone_______________________s1",
                 "to": "sc:delegation",
-                "value": "0",
                 "function": "getUserStakeByType",
                 "arguments": [
                     "''delegator_1___________________s1"
@@ -59,7 +61,16 @@
             },
             "expect": {
                 "out": [
-                    "286,000,000,000,000", "0", "0", "0", "0", "0", "111,000,000,000,000", "0", "0", "0"
+                    "286,000,000,000,000",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "111,000,000,000,000",
+                    "0",
+                    "0",
+                    "0"
                 ],
                 "status": "",
                 "logs": "*",
@@ -69,11 +80,10 @@
         },
         {
             "step": "scCall",
-            "txId": "15-withdrawInactiveStake-2",
+            "id": "15-withdrawInactiveStake-2",
             "tx": {
                 "from": "''delegator_1___________________s1",
                 "to": "sc:delegation",
-                "value": "0",
                 "function": "withdrawInactiveStake",
                 "arguments": [
                     "113,000,000,000,000"
@@ -93,7 +103,9 @@
                             "''delegator_1___________________s1",
                             "113,000,000,000,000"
                         ],
-                        "data": ""
+                        "data": [
+                            ""
+                        ]
                     },
                     {
                         "address": "sc:delegation",
@@ -102,7 +114,9 @@
                             "0x0000000000000000000000000000000000000000000000000000000000000002",
                             "''delegator_1___________________s1"
                         ],
-                        "data": "113,000,000,000,000"
+                        "data": [
+                            "113,000,000,000,000"
+                        ]
                     }
                 ],
                 "gas": "*",
@@ -111,11 +125,10 @@
         },
         {
             "step": "scCall",
-            "txId": "16-withdraw-check-2",
+            "id": "16-withdraw-check-2",
             "tx": {
                 "from": "''someone_______________________s1",
                 "to": "sc:delegation",
-                "value": "0",
                 "function": "getUserStakeByType",
                 "arguments": [
                     "''delegator_1___________________s1"
@@ -125,7 +138,16 @@
             },
             "expect": {
                 "out": [
-                    "284,000,000,000,000", "0", "0", "0", "0", "0", "0", "0", "0", "0"
+                    "284,000,000,000,000",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0"
                 ],
                 "status": "",
                 "logs": "*",
@@ -135,11 +157,10 @@
         },
         {
             "step": "scCall",
-            "txId": "15-withdrawInactiveStake-3",
+            "id": "15-withdrawInactiveStake-3",
             "tx": {
                 "from": "''delegator_1___________________s1",
                 "to": "sc:delegation",
-                "value": "0",
                 "function": "withdrawInactiveStake",
                 "arguments": [
                     "284,000,000,000,000"
@@ -159,7 +180,9 @@
                             "''delegator_1___________________s1",
                             "284,000,000,000,000"
                         ],
-                        "data": ""
+                        "data": [
+                            ""
+                        ]
                     },
                     {
                         "address": "sc:delegation",
@@ -168,7 +191,9 @@
                             "0x0000000000000000000000000000000000000000000000000000000000000002",
                             "''delegator_1___________________s1"
                         ],
-                        "data": "284,000,000,000,000"
+                        "data": [
+                            "284,000,000,000,000"
+                        ]
                     }
                 ],
                 "gas": "*",
@@ -177,11 +202,10 @@
         },
         {
             "step": "scCall",
-            "txId": "16-withdraw-check-3",
+            "id": "16-withdraw-check-3",
             "tx": {
                 "from": "''someone_______________________s1",
                 "to": "sc:delegation",
-                "value": "0",
                 "function": "getUserStakeByType",
                 "arguments": [
                     "''delegator_1___________________s1"
@@ -191,7 +215,16 @@
             },
             "expect": {
                 "out": [
-                    "0", "0", "0", "0", "0", "0", "0", "0", "0", "0"
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0"
                 ],
                 "status": "",
                 "logs": "*",
@@ -201,11 +234,10 @@
         },
         {
             "step": "scCall",
-            "txId": "16-withdraw-check-total",
+            "id": "16-withdraw-check-total",
             "tx": {
                 "from": "''someone_______________________s1",
                 "to": "sc:delegation",
-                "value": "0",
                 "function": "getTotalStakeByType",
                 "arguments": [],
                 "gasLimit": "1,000,000",
@@ -213,7 +245,16 @@
             },
             "expect": {
                 "out": [
-                    "46,001,000,000,000", "0", "0", "0", "0", "0", "0", "0", "0", "0"
+                    "46,001,000,000,000",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0",
+                    "0"
                 ],
                 "status": "",
                 "logs": "*",
