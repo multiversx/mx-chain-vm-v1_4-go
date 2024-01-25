@@ -46,6 +46,7 @@ type EnableEpochsHandlerStub struct {
 	ScToScLogEventEnabledField                                bool
 	IsChangeOwnerAddressCrossShardThroughSCEnabledField       bool
 	FixGasRemainingForSaveKeyValueBuiltinFunctionEnabledField bool
+	IsMigrateDataTrieEnabledField                             bool
 	MultiESDTTransferAsyncCallBackEnableEpochField            uint32
 	FixOOGReturnCodeEnableEpochField                          uint32
 	RemoveNonUpdatedStorageEnableEpochField                   uint32
@@ -56,6 +57,11 @@ type EnableEpochsHandlerStub struct {
 	RefactorContextEnableEpochField                           uint32
 	CheckExecuteReadOnlyEnableEpochField                      uint32
 	StorageAPICostOptimizationEnableEpochField                uint32
+}
+
+// IsMigrateDataTrieEnabled -
+func (stub *EnableEpochsHandlerStub) IsMigrateDataTrieEnabled() bool {
+	return stub.IsMigrateDataTrieEnabledField
 }
 
 // IsDynamicGasCostForDataTrieStorageLoadEnabled -
