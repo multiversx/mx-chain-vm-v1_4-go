@@ -2,27 +2,28 @@ package featuresintegrationtest
 
 import (
 	"fmt"
-	"io/ioutil"
 	"math/big"
+	"os"
 	"strings"
 	"testing"
 
-	vmi "github.com/multiversx/mx-chain-vm-common-go"
-	"github.com/multiversx/mx-chain-vm-common-go/builtInFunctions"
-	"github.com/multiversx/mx-chain-vm-common-go/parsers"
 	"github.com/multiversx/mx-chain-vm-v1_4-go/config"
-	worldhook "github.com/multiversx/mx-chain-vm-v1_4-go/mock/world"
-	er "github.com/multiversx/mx-chain-vm-v1_4-go/scenarios/expression/reconstructor"
 	"github.com/multiversx/mx-chain-vm-v1_4-go/vmhost"
 	"github.com/multiversx/mx-chain-vm-v1_4-go/vmhost/hostCore"
 	"github.com/multiversx/mx-chain-vm-v1_4-go/vmhost/mock"
+
+	er "github.com/multiversx/mx-chain-scenario-go/scenario/expression/reconstructor"
+	worldhook "github.com/multiversx/mx-chain-scenario-go/worldmock"
+	vmcommon "github.com/multiversx/mx-chain-vm-common-go"
+	"github.com/multiversx/mx-chain-vm-common-go/builtInFunctions"
+	"github.com/multiversx/mx-chain-vm-common-go/parsers"
 	"github.com/stretchr/testify/require"
 )
 
 type pureFunctionIO struct {
 	functionName    string
 	arguments       [][]byte
-	expectedStatus  vmi.ReturnCode
+	expectedStatus  vmcommon.ReturnCode
 	expectedMessage string
 	expectedResults [][]byte
 }
@@ -34,7 +35,7 @@ type logProgress func(testCaseIndex, testCaseCount int)
 
 type pureFunctionExecutor struct {
 	world           *worldhook.MockWorld
-	vm              vmi.VMExecutionHandler
+	vm              vmcommon.VMExecutionHandler
 	contractAddress []byte
 	userAddress     []byte
 }
@@ -70,7 +71,7 @@ func (pfe *pureFunctionExecutor) initAccounts(contractPath string) {
 	pfe.contractAddress = []byte("contract_addr_________________s1")
 	pfe.userAddress = []byte("user_addr_____________________s1")
 
-	scCode, err := ioutil.ReadFile(contractPath)
+	scCode, err := os.ReadFile(contractPath)
 	if err != nil {
 		panic(err)
 	}
@@ -92,11 +93,11 @@ func (pfe *pureFunctionExecutor) initAccounts(contractPath string) {
 	})
 }
 
-func (pfe *pureFunctionExecutor) scCall(testCase *pureFunctionIO) (*vmi.VMOutput, error) {
-	input := &vmi.ContractCallInput{
+func (pfe *pureFunctionExecutor) scCall(testCase *pureFunctionIO) (*vmcommon.VMOutput, error) {
+	input := &vmcommon.ContractCallInput{
 		RecipientAddr: pfe.contractAddress,
 		Function:      testCase.functionName,
-		VMInput: vmi.VMInput{
+		VMInput: vmcommon.VMInput{
 			CallerAddr:  pfe.userAddress,
 			Arguments:   testCase.arguments,
 			CallValue:   big.NewInt(0),
@@ -110,7 +111,7 @@ func (pfe *pureFunctionExecutor) scCall(testCase *pureFunctionIO) (*vmi.VMOutput
 
 func (pfe *pureFunctionExecutor) checkTxResults(
 	testCase *pureFunctionIO,
-	output *vmi.VMOutput,
+	output *vmcommon.VMOutput,
 	resultInterpreter resultInterpreter) error {
 
 	if output.ReturnCode != testCase.expectedStatus {

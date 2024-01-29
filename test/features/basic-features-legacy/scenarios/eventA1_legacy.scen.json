@@ -18,7 +18,7 @@
         },
         {
             "step": "scCall",
-            "txId": "1",
+            "id": "1",
             "tx": {
                 "from": "address:an_account",
                 "to": "sc:basic-features",
@@ -39,7 +39,9 @@
                         "topics": [
                             "0x0123456789abcdef0123456789abcdef0123456789abcdef000000000000000a"
                         ],
-                        "data": "0"
+                        "data": [
+                            "0"
+                        ]
                     }
                 ],
                 "gas": "*",

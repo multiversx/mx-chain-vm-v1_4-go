@@ -26,7 +26,7 @@
         },
         {
             "step": "scCall",
-            "txId": "unStakeTokens",
+            "id": "unStakeTokens",
             "tx": {
                 "from": "address:node_address",
                 "to": "sc:delegation",
@@ -47,7 +47,9 @@
                         "topics": [
                             "str:tokensUnstake"
                         ],
-                        "data": "1000"
+                        "data": [
+                            "1000"
+                        ]
                     }
                 ],
                 "gas": "*",
@@ -76,7 +78,7 @@
         },
         {
             "step": "scCall",
-            "txId": "unBondTokens",
+            "id": "unBondTokens",
             "tx": {
                 "from": "address:node_address",
                 "to": "sc:delegation",
@@ -97,7 +99,9 @@
                         "topics": [
                             "str:tokensUnbond"
                         ],
-                        "data": "1000"
+                        "data": [
+                            "1000"
+                        ]
                     },
                     {
                         "address": "sc:auction",
@@ -107,7 +111,9 @@
                             "sc:delegation",
                             "1000"
                         ],
-                        "data": ""
+                        "data": [
+                            ""
+                        ]
                     }
                 ],
                 "gas": "*",

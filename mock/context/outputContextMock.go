@@ -4,8 +4,8 @@ import (
 	"math/big"
 
 	"github.com/multiversx/mx-chain-core-go/data/vm"
+	worldmock "github.com/multiversx/mx-chain-scenario-go/worldmock"
 	vmcommon "github.com/multiversx/mx-chain-vm-common-go"
-	worldmock "github.com/multiversx/mx-chain-vm-v1_4-go/mock/world"
 	"github.com/multiversx/mx-chain-vm-v1_4-go/vmhost"
 )
 
