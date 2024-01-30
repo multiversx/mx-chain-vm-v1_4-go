@@ -62,6 +62,8 @@ type VMHost interface {
 	DisableExecByCaller() bool
 	CheckExecuteReadOnly() bool
 	Reset()
+	SetGasTracing(enableGasTracing bool)
+	GetGasTrace() map[string]map[string][]uint64
 }
 
 // BlockchainContext defines the functionality needed for interacting with the blockchain context

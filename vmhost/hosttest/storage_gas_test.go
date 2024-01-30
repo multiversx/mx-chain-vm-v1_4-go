@@ -4,9 +4,9 @@ import (
 	"testing"
 
 	"github.com/multiversx/mx-chain-core-go/core"
+	"github.com/multiversx/mx-chain-scenario-go/worldmock"
 	vmcommon "github.com/multiversx/mx-chain-vm-common-go"
 	"github.com/multiversx/mx-chain-vm-v1_4-go/mock/contracts"
-	worldmock "github.com/multiversx/mx-chain-vm-v1_4-go/mock/world"
 	test "github.com/multiversx/mx-chain-vm-v1_4-go/testcommon"
 	"github.com/multiversx/mx-chain-vm-v1_4-go/vmhost"
 	vmMock "github.com/multiversx/mx-chain-vm-v1_4-go/vmhost/mock"

@@ -3,11 +3,10 @@
     "steps": [
         {
             "step": "scCall",
-            "txId": "delegator 1 stake 1",
+            "id": "delegator 1 stake 1",
             "tx": {
                 "from": "''delegator_1___________________s1",
                 "to": "sc:delegation",
-                "value": "0",
                 "function": "stakeGenesis",
                 "arguments": [
                     "300,000,000,000,000"
@@ -26,7 +25,9 @@
                             "0x0000000000000000000000000000000000000000000000000000000000000001",
                             "''delegator_1___________________s1"
                         ],
-                        "data": "300,000,000,000,000"
+                        "data": [
+                            "300,000,000,000,000"
+                        ]
                     }
                 ],
                 "gas": "*",
@@ -35,11 +36,10 @@
         },
         {
             "step": "scCall",
-            "txId": "delegator 2 stake 1",
+            "id": "delegator 2 stake 1",
             "tx": {
                 "from": "''delegator_2___________________s1",
                 "to": "sc:delegation",
-                "value": "0",
                 "function": "stakeGenesis",
                 "arguments": [
                     "033,000,000,000,000"
@@ -58,7 +58,9 @@
                             "0x0000000000000000000000000000000000000000000000000000000000000001",
                             "''delegator_2___________________s1"
                         ],
-                        "data": "033,000,000,000,000"
+                        "data": [
+                            "033,000,000,000,000"
+                        ]
                     }
                 ],
                 "gas": "*",
@@ -67,11 +69,10 @@
         },
         {
             "step": "scCall",
-            "txId": "delegator 3 stake 1",
+            "id": "delegator 3 stake 1",
             "tx": {
                 "from": "''delegator_3___________________s1",
                 "to": "sc:delegation",
-                "value": "0",
                 "function": "stakeGenesis",
                 "arguments": [
                     "111,000,000,000,000"
@@ -90,7 +91,9 @@
                             "0x0000000000000000000000000000000000000000000000000000000000000001",
                             "''delegator_3___________________s1"
                         ],
-                        "data": "111,000,000,000,000"
+                        "data": [
+                            "111,000,000,000,000"
+                        ]
                     }
                 ],
                 "gas": "*",

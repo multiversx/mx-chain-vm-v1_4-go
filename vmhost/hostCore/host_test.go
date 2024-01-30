@@ -4,16 +4,16 @@ import (
 	"testing"
 
 	"github.com/multiversx/mx-chain-core-go/core"
+	"github.com/multiversx/mx-chain-scenario-go/worldmock"
 	"github.com/multiversx/mx-chain-vm-common-go/builtInFunctions"
 	"github.com/multiversx/mx-chain-vm-common-go/parsers"
-	worldmock "github.com/multiversx/mx-chain-vm-v1_4-go/mock/world"
 	"github.com/multiversx/mx-chain-vm-v1_4-go/vmhost"
 	"github.com/multiversx/mx-chain-vm-v1_4-go/vmhost/mock"
 	"github.com/stretchr/testify/require"
 )
 
 func TestNewVMHost(t *testing.T) {
-	blockchainHook := worldmock.NewMockWorld()
+	blockchainHook := mock.NewMockWorldVM14()
 	bfc := builtInFunctions.NewBuiltInFunctionContainer()
 	epochNotifier := &mock.EpochNotifierStub{}
 	epochsHandler := &mock.EnableEpochsHandlerStub{}

@@ -8,10 +8,10 @@ import (
 
 	"github.com/multiversx/mx-chain-core-go/core"
 	"github.com/multiversx/mx-chain-core-go/core/check"
+	"github.com/multiversx/mx-chain-scenario-go/worldmock"
 	vmcommon "github.com/multiversx/mx-chain-vm-common-go"
 	"github.com/multiversx/mx-chain-vm-v1_4-go/config"
 	contextmock "github.com/multiversx/mx-chain-vm-v1_4-go/mock/context"
-	worldmock "github.com/multiversx/mx-chain-vm-v1_4-go/mock/world"
 	"github.com/multiversx/mx-chain-vm-v1_4-go/vmhost"
 	"github.com/multiversx/mx-chain-vm-v1_4-go/vmhost/mock"
 	"github.com/stretchr/testify/assert"
@@ -27,7 +27,7 @@ func TestNewStorageContext(t *testing.T) {
 		t.Parallel()
 
 		host := &contextmock.VMHostMock{}
-		mockBlockchain := worldmock.NewMockWorld()
+		mockBlockchain := mock.NewMockWorldVM14()
 
 		storageCtx, err := NewStorageContext(host, mockBlockchain, make([]byte, 0))
 		require.Equal(t, vmhost.ErrEmptyProtectedKeyPrefix, err)
@@ -36,7 +36,7 @@ func TestNewStorageContext(t *testing.T) {
 	t.Run("nil VM host should error", func(t *testing.T) {
 		t.Parallel()
 
-		mockBlockchain := worldmock.NewMockWorld()
+		mockBlockchain := mock.NewMockWorldVM14()
 
 		storageCtx, err := NewStorageContext(nil, mockBlockchain, reservedTestPrefix)
 		require.Equal(t, vmhost.ErrNilVMHost, err)
@@ -62,7 +62,7 @@ func TestNewStorageContext(t *testing.T) {
 		host := &contextmock.VMHostMock{
 			EnableEpochsHandlerField: enableEpochsHandler,
 		}
-		mockBlockchain := worldmock.NewMockWorld()
+		mockBlockchain := mock.NewMockWorldVM14()
 
 		storageCtx, err := NewStorageContext(host, mockBlockchain, reservedTestPrefix)
 		require.Nil(t, err)
@@ -174,7 +174,7 @@ func TestStorageContext_GetStorageUpdates(t *testing.T) {
 		EnableEpochsHandlerField: enableEpochsHandler,
 	}
 
-	mockBlockchainHook := worldmock.NewMockWorld()
+	mockBlockchainHook := mock.NewMockWorldVM14()
 	storageCtx, _ := NewStorageContext(host, mockBlockchainHook, reservedTestPrefix)
 
 	storageUpdates := storageCtx.GetStorageUpdates([]byte("account"))

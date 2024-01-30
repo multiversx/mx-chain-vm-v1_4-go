@@ -5,10 +5,12 @@ import (
 	"math/big"
 	"testing"
 
-	vmcommon "github.com/multiversx/mx-chain-vm-common-go"
 	contextmock "github.com/multiversx/mx-chain-vm-v1_4-go/mock/context"
-	worldmock "github.com/multiversx/mx-chain-vm-v1_4-go/mock/world"
 	"github.com/multiversx/mx-chain-vm-v1_4-go/vmhost"
+	"github.com/multiversx/mx-chain-vm-v1_4-go/vmhost/mock"
+
+	worldmock "github.com/multiversx/mx-chain-scenario-go/worldmock"
+	vmcommon "github.com/multiversx/mx-chain-vm-common-go"
 	"github.com/stretchr/testify/require"
 )
 
@@ -27,7 +29,7 @@ func TestNewBlockchainContext(t *testing.T) {
 	t.Parallel()
 
 	host := &contextmock.VMHostStub{}
-	mockWorld := worldmock.NewMockWorld()
+	mockWorld := mock.NewMockWorldVM14()
 
 	blockchainContext, err := NewBlockchainContext(host, mockWorld)
 	require.Nil(t, err)
@@ -38,7 +40,7 @@ func TestBlockchainContext_AccountExists(t *testing.T) {
 	t.Parallel()
 
 	host := &contextmock.VMHostStub{}
-	mockWorld := worldmock.NewMockWorld()
+	mockWorld := mock.NewMockWorldVM14()
 	mockWorld.AcctMap.PutAccounts(testAccounts)
 
 	blockchainContext, _ := NewBlockchainContext(host, mockWorld)
@@ -54,7 +56,7 @@ func TestBlockchainContext_AccountExists(t *testing.T) {
 func TestBlockchainContext_GetBalance(t *testing.T) {
 	t.Parallel()
 
-	mockWorld := worldmock.NewMockWorld()
+	mockWorld := mock.NewMockWorldVM14()
 	mockWorld.AcctMap.PutAccounts(testAccounts)
 	mockOutput := &contextmock.OutputContextMock{}
 	host := &contextmock.VMHostMock{}
@@ -104,7 +106,7 @@ func TestBlockchainContext_GetBalance(t *testing.T) {
 func TestBlockchainContext_GetBalance_Updates(t *testing.T) {
 	t.Parallel()
 
-	mockWorld := worldmock.NewMockWorld()
+	mockWorld := mock.NewMockWorldVM14()
 	mockWorld.AcctMap.PutAccounts(testAccounts)
 	mockOutput := &contextmock.OutputContextMock{}
 	host := &contextmock.VMHostMock{}
@@ -142,7 +144,7 @@ func TestBlockchainContext_GetNonceAndIncrease(t *testing.T) {
 	mockOutput := &contextmock.OutputContextMock{}
 	host.OutputContext = mockOutput
 
-	mockWorld := worldmock.NewMockWorld()
+	mockWorld := mock.NewMockWorldVM14()
 	mockWorld.AcctMap.PutAccounts(testAccounts)
 	blockchainContext, _ := NewBlockchainContext(host, mockWorld)
 
@@ -190,7 +192,7 @@ func TestBlockchainContext_GetCodeHashAndSize(t *testing.T) {
 
 	mockCrypto := &contextmock.CryptoHookMock{}
 
-	mockWorld := worldmock.NewMockWorld()
+	mockWorld := mock.NewMockWorldVM14()
 	mockWorld.AcctMap.PutAccounts(testAccounts)
 
 	outputContext := &contextmock.OutputContextMock{}
@@ -259,7 +261,7 @@ func TestBlockchainContext_NewAddress(t *testing.T) {
 
 	mockOutput := &contextmock.OutputContextMock{}
 
-	mockWorld := worldmock.NewMockWorld()
+	mockWorld := mock.NewMockWorldVM14()
 	mockWorld.AcctMap.PutAccounts(testAccounts)
 
 	mockRuntime := &contextmock.RuntimeContextMock{}
@@ -359,7 +361,7 @@ func TestBlockchainContext_BlockHash(t *testing.T) {
 	t.Parallel()
 
 	host := &contextmock.VMHostMock{}
-	mockWorld := worldmock.NewMockWorld()
+	mockWorld := mock.NewMockWorldVM14()
 	blockchainContext, _ := NewBlockchainContext(host, mockWorld)
 
 	mockWorld.Err = errTestError
@@ -384,7 +386,7 @@ func TestBlockchainContext_IsPayable(t *testing.T) {
 	t.Parallel()
 
 	host := &contextmock.VMHostMock{}
-	mockWorld := worldmock.NewMockWorld()
+	mockWorld := mock.NewMockWorldVM14()
 	accounts := []*worldmock.Account{
 		{Address: []byte("test"), CodeMetadata: []byte{0, vmcommon.MetadataPayable}},
 	}

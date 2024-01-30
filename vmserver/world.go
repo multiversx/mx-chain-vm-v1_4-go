@@ -3,14 +3,15 @@ package vmserver
 import (
 	"math/big"
 
-	vmcommon "github.com/multiversx/mx-chain-vm-common-go"
-	"github.com/multiversx/mx-chain-vm-common-go/builtInFunctions"
-	"github.com/multiversx/mx-chain-vm-common-go/parsers"
 	"github.com/multiversx/mx-chain-vm-v1_4-go/config"
-	worldmock "github.com/multiversx/mx-chain-vm-v1_4-go/mock/world"
 	"github.com/multiversx/mx-chain-vm-v1_4-go/vmhost"
 	"github.com/multiversx/mx-chain-vm-v1_4-go/vmhost/hostCore"
 	"github.com/multiversx/mx-chain-vm-v1_4-go/vmhost/mock"
+
+	worldmock "github.com/multiversx/mx-chain-scenario-go/worldmock"
+	vmcommon "github.com/multiversx/mx-chain-vm-common-go"
+	"github.com/multiversx/mx-chain-vm-common-go/builtInFunctions"
+	"github.com/multiversx/mx-chain-vm-common-go/parsers"
 )
 
 type worldDataModel struct {
@@ -33,7 +34,7 @@ func newWorldDataModel(worldID string) *worldDataModel {
 
 // newWorld creates a new debugging world
 func newWorld(dataModel *worldDataModel) (*world, error) {
-	blockchainHook := worldmock.NewMockWorld()
+	blockchainHook := mock.NewMockWorldVM14()
 	blockchainHook.AcctMap = dataModel.Accounts
 
 	vm, err := hostCore.NewVMHost(

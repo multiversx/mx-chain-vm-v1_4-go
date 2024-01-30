@@ -3,9 +3,10 @@ package mock
 import (
 	"testing"
 
-	worldmock "github.com/multiversx/mx-chain-vm-v1_4-go/mock/world"
 	"github.com/multiversx/mx-chain-vm-v1_4-go/vmhost"
 	"github.com/multiversx/mx-chain-vm-v1_4-go/wasmer"
+
+	"github.com/multiversx/mx-chain-scenario-go/worldmock"
 )
 
 // InstanceBuilderMock can be passed to RuntimeContext as an InstanceBuilder to

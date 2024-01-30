@@ -8,15 +8,12 @@
                 "blockNonce": "521111"
             }
         },
-
-
         {
             "step": "scCall",
-            "txId": "15-unBondAllAvailable",
+            "id": "15-unBondAllAvailable",
             "tx": {
                 "from": "''node_address__________________s1",
                 "to": "sc:delegation",
-                "value": "0",
                 "function": "unBondAllAvailable",
                 "arguments": [],
                 "gasLimit": "100,000,000",
@@ -34,7 +31,9 @@
                             "sc:delegation",
                             "333,000,000,000,000"
                         ],
-                        "data": ""
+                        "data": [
+                            ""
+                        ]
                     },
                     {
                         "address": "sc:delegation",
@@ -42,7 +41,9 @@
                         "topics": [
                             "0x0000000000000000000000000000000000000000000000000000000000000007"
                         ],
-                        "data": "0x"
+                        "data": [
+                            "0x"
+                        ]
                     }
                 ],
                 "gas": "*",
