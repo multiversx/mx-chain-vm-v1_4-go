@@ -38,6 +38,7 @@ func runTestsInFolder(t *testing.T, folder string, exclusions []string) {
 	runner := scenio.NewScenarioController(
 		executor,
 		scenio.NewDefaultFileResolver(),
+		vmBuilder.GetVMType(),
 	)
 
 	err := runner.RunAllJSONScenariosInDirectory(
@@ -60,6 +61,7 @@ func runSingleTestReturnError(folder string, filename string) error {
 	runner := scenio.NewScenarioController(
 		executor,
 		scenio.NewDefaultFileResolver(),
+		vmBuilder.GetVMType(),
 	)
 
 	fullPath := path.Join(getTestRoot(), folder)

@@ -18,16 +18,19 @@ import (
 
 var _ scenexec.VMBuilder = (*ScenarioVMHostBuilder)(nil)
 
-// TestVMType is the VM type argument we use in tests.
-var TestVMType = []byte{0, 0}
+// DefaultVMType is the VM type argument we use in tests.
+var DefaultVMType = []byte{5, 0}
 
 // VMTestExecutor parses, interprets and executes both .test.json tests and .scen.json scenarios with VM.
 type ScenarioVMHostBuilder struct {
+	VMType []byte
 }
 
 // NewScenarioVMHostBuilder creates a default ScenarioVMHostBuilder.
 func NewScenarioVMHostBuilder() *ScenarioVMHostBuilder {
-	return &ScenarioVMHostBuilder{}
+	return &ScenarioVMHostBuilder{
+		VMType: DefaultVMType,
+	}
 }
 
 // NewMockWorld defines how the MockWorld is initialized.
@@ -51,6 +54,11 @@ func (svb *ScenarioVMHostBuilder) GasScheduleMapFromScenarios(scenGasSchedule sc
 	}
 }
 
+// GetVMType returns the configured VM type.
+func (svb *ScenarioVMHostBuilder) GetVMType() []byte {
+	return svb.VMType
+}
+
 // NewVM will create a new VM instance with pointers to a mock world and given gas schedule.
 func (svb *ScenarioVMHostBuilder) NewVM(
 	world *worldmock.MockWorld,
@@ -62,7 +70,7 @@ func (svb *ScenarioVMHostBuilder) NewVM(
 	return hostCore.NewVMHost(
 		world,
 		&vmhost.VMHostParameters{
-			VMType:                   TestVMType,
+			VMType:                   svb.VMType,
 			BlockGasLimit:            blockGasLimit,
 			GasSchedule:              gasSchedule,
 			BuiltInFuncContainer:     world.BuiltinFuncs.Container,
