@@ -11,6 +11,7 @@ import (
 var databasePath = "./testdata/db"
 var wasmCounterPath = "../test/contracts/counter/output/counter.wasm"
 var wasmErc20Path = "../test/contracts/erc20/output/erc20.wasm"
+var vmType = []byte{5, 0}
 
 func init() {
 	_ = os.RemoveAll(databasePath)
@@ -31,7 +32,7 @@ func TestFacade_RunContract_Counter(t *testing.T) {
 	deployResponse := context.deployContract(wasmCounterPath, alice.hex)
 	contractAddress := deployResponse.ContractAddress
 	contractAddressHex := deployResponse.ContractAddressHex
-	require.Equal(t, worldmock.GenerateMockAddress(worldmock.DefaultVMType, alice.raw, 0), contractAddress)
+	require.Equal(t, worldmock.GenerateMockAddress(alice.raw, 0, vmType), contractAddress)
 	require.True(t, context.accountExists(contractAddress))
 
 	context.runContract(contractAddressHex, alice.hex, "increment")
@@ -56,7 +57,7 @@ func TestFacade_RunContract_ERC20(t *testing.T) {
 	deployResponse := context.deployContract(wasmErc20Path, alice.hex, "64")
 	contractAddress := deployResponse.ContractAddress
 	contractAddressHex := deployResponse.ContractAddressHex
-	require.Equal(t, worldmock.GenerateMockAddress(worldmock.DefaultVMType, alice.raw, 0), contractAddress)
+	require.Equal(t, worldmock.GenerateMockAddress(alice.raw, 0, vmType), contractAddress)
 
 	// Initial state
 	totalSupply := context.queryContract(contractAddressHex, alice.hex, "totalSupply").getFirstResultAsInt64()
