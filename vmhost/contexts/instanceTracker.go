@@ -5,8 +5,8 @@ import (
 	"fmt"
 
 	"github.com/multiversx/mx-chain-core-go/core/check"
-	"github.com/multiversx/mx-chain-core-go/storage/lrucache"
 	logger "github.com/multiversx/mx-chain-logger-go"
+	"github.com/multiversx/mx-chain-storage-go/lrucache"
 	"github.com/multiversx/mx-chain-vm-v1_4-go/vmhost"
 	"github.com/multiversx/mx-chain-vm-v1_4-go/wasmer"
 )
