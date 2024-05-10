@@ -6,14 +6,14 @@ import (
 	"math/big"
 	"testing"
 
+	"github.com/multiversx/mx-chain-core-go/core"
+	"github.com/multiversx/mx-chain-core-go/core/check"
+	"github.com/multiversx/mx-chain-scenario-go/worldmock"
+	vmcommon "github.com/multiversx/mx-chain-vm-common-go"
 	"github.com/multiversx/mx-chain-vm-v1_4-go/config"
 	contextmock "github.com/multiversx/mx-chain-vm-v1_4-go/mock/context"
 	"github.com/multiversx/mx-chain-vm-v1_4-go/vmhost"
 	"github.com/multiversx/mx-chain-vm-v1_4-go/vmhost/mock"
-
-	"github.com/multiversx/mx-chain-core-go/core/check"
-	worldmock "github.com/multiversx/mx-chain-scenario-go/worldmock"
-	vmcommon "github.com/multiversx/mx-chain-vm-common-go"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 )
@@ -55,7 +55,9 @@ func TestNewStorageContext(t *testing.T) {
 		t.Parallel()
 
 		enableEpochsHandler := &mock.EnableEpochsHandlerStub{
-			IsStorageAPICostOptimizationFlagEnabledField: true,
+			IsFlagEnabledCalled: func(flag core.EnableEpochFlag) bool {
+				return flag == vmhost.StorageAPICostOptimizationFlag
+			},
 		}
 		host := &contextmock.VMHostMock{
 			EnableEpochsHandlerField: enableEpochsHandler,
@@ -103,7 +105,9 @@ func TestStorageContext_SetAddress(t *testing.T) {
 	mockMetering.SetGasSchedule(config.MakeGasMapForTests())
 	mockMetering.BlockGasLimitMock = uint64(15000)
 	enableEpochsHandler := &mock.EnableEpochsHandlerStub{
-		IsStorageAPICostOptimizationFlagEnabledField: true,
+		IsFlagEnabledCalled: func(flag core.EnableEpochFlag) bool {
+			return flag == vmhost.StorageAPICostOptimizationFlag
+		},
 	}
 
 	host := &contextmock.VMHostMock{
@@ -160,7 +164,9 @@ func TestStorageContext_GetStorageUpdates(t *testing.T) {
 	}
 
 	enableEpochsHandler := &mock.EnableEpochsHandlerStub{
-		IsStorageAPICostOptimizationFlagEnabledField: true,
+		IsFlagEnabledCalled: func(flag core.EnableEpochFlag) bool {
+			return flag == vmhost.StorageAPICostOptimizationFlag
+		},
 	}
 
 	host := &contextmock.VMHostMock{
@@ -192,7 +198,9 @@ func TestStorageContext_SetStorage(t *testing.T) {
 	mockMetering.BlockGasLimitMock = uint64(15000)
 
 	enableEpochsHandler := &mock.EnableEpochsHandlerStub{
-		IsStorageAPICostOptimizationFlagEnabledField: true,
+		IsFlagEnabledCalled: func(flag core.EnableEpochFlag) bool {
+			return flag == vmhost.StorageAPICostOptimizationFlag
+		},
 	}
 
 	host := &contextmock.VMHostMock{
@@ -333,7 +341,9 @@ func TestStorageContext_SetStorage_GasUsage(t *testing.T) {
 	mockMetering.BlockGasLimitMock = uint64(15000)
 
 	enableEpochsHandler := &mock.EnableEpochsHandlerStub{
-		IsStorageAPICostOptimizationFlagEnabledField: true,
+		IsFlagEnabledCalled: func(flag core.EnableEpochFlag) bool {
+			return flag == vmhost.StorageAPICostOptimizationFlag
+		},
 	}
 	host := &contextmock.VMHostMock{
 		OutputContext:            mockOutput,
@@ -397,7 +407,9 @@ func TestStorageContext_StorageProtection(t *testing.T) {
 	mockMetering.BlockGasLimitMock = uint64(15000)
 
 	enableEpochsHandler := &mock.EnableEpochsHandlerStub{
-		IsStorageAPICostOptimizationFlagEnabledField: true,
+		IsFlagEnabledCalled: func(flag core.EnableEpochFlag) bool {
+			return flag == vmhost.StorageAPICostOptimizationFlag
+		},
 	}
 
 	host := &contextmock.VMHostMock{
@@ -437,7 +449,9 @@ func TestStorageContext_GetStorageFromAddress(t *testing.T) {
 
 	scAddress := []byte("account")
 	enableEpochsHandler := &mock.EnableEpochsHandlerStub{
-		IsStorageAPICostOptimizationFlagEnabledField: true,
+		IsFlagEnabledCalled: func(flag core.EnableEpochFlag) bool {
+			return flag == vmhost.StorageAPICostOptimizationFlag
+		},
 	}
 
 	t.Run("blockchain hook errors", func(t *testing.T) {
@@ -560,7 +574,9 @@ func TestStorageContext_StoreGasPerKey(t *testing.T) {
 func TestStorageContext_PopSetActiveStateIfStackIsEmptyShouldNotPanic(t *testing.T) {
 	t.Parallel()
 	enableEpochsHandler := &mock.EnableEpochsHandlerStub{
-		IsStorageAPICostOptimizationFlagEnabledField: true,
+		IsFlagEnabledCalled: func(flag core.EnableEpochFlag) bool {
+			return flag == vmhost.StorageAPICostOptimizationFlag
+		},
 	}
 
 	host := &contextmock.VMHostMock{
@@ -576,7 +592,9 @@ func TestStorageContext_PopSetActiveStateIfStackIsEmptyShouldNotPanic(t *testing
 func TestStorageContext_PopDiscardIfStackIsEmptyShouldNotPanic(t *testing.T) {
 	t.Parallel()
 	enableEpochsHandler := &mock.EnableEpochsHandlerStub{
-		IsStorageAPICostOptimizationFlagEnabledField: true,
+		IsFlagEnabledCalled: func(flag core.EnableEpochFlag) bool {
+			return flag == vmhost.StorageAPICostOptimizationFlag
+		},
 	}
 
 	host := &contextmock.VMHostMock{

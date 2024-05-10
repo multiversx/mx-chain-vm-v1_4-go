@@ -26,7 +26,7 @@ type VMHostStub struct {
 	OutputCalled                func() vmhost.OutputContext
 	MeteringCalled              func() vmhost.MeteringContext
 	StorageCalled               func() vmhost.StorageContext
-	EnableEpochsHandlerCalled   func() vmcommon.EnableEpochsHandler
+	EnableEpochsHandlerCalled   func() vmhost.EnableEpochsHandler
 	ExecuteESDTTransferCalled   func(destination []byte, sender []byte, transfers []*vmcommon.ESDTTransfer, callType vm.CallType) (*vmcommon.VMOutput, uint64, error)
 	CreateNewContractCalled     func(input *vmcommon.ContractCreateInput) ([]byte, error)
 	ExecuteOnSameContextCalled  func(input *vmcommon.ContractCallInput) (*vmhost.AsyncContextInfo, error)
@@ -166,7 +166,7 @@ func (vhs *VMHostStub) Storage() vmhost.StorageContext {
 }
 
 // EnableEpochsHandler mocked method
-func (vhs *VMHostStub) EnableEpochsHandler() vmcommon.EnableEpochsHandler {
+func (vhs *VMHostStub) EnableEpochsHandler() vmhost.EnableEpochsHandler {
 	if vhs.EnableEpochsHandlerCalled != nil {
 		return vhs.EnableEpochsHandlerCalled()
 	}

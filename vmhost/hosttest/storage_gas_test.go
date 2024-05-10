@@ -3,13 +3,13 @@ package hostCoretest
 import (
 	"testing"
 
+	"github.com/multiversx/mx-chain-core-go/core"
+	"github.com/multiversx/mx-chain-scenario-go/worldmock"
+	vmcommon "github.com/multiversx/mx-chain-vm-common-go"
 	"github.com/multiversx/mx-chain-vm-v1_4-go/mock/contracts"
 	test "github.com/multiversx/mx-chain-vm-v1_4-go/testcommon"
 	"github.com/multiversx/mx-chain-vm-v1_4-go/vmhost"
 	vmMock "github.com/multiversx/mx-chain-vm-v1_4-go/vmhost/mock"
-
-	"github.com/multiversx/mx-chain-scenario-go/worldmock"
-	vmcommon "github.com/multiversx/mx-chain-vm-common-go"
 )
 
 var smallKey = []byte("testKey")
@@ -61,7 +61,9 @@ func loadStorage(t *testing.T, key []byte, flagEnabled bool) {
 
 			if !flagEnabled {
 				enableEpochsHandler, _ := host.EnableEpochsHandler().(*vmMock.EnableEpochsHandlerStub)
-				enableEpochsHandler.IsStorageAPICostOptimizationFlagEnabledField = false
+				enableEpochsHandler.IsFlagEnabledCalled = func(flag core.EnableEpochFlag) bool {
+					return false
+				}
 			}
 
 			accountHandler, _ := world.GetUserAccount(test.ParentAddress)
@@ -126,7 +128,9 @@ func loadStorageFromAddress(t *testing.T, key []byte, flagEnabled bool) {
 
 			if !flagEnabled {
 				enableEpochsHandler, _ := host.EnableEpochsHandler().(*vmMock.EnableEpochsHandlerStub)
-				enableEpochsHandler.IsStorageAPICostOptimizationFlagEnabledField = false
+				enableEpochsHandler.IsFlagEnabledCalled = func(flag core.EnableEpochFlag) bool {
+					return false
+				}
 			}
 		}).
 		AndAssertResults(func(world *worldmock.MockWorld, verify *test.VMOutputVerifier) {
@@ -215,7 +219,9 @@ func setStorage(t *testing.T, key []byte, flagEnabled bool) {
 
 			if !flagEnabled {
 				enableEpochsHandler, _ := host.EnableEpochsHandler().(*vmMock.EnableEpochsHandlerStub)
-				enableEpochsHandler.IsStorageAPICostOptimizationFlagEnabledField = false
+				enableEpochsHandler.IsFlagEnabledCalled = func(flag core.EnableEpochFlag) bool {
+					return false
+				}
 			}
 		}).
 		AndAssertResults(func(world *worldmock.MockWorld, verify *test.VMOutputVerifier) {
