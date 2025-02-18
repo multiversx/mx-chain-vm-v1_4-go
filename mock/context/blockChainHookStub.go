@@ -12,33 +12,69 @@ var _ vmcommon.BlockchainHook = (*BlockchainHookStub)(nil)
 
 // BlockchainHookStub is used in tests to check that interface methods were called
 type BlockchainHookStub struct {
-	NewAddressCalled              func(creatorAddress []byte, creatorNonce uint64, vmType []byte) ([]byte, error)
-	GetStorageDataCalled          func(accountsAddress []byte, index []byte) ([]byte, uint32, error)
-	GetBlockHashCalled            func(nonce uint64) ([]byte, error)
-	LastNonceCalled               func() uint64
-	LastRoundCalled               func() uint64
-	LastTimeStampCalled           func() uint64
-	LastRandomSeedCalled          func() []byte
-	LastEpochCalled               func() uint32
-	GetStateRootHashCalled        func() []byte
-	CurrentNonceCalled            func() uint64
-	CurrentRoundCalled            func() uint64
-	CurrentTimeStampCalled        func() uint64
-	CurrentRandomSeedCalled       func() []byte
-	CurrentEpochCalled            func() uint32
-	ProcessBuiltInFunctionCalled  func(input *vmcommon.ContractCallInput) (*vmcommon.VMOutput, error)
-	GetBuiltinFunctionNamesCalled func() vmcommon.FunctionNames
-	GetAllStateCalled             func(address []byte) (map[string][]byte, error)
-	GetUserAccountCalled          func(address []byte) (vmcommon.UserAccountHandler, error)
-	GetShardOfAddressCalled       func(address []byte) uint32
-	IsSmartContractCalled         func(address []byte) bool
-	IsPayableCalled               func(address []byte) (bool, error)
-	GetCompiledCodeCalled         func(codeHash []byte) (bool, []byte)
-	SaveCompiledCodeCalled        func(codeHash []byte, code []byte)
-	GetCodeCalled                 func(account vmcommon.UserAccountHandler) []byte
-	GetESDTTokenCalled            func(address []byte, tokenID []byte, nonce uint64) (*esdt.ESDigitalToken, error)
-	GetSnapshotCalled             func() int
-	RevertToSnapshotCalled        func(snapshot int) error
+	NewAddressCalled               func(creatorAddress []byte, creatorNonce uint64, vmType []byte) ([]byte, error)
+	GetStorageDataCalled           func(accountsAddress []byte, index []byte) ([]byte, uint32, error)
+	GetBlockHashCalled             func(nonce uint64) ([]byte, error)
+	LastNonceCalled                func() uint64
+	LastRoundCalled                func() uint64
+	LastTimeStampCalled            func() uint64
+	LastRandomSeedCalled           func() []byte
+	LastEpochCalled                func() uint32
+	GetStateRootHashCalled         func() []byte
+	CurrentNonceCalled             func() uint64
+	CurrentRoundCalled             func() uint64
+	CurrentTimeStampCalled         func() uint64
+	CurrentRandomSeedCalled        func() []byte
+	CurrentEpochCalled             func() uint32
+	ProcessBuiltInFunctionCalled   func(input *vmcommon.ContractCallInput) (*vmcommon.VMOutput, error)
+	GetBuiltinFunctionNamesCalled  func() vmcommon.FunctionNames
+	GetAllStateCalled              func(address []byte) (map[string][]byte, error)
+	GetUserAccountCalled           func(address []byte) (vmcommon.UserAccountHandler, error)
+	GetShardOfAddressCalled        func(address []byte) uint32
+	IsSmartContractCalled          func(address []byte) bool
+	IsPayableCalled                func(address []byte) (bool, error)
+	GetCompiledCodeCalled          func(codeHash []byte) (bool, []byte)
+	SaveCompiledCodeCalled         func(codeHash []byte, code []byte)
+	GetCodeCalled                  func(account vmcommon.UserAccountHandler) []byte
+	GetESDTTokenCalled             func(address []byte, tokenID []byte, nonce uint64) (*esdt.ESDigitalToken, error)
+	GetSnapshotCalled              func() int
+	RevertToSnapshotCalled         func(snapshot int) error
+	RoundTimeCalled                func() uint64
+	EpochStartBlockTimeStampCalled func() uint64
+	EpochStartBlockNonceCalled     func() uint64
+	EpochStartBlockRoundCalled     func() uint64
+}
+
+// RoundTime -
+func (b *BlockchainHookStub) RoundTime() uint64 {
+	if b.RoundTimeCalled != nil {
+		return b.RoundTimeCalled()
+	}
+	return 0
+}
+
+// EpochStartBlockTimeStamp -
+func (b *BlockchainHookStub) EpochStartBlockTimeStamp() uint64 {
+	if b.EpochStartBlockTimeStampCalled != nil {
+		return b.EpochStartBlockTimeStampCalled()
+	}
+	return 0
+}
+
+// EpochStartBlockNonce -
+func (b *BlockchainHookStub) EpochStartBlockNonce() uint64 {
+	if b.EpochStartBlockNonceCalled != nil {
+		return b.EpochStartBlockNonceCalled()
+	}
+	return 0
+}
+
+// EpochStartBlockRound -
+func (b *BlockchainHookStub) EpochStartBlockRound() uint64 {
+	if b.EpochStartBlockRoundCalled != nil {
+		return b.EpochStartBlockRoundCalled()
+	}
+	return 0
 }
 
 // ExecuteSmartContractCallOnOtherVM -
