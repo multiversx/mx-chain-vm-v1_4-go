@@ -38,7 +38,6 @@ import "C"
 import (
 	"bytes"
 	"math/big"
-	"strings"
 	"unsafe"
 
 	"github.com/multiversx/mx-chain-vm-v1_4-go/math"
@@ -609,16 +608,6 @@ func v1_4_mBufferToBigFloat(context unsafe.Pointer, mBufferHandle, bigFloatHandl
 
 	bigFloat := new(big.Float)
 	err = bigFloat.GobDecode(managedBuffer)
-	// ValidationOnGobDecodeFlag should always be disabled for vm1.4
-	enableEpochsHandler := vmhost.GetEnableEpochsHandler(context)
-	hasSpecificError := isGobDecodeValidationError(err)
-	isFlagEnabled := enableEpochsHandler.IsFlagEnabled(vmhost.ValidationOnGobDecodeFlag)
-	hasSpecificErrorBeforeFlag := hasSpecificError && !isFlagEnabled
-	if hasSpecificErrorBeforeFlag {
-		value.Set(bigFloat)
-		return 0
-	}
-
 	if vmhost.WithFault(err, context, runtime.ManagedBufferAPIErrorShouldFailExecution()) {
 		return 1
 	}
@@ -629,26 +618,6 @@ func v1_4_mBufferToBigFloat(context unsafe.Pointer, mBufferHandle, bigFloatHandl
 
 	value.Set(bigFloat)
 	return 0
-}
-
-func isGobDecodeValidationError(err error) bool {
-	if err == nil {
-		return false
-	}
-
-	validationErrors := []string{
-		"nonzero finite number with empty mantissa",
-		"msb not set in last word",
-		"zero precision finite number",
-	}
-
-	for _, validationError := range validationErrors {
-		if strings.Contains(err.Error(), validationError) {
-			return true
-		}
-	}
-
-	return false
 }
 
 //export v1_4_mBufferFromBigFloat
