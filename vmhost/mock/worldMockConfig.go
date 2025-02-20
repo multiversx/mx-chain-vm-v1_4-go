@@ -18,7 +18,7 @@ func NewMockWorldVM14() *worldmock.MockWorld {
 		},
 		IsFlagEnabledCalled: func(flag core.EnableEpochFlag) bool {
 			return flag != ChangeUsernameFlag && // relevant in DNS test
-				flag != vmhost.ValidationOnGobDecodeFlag // relevant for big float tests. TODO: remove this when completely migrate to go1.22
+				flag != vmhost.ValidationOnGobDecodeFlag // relevant for big float tests only
 		},
 	}
 	return world

@@ -73,7 +73,7 @@ type vmHost struct {
 
 // NewVMHost creates a new VM vmHost
 func NewVMHost(
-	blockChainHook vmcommon.BlockchainHook,
+	blockChainHook vmcommon.LegacyBlockchainHook,
 	hostParameters *vmhost.VMHostParameters,
 ) (vmhost.VMHost, error) {
 

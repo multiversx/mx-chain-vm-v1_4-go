@@ -609,7 +609,7 @@ func v1_4_mBufferToBigFloat(context unsafe.Pointer, mBufferHandle, bigFloatHandl
 
 	bigFloat := new(big.Float)
 	err = bigFloat.GobDecode(managedBuffer)
-	// TODO: remove L613-L620 when completely migrate to go1.22
+	// ValidationOnGobDecodeFlag should always be disabled for vm1.4
 	enableEpochsHandler := vmhost.GetEnableEpochsHandler(context)
 	hasSpecificError := isGobDecodeValidationError(err)
 	isFlagEnabled := enableEpochsHandler.IsFlagEnabled(vmhost.ValidationOnGobDecodeFlag)
