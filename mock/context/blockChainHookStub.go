@@ -8,7 +8,7 @@ import (
 	"github.com/multiversx/mx-chain-vm-common-go"
 )
 
-var _ vmcommon.BlockchainHook = (*BlockchainHookStub)(nil)
+var _ vmcommon.LegacyBlockchainHook = (*BlockchainHookStub)(nil)
 
 // BlockchainHookStub is used in tests to check that interface methods were called
 type BlockchainHookStub struct {
